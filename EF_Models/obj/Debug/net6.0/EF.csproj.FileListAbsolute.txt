@@ -1,0 +1,14 @@
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\EF.csproj.AssemblyReference.cache
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\EF.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\EF.AssemblyInfoInputs.cache
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\EF.AssemblyInfo.cs
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\EF.csproj.CoreCompileInputs.cache
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\bin\Debug\net6.0\EF.deps.json
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\bin\Debug\net6.0\EF.runtimeconfig.json
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\bin\Debug\net6.0\EF.dll
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\bin\Debug\net6.0\EF.pdb
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\EF.dll
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\refint\EF.dll
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\EF.pdb
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\EF.genruntimeconfig.cache
+C:\Users\USER\source\repos\fukiIsABadDog\Maelstrom\EF_Models\obj\Debug\net6.0\ref\EF.dll

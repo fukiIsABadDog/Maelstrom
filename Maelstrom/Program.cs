@@ -1,10 +1,17 @@
 using Maelstrom.Data;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using EF.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionStringReynolds = builder.Configuration.GetConnectionString("Reynolds");
+builder.Services.AddDbContext<MaelstromContext>(options =>
+    options.UseSqlServer(connectionStringReynolds));
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
