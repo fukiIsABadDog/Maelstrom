@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\source\\repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\EF.csproj": {}
+    "C:\\Users\\USER\\Source\\Repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\EF.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\source\\repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\EF.csproj": {
+    "C:\\Users\\USER\\Source\\Repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\EF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\source\\repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\EF.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Source\\Repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\EF.csproj",
         "projectName": "EF",
-        "projectPath": "C:\\Users\\USER\\source\\repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\EF.csproj",
+        "projectPath": "C:\\Users\\USER\\Source\\Repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\EF.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\source\\repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\obj\\",
+        "outputPath": "C:\\Users\\USER\\Source\\Repos\\fukiIsABadDog\\Maelstrom\\EF_Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
