@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EFcoreTesting.Models
+namespace EF_Models.Models
 {
     public partial class AccountType 
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EFcoreTesting.Models
+namespace EF_Models.Models
 {
     internal class SeedAccountStandings : IEntityTypeConfiguration<AccountStanding>
     {

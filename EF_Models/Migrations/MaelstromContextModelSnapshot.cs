@@ -22,7 +22,7 @@ namespace EF_Models.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("EFcoreTesting.Models.Account", b =>
+            modelBuilder.Entity("EF_Models.Models.Account", b =>
                 {
                     b.Property<int>("AccountID")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace EF_Models.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.AccountStanding", b =>
+            modelBuilder.Entity("EF_Models.Models.AccountStanding", b =>
                 {
                     b.Property<int>("AccountStandingID")
                         .ValueGeneratedOnAdd()
@@ -95,7 +95,7 @@ namespace EF_Models.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.AccountType", b =>
+            modelBuilder.Entity("EF_Models.Models.AccountType", b =>
                 {
                     b.Property<int>("AccountTypeID")
                         .ValueGeneratedOnAdd()
@@ -140,7 +140,7 @@ namespace EF_Models.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.Fish", b =>
+            modelBuilder.Entity("EF_Models.Models.Fish", b =>
                 {
                     b.Property<int>("FishID")
                         .ValueGeneratedOnAdd()
@@ -172,7 +172,7 @@ namespace EF_Models.Migrations
                     b.ToTable("Fishs");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.FishType", b =>
+            modelBuilder.Entity("EF_Models.Models.FishType", b =>
                 {
                     b.Property<int>("FishTypeID")
                         .ValueGeneratedOnAdd()
@@ -209,7 +209,7 @@ namespace EF_Models.Migrations
                     b.ToTable("FishTypes");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.Payment", b =>
+            modelBuilder.Entity("EF_Models.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentID")
                         .ValueGeneratedOnAdd()
@@ -236,7 +236,7 @@ namespace EF_Models.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.Site", b =>
+            modelBuilder.Entity("EF_Models.Models.Site", b =>
                 {
                     b.Property<int>("SiteID")
                         .ValueGeneratedOnAdd()
@@ -264,7 +264,7 @@ namespace EF_Models.Migrations
                     b.ToTable("Site");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.SiteType", b =>
+            modelBuilder.Entity("EF_Models.Models.SiteType", b =>
                 {
                     b.Property<int>("SiteTypeID")
                         .ValueGeneratedOnAdd()
@@ -281,7 +281,7 @@ namespace EF_Models.Migrations
                     b.ToTable("SiteType");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.SiteUser", b =>
+            modelBuilder.Entity("EF_Models.Models.SiteUser", b =>
                 {
                     b.Property<int>("SiteID")
                         .HasColumnType("int");
@@ -296,7 +296,7 @@ namespace EF_Models.Migrations
                     b.ToTable("SiteUsers");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.TestResult", b =>
+            modelBuilder.Entity("EF_Models.Models.TestResult", b =>
                 {
                     b.Property<int>("TestResultID")
                         .ValueGeneratedOnAdd()
@@ -355,7 +355,7 @@ namespace EF_Models.Migrations
                     b.ToTable("TestResults");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.User", b =>
+            modelBuilder.Entity("EF_Models.Models.User", b =>
                 {
                     b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
@@ -381,15 +381,15 @@ namespace EF_Models.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.Account", b =>
+            modelBuilder.Entity("EF_Models.Models.Account", b =>
                 {
-                    b.HasOne("EFcoreTesting.Models.AccountStanding", "AccountStanding")
+                    b.HasOne("EF_Models.Models.AccountStanding", "AccountStanding")
                         .WithMany()
                         .HasForeignKey("AccountStandingID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFcoreTesting.Models.AccountType", "AccountType")
+                    b.HasOne("EF_Models.Models.AccountType", "AccountType")
                         .WithMany()
                         .HasForeignKey("AccountTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -400,15 +400,15 @@ namespace EF_Models.Migrations
                     b.Navigation("AccountType");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.Fish", b =>
+            modelBuilder.Entity("EF_Models.Models.Fish", b =>
                 {
-                    b.HasOne("EFcoreTesting.Models.FishType", "FishType")
+                    b.HasOne("EF_Models.Models.FishType", "FishType")
                         .WithMany("Fishs")
                         .HasForeignKey("FishTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFcoreTesting.Models.Site", "Site")
+                    b.HasOne("EF_Models.Models.Site", "Site")
                         .WithMany("Fishs")
                         .HasForeignKey("SiteID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -419,9 +419,9 @@ namespace EF_Models.Migrations
                     b.Navigation("Site");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.Payment", b =>
+            modelBuilder.Entity("EF_Models.Models.Payment", b =>
                 {
-                    b.HasOne("EFcoreTesting.Models.Account", "Account")
+                    b.HasOne("EF_Models.Models.Account", "Account")
                         .WithMany("Payments")
                         .HasForeignKey("AccountID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -430,9 +430,9 @@ namespace EF_Models.Migrations
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.Site", b =>
+            modelBuilder.Entity("EF_Models.Models.Site", b =>
                 {
-                    b.HasOne("EFcoreTesting.Models.SiteType", "SiteType")
+                    b.HasOne("EF_Models.Models.SiteType", "SiteType")
                         .WithMany("Sites")
                         .HasForeignKey("SiteTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -441,15 +441,15 @@ namespace EF_Models.Migrations
                     b.Navigation("SiteType");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.SiteUser", b =>
+            modelBuilder.Entity("EF_Models.Models.SiteUser", b =>
                 {
-                    b.HasOne("EFcoreTesting.Models.Site", "Site")
+                    b.HasOne("EF_Models.Models.Site", "Site")
                         .WithMany("SiteUsers")
                         .HasForeignKey("SiteID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFcoreTesting.Models.User", "User")
+                    b.HasOne("EF_Models.Models.User", "User")
                         .WithMany("SiteUsers")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -460,15 +460,15 @@ namespace EF_Models.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.TestResult", b =>
+            modelBuilder.Entity("EF_Models.Models.TestResult", b =>
                 {
-                    b.HasOne("EFcoreTesting.Models.Site", "Site")
+                    b.HasOne("EF_Models.Models.Site", "Site")
                         .WithMany("TestResults")
                         .HasForeignKey("SiteID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFcoreTesting.Models.SiteUser", "SiteUser")
+                    b.HasOne("EF_Models.Models.SiteUser", "SiteUser")
                         .WithMany()
                         .HasForeignKey("SiteUserSiteID", "SiteUserUserID");
 
@@ -477,9 +477,9 @@ namespace EF_Models.Migrations
                     b.Navigation("SiteUser");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.User", b =>
+            modelBuilder.Entity("EF_Models.Models.User", b =>
                 {
-                    b.HasOne("EFcoreTesting.Models.Account", "Account")
+                    b.HasOne("EF_Models.Models.Account", "Account")
                         .WithMany("Users")
                         .HasForeignKey("AccountID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -488,19 +488,19 @@ namespace EF_Models.Migrations
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.Account", b =>
+            modelBuilder.Entity("EF_Models.Models.Account", b =>
                 {
                     b.Navigation("Payments");
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.FishType", b =>
+            modelBuilder.Entity("EF_Models.Models.FishType", b =>
                 {
                     b.Navigation("Fishs");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.Site", b =>
+            modelBuilder.Entity("EF_Models.Models.Site", b =>
                 {
                     b.Navigation("Fishs");
 
@@ -509,12 +509,12 @@ namespace EF_Models.Migrations
                     b.Navigation("TestResults");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.SiteType", b =>
+            modelBuilder.Entity("EF_Models.Models.SiteType", b =>
                 {
                     b.Navigation("Sites");
                 });
 
-            modelBuilder.Entity("EFcoreTesting.Models.User", b =>
+            modelBuilder.Entity("EF_Models.Models.User", b =>
                 {
                     b.Navigation("SiteUsers");
                 });
