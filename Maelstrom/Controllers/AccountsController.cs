@@ -9,6 +9,8 @@ using EF_Models;
 using EF_Models.Models;
 using Microsoft.AspNetCore.Identity;
 using Maelstrom.Data;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Maelstrom.Controllers
 {
@@ -27,12 +29,14 @@ namespace Maelstrom.Controllers
         public async Task<IActionResult> Index()
         {
             var userIdentity = User.Identity.Name; // This would be more secure if we used the ID property but then we will have to relate those tables
+
            //var test = HttpContext.User.Identity.Name; //this works but I do not know how secure it is
             var maelstromContext = _context.Accounts.Where(a => a.Email == userIdentity);   /*Include(a => a.AccountStanding).Include(a => a.AccountType).*/
             return View(await maelstromContext.ToListAsync());
         }
 
         // GET: Accounts/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Accounts == null)
@@ -134,6 +138,7 @@ namespace Maelstrom.Controllers
         }
 
         // GET: Accounts/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Accounts == null)
