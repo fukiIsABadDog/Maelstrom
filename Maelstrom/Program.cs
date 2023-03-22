@@ -1,5 +1,5 @@
 global using EF_Models;
-using Maelstrom.Data;
+using EF_Models.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
@@ -8,17 +8,21 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var ReynoldsConnectionString = builder.Configuration.GetConnectionString("Reynolds");
+var ReynoldsConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<MaelstromContext>(options =>
     options.UseSqlServer(ReynoldsConnectionString));
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+// add identity options here
+builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<MaelstromContext>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -40,6 +44,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// add identity configuration here
 app.UseAuthentication();
 app.UseAuthorization();
 
