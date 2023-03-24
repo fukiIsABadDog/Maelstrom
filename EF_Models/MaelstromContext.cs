@@ -47,12 +47,21 @@ namespace EF_Models
         {
             base.OnModelCreating(modelBuilder);
 
+            //modelBuilder.Entity<AppUser>(b =>
+            //{
+            //    
+            //    b.HasMany(e => e.Claims)
+            //        .WithOne()
+            //        .HasForeignKey(uc => uc.UserId)
+            //        .IsRequired();
+            //});
+
             //composite key  --------------------------------   * currently broken -- fix in progress *
             //modelBuilder.Entity<SiteUser>()
             //.HasKey(su => new { su.SiteID, su.AppUser.Id});
 
 
-            
+
 
             //seed data for tests
             //modelBuilder.ApplyConfiguration(new SeedAccountStandings());
