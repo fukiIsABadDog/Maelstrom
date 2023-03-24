@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using EF_Models.Models;
+using System.ComponentModel;
 
 namespace Maelstrom.Areas.Identity.Pages.Account
 {
@@ -40,7 +41,7 @@ namespace Maelstrom.Areas.Identity.Pages.Account
         {
             _userManager = userManager;
             _userStore = userStore;
-            //_emailStore = GetEmailStore(); need to be reconfigured
+            _emailStore = GetEmailStore(); 
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
@@ -98,6 +99,23 @@ namespace Maelstrom.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+
+
+            //my new code for testing
+            [Required]
+            [BindProperty]
+            [DisplayName("First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [BindProperty]
+            [DisplayName("Last Name")]
+            public string LastName { get; set; }
+
+
+
+
         }
 
 
@@ -109,14 +127,20 @@ namespace Maelstrom.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            
+           
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
