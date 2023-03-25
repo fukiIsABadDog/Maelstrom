@@ -19,13 +19,13 @@ namespace Maelstrom
             _context = context;
         }
 
-        public string Message { get; private set; } = "PageModel in C#";
+        public string Message { get; private set; } = "PageModel in C#"; // razor page example text
         
         public AppUser? ThisAppUser { get; private set; }
 
         public ICollection<Site>? ThisUsersSites { get; private set; }
 
-        public ICollection<TestResult>? ThisUsersTestResults  { get; private set; }
+        public ICollection<TestResult>? ThisUsersTestResults  { get; private set; } // Stopped here 3/25 -- pick back up
 
 
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
@@ -38,12 +38,7 @@ namespace Maelstrom
         {
             if(User.Identity != null)
             {
-                //var currentUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-                //if (currentUser != null) 
-                //{
-                //    Message += $" The person loged in is: {currentUser.LastName}";
-                //}
-
+               
 
                 var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
                 this.ThisAppUser = currentAppUser;
@@ -66,20 +61,10 @@ namespace Maelstrom
                     this.ThisUsersSites = usersSites;
 
 
+                    // ThisUsersTestResults goes here
+
 
                 }
-
-                //foreach (var site in querySiteUsers)
-                //{
-                //    if(site.appUser == ThisAppUser)
-                //    {
-                       
-                //    }
-                //}
-
-
-
-                
 
 
             }

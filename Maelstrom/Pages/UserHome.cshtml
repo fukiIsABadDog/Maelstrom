@@ -7,14 +7,16 @@
 
 <h3>Hello from the razor page!</h3>
 <p>
-   What's up @Model.ThisAppUser !
+   What's up @Model.ThisAppUser.FirstName @Model.ThisAppUser.LastName ! 
 </p>
+
+<h1>Here are your current sites: </h1>
 
 @if (Model.ThisUsersSites != null)
 {
     @foreach (var s in Model.ThisUsersSites)
     {
-        <p> @s.Name, </p>
+        <h5> @s.Name </h5>
 
     }
 }
