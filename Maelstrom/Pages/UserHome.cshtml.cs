@@ -32,19 +32,56 @@ namespace Maelstrom
         //public ICollection<Fish>? ThisUsersFish { get; private set; }
 
 
-        // Pick up on writting logic
-        // stopping here to check about razor page layouts
+     
 
         public void OnGet()
         {
             if(User.Identity != null)
             {
-                var currentUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-                if (currentUser != null) 
+                //var currentUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                //if (currentUser != null) 
+                //{
+                //    Message += $" The person loged in is: {currentUser.LastName}";
+                //}
+
+
+                var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                this.ThisAppUser = currentAppUser;
+
+                if (ThisAppUser != null)
                 {
-                    Message += $" The person loged in is: {currentUser.LastName}";
+                    
+
+                    var querySiteUsers = from SiteUser in _context.SiteUsers
+                                     join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+                                     select new
+                                     {
+                                         site = SiteUser.Site,
+                                         appUser = SiteUser.AppUser
+                                     };
+
+
+                    var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == ThisAppUser.Id).Select(x => x.site).ToList(); 
+
+                    this.ThisUsersSites = usersSites;
+
+
+
                 }
+
+                //foreach (var site in querySiteUsers)
+                //{
+                //    if(site.appUser == ThisAppUser)
+                //    {
+                       
+                //    }
+                //}
+
+
+
                 
+
+
             }
         }
            
