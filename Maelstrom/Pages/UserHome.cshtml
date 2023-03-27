@@ -6,42 +6,45 @@
 }
 
  @*Sample Logic*@
+@if (Model.ThisAppUser != null && Model.ThisUsersSites != null)
+{
+    <div class="table-div col-1 table-sm float-start">
+        <table class="table table-hover table-primary">
+            <thead>
+                <tr class="table-dark">
 
-<h3>Hello Devs this html is coming from the razor page!</h3>
 
-    @if(@Model.ThisAppUser != null)
-    {
-        <p>
-            Hello, 
-            @Model.ThisAppUser.FirstName @Model.ThisAppUser.LastName
-         </p>
-
-        @if (Model.ThisUsersSites != null)
-        {
-            <h1>Here are your current sites: </h1>
-
-            @foreach (var s in Model.ThisUsersSites)
-            {
-                <h5> @s.Name </h5>
-
-            }
-        }
+                    <th scope="col">Select Tank</th>
+          
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var s in Model.ThisUsersSites)
+                {
+                    <tr class="table-primary">
+                        <td>@s.Name</td>
+                    </tr>
+                
+                }
+            </tbody>
+        </table>
+    </div>
     }
-    else
-    {
-        <p> Please log in to see this page. (This will just be a auto redirect in future)</p>
-    }
+else
+{
+    <p> Please log in to see this page. (This will just be an auto redirect in future)</p>
+}
 
    @* Sample UI below*@
 
 
-    @*<h2 id="site-name">@Model.CurrentSiteName</h2>*@
-    <h2 id="site-name">@Model.CurrentSite.Name</h2>
-<div id="img-aquarium-div">
-        <img src="~/media/aquarium.jpeg" id="img-aquarium"/>
-    </div>
+   <div class="float-start">
 
-@*We need to discuss what the "Water change" & "Add Chemicals" logic will look like... this might be complicataed mathematically *@
+  
+    <h2 id="site-name">@Model.CurrentSite.Name</h2>
+        <div id="img-aquarium-div">
+            <img src="~/media/aquarium.jpeg" id="img-aquarium" />
+        </div>
 
     <div id="more-buttons-div">
         <button type="button" class="btn btn-primary btn-lg">LOG TEST RESULTS</button>
@@ -53,13 +56,38 @@
         <button type="button" class="btn btn-warning">EDIT SITE</button>
     </div>
 
-    <div class="stats-div">
-        <ul id="stats-list">
-            <li>Volume: @Model.CurrentSite.Capacity gallons</li>
-            <li>Location: @Model.CurrentSite.Location</li>
-            <li>Type: @Model.CurrentSiteType</li>
-        </ul>
+    <div class="table-div">
+        <table class="table table-hover table-primary table-sm">
+            <thead>
+                <tr class="table-dark">
+
+                    <th scope="col">Location</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Capacity</th>
+
+                </tr>
+            </thead>
+            <tbody>
+               <tr>
+                   <td>
+                       @Model.CurrentSite.Location
+                   </td>
+              
+                    <td>
+                        @Model.CurrentSiteType
+                    </td>
+                    <td>
+                        @Model.CurrentSite.Capacity Gallons
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+    </div>
+
+@*We need to discuss what the "Water change" & "Add Chemicals" logic will look like... this might be complicataed mathematically *@
+
+    
 
     <div id="img-testlog-div">
         <img src="~/media/testlog.jpg" />
