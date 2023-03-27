@@ -35,7 +35,7 @@
    @* Sample UI below*@
 
 
-    <h2 id="site-name">@Model.CurrentSite.Name</h2> 
+    <h2 id="site-name">@Model.CurrentSiteName</h2> 
     <div id="img-aquarium-div">
         <img src="~/media/aquarium.jpeg" id="img-aquarium"/>
     </div>
@@ -54,9 +54,9 @@
 
     <div class="stats-div">
         <ul id="stats-list">
-            <li>Volume: 75 gallons</li>
-            <li>Age: 235 days</li>
-            <li>Description: Reef Aquarium</li>
+            <li>Volume: @Model.CurrentSite.Capacity gallons</li>
+            <li>Location: @Model.CurrentSite.Location</li>
+            <li>Type: @Model.CurrentSiteType</li>
         </ul>
     </div>
 

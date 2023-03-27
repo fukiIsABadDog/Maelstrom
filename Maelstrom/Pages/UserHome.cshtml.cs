@@ -20,12 +20,14 @@ namespace Maelstrom
         }
 
         public string Message { get; private set; } = "PageModel in C#"; // razor page example text
-        
+        public string CurrentSiteName { get; private set; } = string.Empty;
+        public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? ThisAppUser { get; private set; }
 
         public ICollection<Site>? ThisUsersSites { get; private set; }
 
-        public Site? CurrentSite { get; private set; }
+        //default "new site{}" for testing purposes.. this logic my change
+        public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
 
         public ICollection<TestResult>? ThisUsersTestResults  { get; private set; } // Stopped here 3/25 -- pick back up
 
@@ -52,28 +54,36 @@ namespace Maelstrom
                                      select new
                                      {
                                          site = SiteUser.Site,
-                                         appUser = SiteUser.AppUser
+                                         appUser = SiteUser.AppUser                                     
                                      };
 
                     //selects only the sites where the SiteUser matches the current user
                     var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == ThisAppUser.Id).Select(x => x.site).ToList(); 
                     this.ThisUsersSites = usersSites;
 
-                    // This is temperory test logic for current site.. eventually we need to be able to toggle it
+                    // This is temperory test logic for current site.. eventually we need to be able to toggle it with button
                     var currentSite = ThisUsersSites.FirstOrDefault();
                     if (currentSite != null)
                     {
                         this.CurrentSite = currentSite;
                     }
-                    else
-                    {
-                       // new empty site
-                    }
+                    
 
 
                     // ThisUsersTestResults goes here
 
 
+                }
+                if (CurrentSite.Name != "Default")
+                {
+                    this.CurrentSiteName = CurrentSite.Name;
+                    var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
+                    this.CurrentSiteType = siteTypeQuery.First();
+
+                }
+                else
+                {
+                    this.CurrentSiteName = "No Current Site Active";
                 }
 
 
