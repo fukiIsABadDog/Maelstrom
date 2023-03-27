@@ -15,6 +15,7 @@ namespace Maelstrom.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
+
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
@@ -74,9 +75,10 @@ namespace Maelstrom.Areas.Identity.Pages.Account.Manage
             };
         }
 
+        //might be able to use this to get first name and last name in viewdata
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User); 
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
