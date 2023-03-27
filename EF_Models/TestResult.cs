@@ -8,7 +8,8 @@ namespace EF_Models.Models
     public class TestResult
     {
         public int TestResultID { get; set;}
-        public int SiteID  { get; set; }
+
+        //public int SiteID  { get; set; } for time being, may change when composite key gets fixed
         public float? Temperature { get; set;}
         public float? Ph { get; set; }
         public decimal? Sality { get; set; }
@@ -20,8 +21,7 @@ namespace EF_Models.Models
         public decimal? Nitrite { get; set; }
         public decimal? Ammonia { get; set; }
 
-        public Site? Site { get; set; } // may be redundant
-        public int UserID { get; set; }
+        public int SiteUserID { get; set; } // for time being, may change when composite key gets fixed
         public SiteUser? SiteUser { get; set; }
         
         

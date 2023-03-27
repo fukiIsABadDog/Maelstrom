@@ -21,7 +21,7 @@ namespace EF_Models.Models
         public int AccountStandingID { get; set; } 
         public AccountStanding? AccountStanding { get; set; } 
         public ICollection<Payment>? Payments { get; set; }
-        public ICollection<User>? Users { get; set; }
+        public ICollection<AppUser>? AppUsers { get; set; }
 
 
   

@@ -1,0 +1,73 @@
+body {
+  background-color: aliceblue;
+}
+
+#site-name {
+  font-size: 3rem;
+  text-align: center;
+  padding-top: 30px;
+}
+
+#img-aquarium-div {
+  margin: auto;
+  text-align: center;
+}
+
+#img-aquarium {
+  max-width: 50%;
+  max-height: auto;
+  border-radius: 25px;
+}
+
+#button-edit-div {
+  margin: auto;
+  text-align: center;
+}
+
+.stats-div {
+  margin: auto;
+  /*text-align: center;*/
+  font-size: 1.5rem;
+  max-width: 50%;
+  padding: 15px;
+}
+
+#stats-list {
+
+}
+
+#img-testlog-div {
+  margin: auto;
+  text-align: center;
+}
+
+#img-testlog {
+  max-width: 50%;
+  max-height: auto;
+}
+
+.btn-grp-div {
+  text-align: center;
+  padding-top: 5px;
+  }
+
+#more-buttons-div {
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+}
+
+#recent-results-heading {
+  padding-top:50px;
+  font-size: 2em;
+  text-align: center;
+  margin: auto;
+}
+
+.table-div {
+  padding-top: 20px;
+  max-width: 75%;
+  mak-height: auto;
+  margin: auto;
+  text-align: center;
+}
