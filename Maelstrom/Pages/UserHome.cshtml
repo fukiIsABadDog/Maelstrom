@@ -41,6 +41,8 @@
         <img src="~/media/aquarium.jpeg" id="img-aquarium"/>
     </div>
 
+@*We need to discuss what the "Water change" & "Add Chemicals" logic will look like... this might be complicataed mathematically *@
+
     <div id="more-buttons-div">
         <button type="button" class="btn btn-primary btn-lg">LOG TEST RESULTS</button>
         <button type="button" class="btn btn-primary btn-lg">LOG A WATER CHANGE</button>
@@ -82,6 +84,9 @@
         <table class="table table-hover table-primary">
             <thead>
                 <tr class="table-dark">
+
+                    @*For each testresult.attibute in _dbContext.testresult table*@
+
                     <th scope="col">Test Date</th>
                     <th scope="col">Alkalinity</th>
                     <th scope="col">pH</th>
@@ -94,6 +99,9 @@
                 </tr>
             </thead>
             <tbody>
+
+                @*for each testResultValue in model.thisUsersTestResults*@
+
                 <tr class="table-primary">
                     <th scope="row">3/29/2023</th>
                     <td>40</td>
@@ -157,6 +165,9 @@
         <button type="button" class="btn btn-primary btn-lg">SEE ALL RECORDS</button>
     </div>
 
+    @*
+        "Maintanance" needs to be implimented in the Data Base
+    *@
     <h3 id="recent-results-heading">Recent Maintenance Tasks </h3>
     <div class="table-div">
         <table class="table table-hover table-primary">
