@@ -25,6 +25,8 @@ namespace Maelstrom
 
         public ICollection<Site>? ThisUsersSites { get; private set; }
 
+        public Site? CurrentSite { get; private set; }
+
         public ICollection<TestResult>? ThisUsersTestResults  { get; private set; } // Stopped here 3/25 -- pick back up
 
 
@@ -37,16 +39,14 @@ namespace Maelstrom
         public void OnGet()
         {
             if(User.Identity != null)
-            {
-               
-
+            {   
+                //selects current user
                 var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
                 this.ThisAppUser = currentAppUser;
 
                 if (ThisAppUser != null)
                 {
-                    
-
+                    //selects a collection of user and site object 
                     var querySiteUsers = from SiteUser in _context.SiteUsers
                                      join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
                                      select new
@@ -55,10 +55,20 @@ namespace Maelstrom
                                          appUser = SiteUser.AppUser
                                      };
 
-
+                    //selects only the sites where the SiteUser matches the current user
                     var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == ThisAppUser.Id).Select(x => x.site).ToList(); 
-
                     this.ThisUsersSites = usersSites;
+
+                    // This is temperory test logic for current site.. eventually we need to be able to toggle it
+                    var currentSite = ThisUsersSites.FirstOrDefault();
+                    if (currentSite != null)
+                    {
+                        this.CurrentSite = currentSite;
+                    }
+                    else
+                    {
+                       // new empty site
+                    }
 
 
                     // ThisUsersTestResults goes here
