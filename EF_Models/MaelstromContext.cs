@@ -36,10 +36,9 @@ namespace EF_Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Server=DESKTOP-Q2BNFVU;DataBase=Maelstrom;Integrated Security=True;Connection Timeout=30;Encrypt=False;TrustServerCertificate=false;");
 
-                //optionsBuilder.UseSqlServer("Server=dotnet.reynolds.edu;DataBase=Maelstrom;User a=Maelstrom;Password=$Camero7");
-                optionsBuilder.UseSqlServer("Server=(localdb)mssqllocaldb;Database=aspnet-Maelstrom-544b22ef-322c-4196-b14f-f34b2cf355ec;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=dotnet.reynolds.edu;DataBase=Maelstrom;User a=Maelstrom;Password=$Camero7");
+                //optionsBuilder.UseSqlServer("Server=(localdb)mssqllocaldb;Database=aspnet-Maelstrom-544b22ef-322c-4196-b14f-f34b2cf355ec;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
