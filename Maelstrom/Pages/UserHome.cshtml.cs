@@ -18,9 +18,7 @@ namespace Maelstrom
 
             _context = context;
         }
-
-        public string Message { get; private set; } = "PageModel in C#"; // razor page example text
-        public string CurrentSiteName { get; private set; } = string.Empty;
+        
         public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? ThisAppUser { get; private set; }
 
@@ -29,14 +27,12 @@ namespace Maelstrom
         //default "new site{}" for testing purposes.. this logic my change
         public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
 
-        public ICollection<TestResult>? ThisUsersTestResults  { get; private set; } // Stopped here 3/25 -- pick back up
+        public ICollection<TestResult>? ThisUsersTestResults  { get; private set; } // not started yet
 
 
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
         //public ICollection<Fish>? ThisUsersFish { get; private set; }
 
-
-     
 
         public void OnGet()
         {
@@ -67,28 +63,18 @@ namespace Maelstrom
                     {
                         this.CurrentSite = currentSite;
                     }
-                    
-
 
                     // ThisUsersTestResults goes here
-
-
                 }
+
                 if (CurrentSite.Name != "Default")
                 {
-                    this.CurrentSiteName = CurrentSite.Name;
                     var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
                     this.CurrentSiteType = siteTypeQuery.First();
 
                 }
-                else
-                {
-                    this.CurrentSiteName = "No Current Site Active";
-                }
-
 
             }
-        }
-           
+        }        
     }
 }

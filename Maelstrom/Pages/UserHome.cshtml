@@ -35,8 +35,9 @@
    @* Sample UI below*@
 
 
-    <h2 id="site-name">@Model.CurrentSiteName</h2> 
-    <div id="img-aquarium-div">
+    @*<h2 id="site-name">@Model.CurrentSiteName</h2>*@
+    <h2 id="site-name">@Model.CurrentSite.Name</h2>
+<div id="img-aquarium-div">
         <img src="~/media/aquarium.jpeg" id="img-aquarium"/>
     </div>
 
@@ -165,7 +166,7 @@
     </div>
 
     @*
-        "Maintanance" needs to be implimented in the Data Base
+        "Maintanance" log needs to be implimented in the Data Base
     *@
     <h3 id="recent-results-heading">Recent Maintenance Tasks </h3>
     <div class="table-div">
