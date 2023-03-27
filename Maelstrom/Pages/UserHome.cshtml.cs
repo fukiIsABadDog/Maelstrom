@@ -73,6 +73,11 @@ namespace Maelstrom
                     this.CurrentSiteType = siteTypeQuery.First();
 
                 }
+                else
+                {
+                    this.CurrentSiteName = "No Current Site Active";
+                }
+
 
             }
         }        
