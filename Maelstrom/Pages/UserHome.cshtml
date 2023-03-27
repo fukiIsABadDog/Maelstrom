@@ -5,20 +5,196 @@
     Layout = "_Layout";
 }
 
-<h3>Hello from the razor page!</h3>
-<p>
-   What's up @Model.ThisAppUser.FirstName @Model.ThisAppUser.LastName ! 
-</p>
+ @*Sample Logic*@
 
-<h1>Here are your current sites: </h1>
+<h3>Hello Devs this html is coming from the razor page!</h3>
 
-@if (Model.ThisUsersSites != null)
-{
-    @foreach (var s in Model.ThisUsersSites)
+    @if(@Model.ThisAppUser != null)
     {
-        <h5> @s.Name </h5>
+        <p>
+            Hello, 
+            @Model.ThisAppUser.FirstName @Model.ThisAppUser.LastName
+         </p>
+
+        @if (Model.ThisUsersSites != null)
+        {
+            <h1>Here are your current sites: </h1>
+
+            @foreach (var s in Model.ThisUsersSites)
+            {
+                <h5> @s.Name </h5>
+
+            }
+        }
 
     }
-}
+    else
+    {
+        <p> Please log in to see this page. (This will just be a auto redirect in future)</p>
+    }
+
+   @* Sample UI below*@
+
+
+    <h2 id="site-name">Amanda's Living Room Aquarium</h2>
+    <div id="img-aquarium-div">
+        <img src="~/media/aquarium.jpeg" id="img-aquarium"/>
+    </div>
+
+    <div id="more-buttons-div">
+        <button type="button" class="btn btn-primary btn-lg">LOG TEST RESULTS</button>
+        <button type="button" class="btn btn-primary btn-lg">LOG A WATER CHANGE</button>
+        <button type="button" class="btn btn-primary btn-lg">ADD CHEMICALS</button>
+    </div>
+
+    <div id="button-edit-div">
+        <button type="button" class="btn btn-warning">EDIT SITE</button>
+    </div>
+
+    <div class="stats-div">
+        <ul id="stats-list">
+            <li>Volume: 75 gallons</li>
+            <li>Age: 235 days</li>
+            <li>Description: Reef Aquarium</li>
+        </ul>
+    </div>
+
+    <div id="img-testlog-div">
+        <img src="~/media/testlog.jpg" />
+    </div>
+    <div class="btn-grp-div">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked="">
+            <label class="btn btn-outline-primary" for="btnradio1">7D</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" checked="">
+            <label class="btn btn-outline-primary" for="btnradio2">1M</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" checked="">
+            <label class="btn btn-outline-primary" for="btnradio3">3M</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked="">
+            <label class="btn btn-outline-primary" for="btnradio4">1Y</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" checked="">
+            <label class="btn btn-outline-primary" for="btnradio5">ALL</label>
+        </div>
+    </div>
+
+    <h3 id="recent-results-heading">Recent Test Results</h3>
+    <div class="table-div">
+        <table class="table table-hover table-primary">
+            <thead>
+                <tr class="table-dark">
+                    <th scope="col">Test Date</th>
+                    <th scope="col">Alkalinity</th>
+                    <th scope="col">pH</th>
+                    <th scope="col">Total Hardness</th>
+                    <th scope="col">TDS</th>
+                    <th scope="col">Ammonia</th>
+                    <th scope="col">Nitrite</th>
+                    <th scope="col">Nitrate</th>
+                    <th scope="col">Phosphate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-primary">
+                    <th scope="row">3/29/2023</th>
+                    <td>40</td>
+                    <td>7.1</td>
+                    <td>95</td>
+                    <td>215</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>20</td>
+                    <td>2</td>
+                </tr>
+                <tr class="table-secondary">
+                    <th scope="row">3/22/2023</th>
+                    <td>45</td>
+                    <td>7.2</td>
+                    <td>95</td>
+                    <td>210</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>20</td>
+                    <td>1.5</td>
+                </tr>
+                <tr class="table-primary">
+                    <th scope="row">3/15/2023</th>
+                    <td>50</td>
+                    <td>7.3</td>
+                    <td>90</td>
+                    <td>210</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>15</td>
+                    <td>1.5</td>
+                </tr>
+                <tr class="table-secondary">
+                    <th scope="row">3/8/2023</th>
+                    <td>55</td>
+                    <td>7.4</td>
+                    <td>90</td>
+                    <td>205</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>10</td>
+                    <td>1</td>
+                </tr>
+                <tr class="table-primary">
+                    <th scope="row">3/1/2023</th>
+                    <td>60</td>
+                    <td>7.5</td>
+                    <td>90</td>
+                    <td>205</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>10</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="more-buttons-div">
+        <button type="button" class="btn btn-primary btn-lg">SEE ALL RECORDS</button>
+    </div>
+
+    <h3 id="recent-results-heading">Recent Maintenance Tasks </h3>
+    <div class="table-div">
+        <table class="table table-hover table-primary">
+            <thead>
+                <tr class="table-dark">
+                    <th scope="col">Date</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-primary">
+                    <th scope="row">2/28/2023</th>
+                    <td>Partial Water Change</td>
+                    <td>50%</td>
+                    <td>Water was cloudy</td>
+                </tr>
+                <tr class="table-secondary">
+                    <th scope="row">2/12/2023</th>
+                    <td>Chemical Additive</td>
+                    <td>6.5 grams</td>
+                    <td>Alkalinity Booster</td>
+                </tr>
+                <tr class="table-primary">
+                    <th scope="row">3/15/2023</th>
+                    <td>Partial Water Change</td>
+                    <td>30%</td>
+                    <td>Some algae growth</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="more-buttons-div">
+        <button type="button" class="btn btn-primary btn-lg">SEE ALL RECORDS</button>
+    </div>
+
+
 
 
