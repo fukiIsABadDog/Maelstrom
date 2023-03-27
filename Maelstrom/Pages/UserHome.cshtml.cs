@@ -19,8 +19,7 @@ namespace Maelstrom
             _context = context;
         }
 
-        public string Message { get; private set; } = "PageModel in C#"; // razor page example text
-        public string CurrentSiteName { get; private set; } = string.Empty;
+      
         public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? ThisAppUser { get; private set; }
 
@@ -76,16 +75,10 @@ namespace Maelstrom
                 }
                 if (CurrentSite.Name != "Default")
                 {
-                    this.CurrentSiteName = CurrentSite.Name;
                     var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
                     this.CurrentSiteType = siteTypeQuery.First();
 
                 }
-                else
-                {
-                    this.CurrentSiteName = "No Current Site Active";
-                }
-
 
             }
         }
