@@ -64,12 +64,10 @@ namespace Maelstrom
                     {
                         this.CurrentSite = currentSite;
 
-                        //for testing
+                        
                         try
                         {
                            var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == currentSite.SiteID);
-                           Message = "Test results were found";
-
                            CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
 
 
