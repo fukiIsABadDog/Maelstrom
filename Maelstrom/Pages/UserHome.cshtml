@@ -1,5 +1,7 @@
 ﻿@page
 @model Maelstrom.UserHomeModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, AuthoringTagHelpers
 
 @{
     Layout = "_Layout";
@@ -112,25 +114,58 @@ else
         <table class="table table-hover table-primary">
             <thead>
                 <tr class="table-dark">
-
-                    @*For each testresult.attibute in _dbContext.testresult table*@
-
-                    <th scope="col">Test Date</th>
-                    <th scope="col">Alkalinity</th>
-                    <th scope="col">pH</th>
-                    <th scope="col">Total Hardness</th>
-                    <th scope="col">TDS</th>
-                    <th scope="col">Ammonia</th>
-                    <th scope="col">Nitrite</th>
-                    <th scope="col">Nitrate</th>
-                    <th scope="col">Phosphate</th>
+                    @*date time needs to be entered into database*@
+                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ammonia)</th>
+                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Calcium)</th>
+                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Sality)</th>
+                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Magnesium)</th>
+                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ph)</th>
+                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Alkalinty)</th>
+                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrate)</th>
+                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrite)</th>
+                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Temperature)</th>
+             
+              
                 </tr>
             </thead>
             <tbody>
 
                 @*for each testResultValue in model.thisUsersTestResults*@
 
-                <tr class="table-primary">
+            @foreach(var tr in Model.CurrentSiteTestResults)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(td => tr.Ammonia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(td => tr.Calcium)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(td => tr.Sality)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(td => tr.Magnesium)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(td => tr.Ph)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(td => tr.Alkalinty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(td => tr.Nitrate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(td => tr.Nitrite)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(td => tr.Temperature)
+                    </td>
+                </tr>
+            }
+
+               @* <tr class="table-primary">
                     <th scope="row">3/29/2023</th>
                     <td>40</td>
                     <td>7.1</td>
@@ -184,7 +219,7 @@ else
                     <td>0</td>
                     <td>10</td>
                     <td>1</td>
-                </tr>
+                </tr>*@
             </tbody>
         </table>
     </div>
