@@ -19,6 +19,7 @@ namespace Maelstrom
             _context = context;
         }
         
+        public string Message  {get; set;} = string.Empty;
         public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? ThisAppUser { get; private set; }
 
@@ -27,7 +28,7 @@ namespace Maelstrom
         //default "new site{}" for testing purposes.. this logic my change
         public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
 
-        public ICollection<TestResult>? ThisUsersTestResults  { get; private set; } // not started yet
+        public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } // not started yet
 
 
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
@@ -62,17 +63,30 @@ namespace Maelstrom
                     if (currentSite != null)
                     {
                         this.CurrentSite = currentSite;
+                        try
+                        {
+                           var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == currentSite.SiteID);
+                           Message = "Test results were found";
+
+                        }
+                        catch
+                        {
+                            Message = "There was an error finding the test results.";
+                        };
+
                     }
 
-                    // ThisUsersTestResults goes here
+                    
                 }
 
-                if (CurrentSite.Name != "Default")
+                if (CurrentSite.Name != "Default") // this code might be taken out when we start redirection to login
                 {
                     var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
                     this.CurrentSiteType = siteTypeQuery.First();
 
                 }
+
+
 
             }
         }        
