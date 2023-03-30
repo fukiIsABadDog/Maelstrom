@@ -26,6 +26,8 @@ namespace Maelstrom
         public ICollection<Site>? ThisUsersSites { get; private set; }
 
         //default "new site{}" for testing purposes.. this logic my change
+
+        [TempData] // need to study up on post-redirect-get
         public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
 
         public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } // not started yet
@@ -92,6 +94,16 @@ namespace Maelstrom
 
 
             }
-        }        
+        } 
+        public void OnPost()
+        {
+           //losing session state here.. I need to presist the data (tempdata?)
+            
+                var inputSiteName = Request.Form["sitename"];
+                this.CurrentSite = ThisUsersSites.First(x => x.Name == inputSiteName);
+                
+            
+        }
+        
     }
 }
