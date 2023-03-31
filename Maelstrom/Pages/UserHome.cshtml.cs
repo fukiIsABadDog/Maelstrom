@@ -19,7 +19,7 @@ namespace Maelstrom
             _context = context;
         }
         
-// bind properties with onget enabled and use form input to re-render page
+          // bind properties might require input model
         public string Message  {get; set;} = string.Empty;
         public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? ThisAppUser { get; private set; }
@@ -37,7 +37,6 @@ namespace Maelstrom
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
         //public ICollection<Fish>? ThisUsersFish { get; private set; }
 
- //logic might need to be changed slightly to check for data from form
         public void OnGet()
         {
             if(User.Identity != null)
@@ -60,8 +59,7 @@ namespace Maelstrom
                     //selects only the sites where the SiteUser matches the current user
                     var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == ThisAppUser.Id).Select(x => x.site).ToList(); 
                     this.ThisUsersSites = usersSites;
-// check if This.CurrentSite.Name == "default"{line 64 65 67} and break try catch out of the if
-                    // This is temperory test logic for current site.. eventually we need to be able to toggle it with button
+
                     var currentSite = ThisUsersSites.FirstOrDefault();
                     if (currentSite != null)
                     {
@@ -69,8 +67,8 @@ namespace Maelstrom
 
                         
                         try
-                        {// change var currentSite to prop CurrentSite
-                           var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == currentSite.SiteID);
+                        {
+                           var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
                            CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
 
 
@@ -85,7 +83,7 @@ namespace Maelstrom
                     
                 }
 
-                if (CurrentSite.Name != "Default") // this code might be taken out when we start redirection to login
+                if (CurrentSite.Name != "Default") 
                 {
                     var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
                     this.CurrentSiteType = siteTypeQuery.First();
