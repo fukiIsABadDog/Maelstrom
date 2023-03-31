@@ -19,6 +19,7 @@ namespace Maelstrom
             _context = context;
         }
         
+// bind properties with onget enabled and use form input to re-render page
         public string Message  {get; set;} = string.Empty;
         public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? ThisAppUser { get; private set; }
@@ -36,7 +37,7 @@ namespace Maelstrom
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
         //public ICollection<Fish>? ThisUsersFish { get; private set; }
 
-
+ //logic might need to be changed slightly to check for data from form
         public void OnGet()
         {
             if(User.Identity != null)
