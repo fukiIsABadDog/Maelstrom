@@ -19,16 +19,17 @@ namespace Maelstrom
             _context = context;
         }
         
-          // bind properties might require input model
+         
         public string Message  {get; set;} = string.Empty;
         public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? ThisAppUser { get; private set; }
 
+        [BindProperty]
         public ICollection<Site>? ThisUsersSites { get; private set; }
 
         //default "new site{}" for testing purposes.. this logic my change
 
-        [TempData] // need to study up on post-redirect-get
+        [BindProperty] // need to study up on post-redirect-get
         public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
 
         public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } // not started yet
@@ -96,12 +97,45 @@ namespace Maelstrom
         } 
         public void OnPost()
         {
-           //losing session state here.. I need to presist the data (tempdata?)
-            
-                var inputSiteName = Request.Form["sitename"];
-                this.CurrentSite = ThisUsersSites.First(x => x.Name == inputSiteName);
+            if (User.Identity != null)
+            {
+                //selects current user
+                var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                this.ThisAppUser = currentAppUser;
+
+                if (ThisAppUser != null)
+                {
+
+
+                    try
+                    {
+                        var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
+                        CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
+
+
+                    }
+                    catch
+                    {
+                        Message = "There was an error finding the test results.";
+                    };
+
+
+
+
+                    var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
+                    this.CurrentSiteType = siteTypeQuery.First();
+
+                }
+           
+            }
+
+
+               
                 
-            
+                    
+                
+
+
         }
         
     }
