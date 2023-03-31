@@ -6,24 +6,28 @@
 @{
     Layout = "_Layout";
 }
-<form method="post">
-    <div class="form-group">
-        <input type="hidden" name ="ThisUsersSites" value="@Model.ThisUsersSites" />
+@if(@Model.ThisUsersSites != null)
+{
+    <form method="post">
+        <div class="form-group">
+            <input type="hidden" name="Input.ThisUsersSites" value="@Model.ThisUsersSites" />
 
-        @foreach(var s in @Model.ThisUsersSites)
-        {
-            <div>
-                
-                <input type="checkbox" name="CurrentSite" value="@s" />
-                @s.Name
- 
-             </div>
-        }
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Select" class="btn btn-primary" />
-    </div>
-</form>
+            @foreach (var s in @Model.ThisUsersSites)
+            {
+                <div>
+
+                    <input type="checkbox" name="Input.CurrentSite" value="@s" />
+                    @s.Name
+
+                </div>
+            }
+        </div>
+        <div class="form-group">
+            <input type="submit" value="select" class="btn btn-primary" />
+        </div>
+    </form>
+}
+
 
 <P>
     -backend-

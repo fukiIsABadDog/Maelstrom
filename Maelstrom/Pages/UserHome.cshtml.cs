@@ -9,7 +9,15 @@ namespace Maelstrom
     /// <summary>
     /// Test code for User Page
     /// </summary>
-     public class UserHomeModel : PageModel
+    /// 
+
+    public class InputModel
+    {
+        public ICollection<Site>? ThisUsersSites { get; set; }
+        public Site? CurrentSite { get; set; } 
+    }
+
+    public class UserHomeModel : PageModel
     {
         private readonly MaelstromContext _context;
 
@@ -18,18 +26,20 @@ namespace Maelstrom
 
             _context = context;
         }
-        
+
+        [BindProperty]
+        public InputModel? Input { get; set; }
          
         public string Message  {get; set;} = string.Empty;
         public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? ThisAppUser { get; private set; }
 
-        [BindProperty]
+        //[BindProperty]
         public ICollection<Site>? ThisUsersSites { get; private set; }
 
         //default "new site{}" for testing purposes.. this logic my change
 
-        [BindProperty] // need to study up on post-redirect-get
+        //[BindProperty] 
         public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
 
         public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } // not started yet
@@ -95,7 +105,7 @@ namespace Maelstrom
 
             }
         } 
-        public void OnPost()
+        public void OnPost(InputModel model)
         {
             if (User.Identity != null)
             {
@@ -105,7 +115,8 @@ namespace Maelstrom
 
                 if (ThisAppUser != null)
                 {
-
+                    ThisUsersSites = model.ThisUsersSites;
+                    CurrentSite = model.ThisUsersSites.FirstOrDefault();
 
                     try
                     {
@@ -122,8 +133,8 @@ namespace Maelstrom
 
 
 
-                    var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
-                    this.CurrentSiteType = siteTypeQuery.First();
+                    //var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
+                    //this.CurrentSiteType = siteTypeQuery.First();
 
                 }
            
