@@ -59,7 +59,7 @@ namespace Maelstrom
                     //selects only the sites where the SiteUser matches the current user
                     var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == ThisAppUser.Id).Select(x => x.site).ToList(); 
                     this.ThisUsersSites = usersSites;
-
+// check if This.CurrentSite.Name == "default"{line 64 65 67} and break try catch out of the if
                     // This is temperory test logic for current site.. eventually we need to be able to toggle it with button
                     var currentSite = ThisUsersSites.FirstOrDefault();
                     if (currentSite != null)
@@ -68,7 +68,7 @@ namespace Maelstrom
 
                         
                         try
-                        {
+                        {// change var currentSite to prop CurrentSite
                            var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == currentSite.SiteID);
                            CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
 
