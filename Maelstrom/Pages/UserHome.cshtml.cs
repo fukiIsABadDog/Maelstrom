@@ -6,17 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom
 {
-    /// <summary>
-    /// Test code for User Page
-    /// </summary>
-    /// 
-
-    //public class InputModel
-    //{
-    //    public ICollection<Site>? CurrentUserSites { get; set; }
-    //    public Site? CurrentSite { get; set; }
-    //}
-
+ 
     public class UserHomeModel : PageModel
     {
         private readonly MaelstromContext _context;
@@ -27,33 +17,25 @@ namespace Maelstrom
             _context = context;
         }
 
-        //[BindProperty(SupportsGet = true)]
-        //public InputModel? Input { get; set; }
-
         public string Message  {get; set;} = string.Empty;
         public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? CurrentAppUser { get; private set; }
 
-        [BindProperty]
         public ICollection<Site>? CurrentUserSites { get; private set; }
 
-        //default "new site{}" for testing purposes.. this logic my change
 
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
 
-        public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } // not started yet
-
+        public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } 
 
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
         //public ICollection<Fish>? ThisUsersFish { get; private set; }
 
-        public void OnGet()
+        public void OnGet(Site currentSite)
         {
 
-
-
-            if(User.Identity != null)
+            if (User.Identity != null)
             {   
                 //selects current user
                 var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
@@ -73,48 +55,46 @@ namespace Maelstrom
                     //selects only the sites where the SiteUser matches the current user
                     var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == CurrentAppUser.Id).Select(x => x.site).ToList(); 
                     this.CurrentUserSites = usersSites;
-                    
-                        var currentSite = CurrentUserSites.FirstOrDefault();
-                        if (currentSite != null)
+
+                    if(currentSite.Name != null)
+                    {
+                        // needs model validation
+                       CurrentSite = CurrentUserSites.First(x => x.Name == currentSite.Name);
+
+                    }
+                    else
+                    {
+                        var firstCurrentSite = CurrentUserSites.FirstOrDefault();
+                        if (firstCurrentSite != null)
                         {
-                            this.CurrentSite = currentSite;
-
-
-                            try
-                            {
-                                var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
-                                CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
-
-
-                            }
-                            catch
-                            {
-                                Message = "There was an error finding the test results.";
-                            };
+                            this.CurrentSite = firstCurrentSite;
 
                         }
-                    
+                    }
+                    try
+                    {
+                        var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
+                        CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
+                    }
+                    catch
+                    {
+                        Message = "There was an error finding the test results.";
+                    }
 
-                   
-
-                    
                 }
 
+                //This might get refactored 
                 if (CurrentSite.Name != "Default") 
                 {
                     var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
                     this.CurrentSiteType = siteTypeQuery.First();
 
                 }
-
-
-
             }
-        } 
+        }
         public void OnPost()
         {
-            var 
+
         }
-        
     }
 }

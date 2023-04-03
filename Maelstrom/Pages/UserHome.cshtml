@@ -6,14 +6,24 @@
 @{
     Layout = "_Layout";
 }
-@if(@Model.ThisUsersSites != null)
+@if(@Model.CurrentUserSites != null)
 {
+    @*<form method="get">
+        <input asp-for="CurrentSite.Name">
+    </form>*@
+
+
+    //Functioning... but needs to be styled
     <form method="get">
-        <div class="form-group">
-         <input asp-for="@Model.Input.CurrentSite" type="text"/> 
-      
-            <input type="submit"  class="btn btn-primary" />
-        </div>
+        @foreach(var site in @Model.CurrentUserSites)
+        {
+            <input type="radio" asp-for="CurrentSite.Name" value="@site.Name" />
+
+            @site.Name
+
+            <br />
+        }
+        <input type="submit" />
     </form>
 }
 
@@ -22,7 +32,6 @@
     -backend-
     to be completed:
 
-    1) Tank Toggle
     2) Links
     3) Maintainance Table
     4) image service
@@ -33,7 +42,7 @@
     1)Javescript/Jquery for range table selection
 </p>
  <h1>@Model.Message</h1>
-@if (Model.ThisAppUser != null && Model.ThisUsersSites != null)
+@if (Model.CurrentAppUser != null && Model.CurrentUserSites != null)
 {
     <div class="table-div col-1 table-sm float-start">
         <table class="table table-hover table-primary">
@@ -46,7 +55,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var s in Model.ThisUsersSites)
+                @foreach(var s in Model.CurrentUserSites)
                 {
                     <tr class="table-primary">
                         <td>@s.Name</td>
