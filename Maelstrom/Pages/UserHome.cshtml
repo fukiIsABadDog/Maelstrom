@@ -8,22 +8,11 @@
 }
 @if(@Model.ThisUsersSites != null)
 {
-    <form method="post">
+    <form method="get">
         <div class="form-group">
-            <input type="hidden" name="Input.ThisUsersSites" value="@Model.ThisUsersSites" />
-
-            @foreach (var s in @Model.ThisUsersSites)
-            {
-                <div>
-
-                    <input type="checkbox" name="Input.CurrentSite" value="@s" />
-                    @s.Name
-
-                </div>
-            }
-        </div>
-        <div class="form-group">
-            <input type="submit" value="select" class="btn btn-primary" />
+         <input asp-for="@Model.Input.CurrentSite" type="text"/> 
+      
+            <input type="submit"  class="btn btn-primary" />
         </div>
     </form>
 }
@@ -172,38 +161,43 @@ else
 
                 @*Null values still need to be handled*@
 
-            @foreach(var tr in Model.CurrentSiteTestResults)
+            @if(Model.CurrentSite.Name != "Default")
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(td => tr.Ammonia)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(td => tr.Calcium)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(td => tr.Sality)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(td => tr.Magnesium)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(td => tr.Ph)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(td => tr.Alkalinty)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(td => tr.Nitrate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(td => tr.Nitrite)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(td => tr.Temperature)
-                    </td>
-                </tr>
+                @foreach (var tr in Model.CurrentSiteTestResults)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(td => tr.Ammonia)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Calcium)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Sality)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Magnesium)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Ph)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Alkalinty)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Nitrate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Nitrite)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Temperature)
+                        </td>
+                    </tr>
+                }
+                
             }
+           
 
               
             </tbody>

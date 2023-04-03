@@ -11,11 +11,11 @@ namespace Maelstrom
     /// </summary>
     /// 
 
-    public class InputModel
-    {
-        public ICollection<Site>? ThisUsersSites { get; set; }
-        public Site? CurrentSite { get; set; } 
-    }
+    //public class InputModel
+    //{
+    //    public ICollection<Site>? CurrentUserSites { get; set; }
+    //    public Site? CurrentSite { get; set; }
+    //}
 
     public class UserHomeModel : PageModel
     {
@@ -27,19 +27,19 @@ namespace Maelstrom
             _context = context;
         }
 
-        [BindProperty]
-        public InputModel? Input { get; set; }
-         
+        //[BindProperty(SupportsGet = true)]
+        //public InputModel? Input { get; set; }
+
         public string Message  {get; set;} = string.Empty;
         public string CurrentSiteType { get; private set; } = string.Empty;
-        public AppUser? ThisAppUser { get; private set; }
+        public AppUser? CurrentAppUser { get; private set; }
 
-        //[BindProperty]
-        public ICollection<Site>? ThisUsersSites { get; private set; }
+        [BindProperty]
+        public ICollection<Site>? CurrentUserSites { get; private set; }
 
         //default "new site{}" for testing purposes.. this logic my change
 
-        //[BindProperty] 
+        [BindProperty]
         public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
 
         public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } // not started yet
@@ -50,13 +50,16 @@ namespace Maelstrom
 
         public void OnGet()
         {
+
+
+
             if(User.Identity != null)
             {   
                 //selects current user
                 var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-                this.ThisAppUser = currentAppUser;
+                this.CurrentAppUser = currentAppUser;
 
-                if (ThisAppUser != null)
+                if (CurrentAppUser != null)
                 {
                     //selects a collection of user and site object 
                     var querySiteUsers = from SiteUser in _context.SiteUsers
@@ -68,28 +71,31 @@ namespace Maelstrom
                                      };
 
                     //selects only the sites where the SiteUser matches the current user
-                    var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == ThisAppUser.Id).Select(x => x.site).ToList(); 
-                    this.ThisUsersSites = usersSites;
-
-                    var currentSite = ThisUsersSites.FirstOrDefault();
-                    if (currentSite != null)
-                    {
-                        this.CurrentSite = currentSite;
-
-                        
-                        try
+                    var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == CurrentAppUser.Id).Select(x => x.site).ToList(); 
+                    this.CurrentUserSites = usersSites;
+                    
+                        var currentSite = CurrentUserSites.FirstOrDefault();
+                        if (currentSite != null)
                         {
-                           var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
-                           CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
+                            this.CurrentSite = currentSite;
 
+
+                            try
+                            {
+                                var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
+                                CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
+
+
+                            }
+                            catch
+                            {
+                                Message = "There was an error finding the test results.";
+                            };
 
                         }
-                        catch
-                        {
-                            Message = "There was an error finding the test results.";
-                        };
+                    
 
-                    }
+                   
 
                     
                 }
@@ -105,48 +111,9 @@ namespace Maelstrom
 
             }
         } 
-        public void OnPost(InputModel model)
+        public void OnPost()
         {
-            if (User.Identity != null)
-            {
-                //selects current user
-                var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-                this.ThisAppUser = currentAppUser;
-
-                if (ThisAppUser != null)
-                {
-                    ThisUsersSites = model.ThisUsersSites;
-                    CurrentSite = model.ThisUsersSites.FirstOrDefault();
-
-                    try
-                    {
-                        var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
-                        CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
-
-
-                    }
-                    catch
-                    {
-                        Message = "There was an error finding the test results.";
-                    };
-
-
-
-
-                    //var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
-                    //this.CurrentSiteType = siteTypeQuery.First();
-
-                }
-           
-            }
-
-
-               
-                
-                    
-                
-
-
+            var 
         }
         
     }
