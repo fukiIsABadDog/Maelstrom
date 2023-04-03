@@ -6,23 +6,12 @@
 @{
     Layout = "_Layout";
 }
-@if(@Model.ThisUsersSites != null)
-{
-    <form method="get">
-        <div class="form-group">
-         <input asp-for="@Model.Input.CurrentSite" type="text"/> 
-      
-            <input type="submit"  class="btn btn-primary" />
-        </div>
-    </form>
-}
 
-
-<P>
+@*----Notes----*@
+@*<P>
     -backend-
     to be completed:
-
-    1) Tank Toggle
+    1)redirect to login if AppUser is null
     2) Links
     3) Maintainance Table
     4) image service
@@ -31,37 +20,30 @@
     -frontend-
     1)Javescript/Jquery for charts
     1)Javescript/Jquery for range table selection
-</p>
- <h1>@Model.Message</h1>
-@if (Model.ThisAppUser != null && Model.ThisUsersSites != null)
-{
-    <div class="table-div col-1 table-sm float-start">
-        <table class="table table-hover table-primary">
-            <thead>
-                <tr class="table-dark">
+</p>*@
 
 
-                    <th scope="col">Select Tank</th>
-          
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var s in Model.ThisUsersSites)
-                {
-                    <tr class="table-primary">
-                        <td>@s.Name</td>
-                    </tr>
-                
-                }
-            </tbody>
-        </table>
-    </div>
-    }
-    @*Write code in .cs to redirect to login*@
-else
+
+
+@*----Tank Toggler----*@
+
+@if(@Model.CurrentUserSites != null)
 {
-    <p> Please log in to see this page. (This will just be an auto redirect in future)</p>
+    //needs to be styled
+    <form method="get">
+        @foreach (var site in @Model.CurrentUserSites)
+        {
+            <input type="radio" asp-for="CurrentSite.Name" value="@site.Name" />
+
+            @site.Name
+
+            <br />
+        }
+        <input type="submit" />
+    </form>
 }
+
+ 
 
 
 
@@ -161,7 +143,7 @@ else
 
                 @*Null values still need to be handled*@
 
-            @if(Model.CurrentSite.Name != "Default")
+            @if(Model.CurrentSiteTestResults != null)
             {
                 @foreach (var tr in Model.CurrentSiteTestResults)
                 {
@@ -197,9 +179,7 @@ else
                 }
                 
             }
-           
-
-              
+                  
             </tbody>
         </table>
     </div>
