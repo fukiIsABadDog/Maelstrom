@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap_sandstone.css" />
-    <None Include="wwwroot\media\aquarium.jpeg" />
+    <None Include="wwwroot\media\UserImages\aquarium.jpeg" />
     <None Include="wwwroot\media\testlog.jpg" />
   </ItemGroup>
 
