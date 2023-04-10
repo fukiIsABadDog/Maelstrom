@@ -3,7 +3,6 @@ using Maelstrom.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-
 namespace Maelstrom
 {
  
@@ -26,6 +25,9 @@ namespace Maelstrom
 
         [BindProperty(SupportsGet = true)]
         public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
+
+        //extention types will change
+        public string SiteImage { get; set; } = "default.jpg";
 
         public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } 
 
@@ -67,10 +69,16 @@ namespace Maelstrom
                         var firstCurrentSite = CurrentUserSites.FirstOrDefault();
                         if (firstCurrentSite != null)
                         {
-                            this.CurrentSite = firstCurrentSite;
+                            CurrentSite = firstCurrentSite;
 
                         }
                     }
+                    // This requires that Sites in database are unique! Do not forget to change it!
+                    // in the very near future this will not validate the output... the input would be validated instead
+                    var siteImage = $"{CurrentSite.Name.ToLower()}";
+                    siteImage = String.Concat(siteImage.Where(c => !char.IsWhiteSpace(c)));
+                    SiteImage = $"{siteImage}.jpg";
+
                     try
                     {
                         var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
