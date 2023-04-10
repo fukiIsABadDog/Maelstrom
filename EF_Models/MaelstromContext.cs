@@ -12,7 +12,7 @@ namespace EF_Models
 {
     public partial class MaelstromContext : IdentityDbContext<AppUser>
     {
-       /* public MaelstromContext() { }*/ // may not be needed
+        /* public MaelstromContext() { }*/ // may not be needed
         public MaelstromContext(DbContextOptions<MaelstromContext> options) : base(options) { }
         public DbSet<AppUser> AppUsers => Set<AppUser>();
         public DbSet<TestResult> TestResults => Set<TestResult>();
