@@ -3,9 +3,9 @@ using EF_Models.Models;
 using EF_Models;
 using System.Security.Principal;
 
-namespace AppUserService
+namespace Maelstrom.Services
 {
-    public class AppUserService
+    public class AppUserService: IAppUserService
     {
         private readonly MaelstromContext _context;
 

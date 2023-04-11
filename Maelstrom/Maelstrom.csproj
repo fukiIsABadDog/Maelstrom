@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppUserService\AppUserService.csproj" />
+    <ProjectReference Include="..\AppUserService\Maelstrom.Services.csproj" />
     <ProjectReference Include="..\EF_Models\EF_Models.csproj" />
   </ItemGroup>
 
