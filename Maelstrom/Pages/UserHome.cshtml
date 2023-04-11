@@ -7,7 +7,7 @@
     Layout = "_Layout";
 }
 
-@*----Notes----*@
+@*----Notes----@**@
 @*<P>
     -backend-
     to be completed:
@@ -21,8 +21,6 @@
     1)Javescript/Jquery for charts
     1)Javescript/Jquery for range table selection
 </p>*@
-
-
 
 
 @*----Tank Toggler----*@
@@ -43,16 +41,18 @@
     </form>
 }
 
- 
 
+@{
+    // sets file name for Image URL or returns default
+    var photoPath = Model.CurrentSite.ImagePath ?? "default.jpg";
+}
 
-
-   <div class="float-start">
+   <div class="container-fluid">
 
   
     <h2 id="site-name">@Model.CurrentSite.Name</h2>
         <div id="img-aquarium-div">
-            <img src="~/media/aquarium.jpeg" id="img-aquarium" />
+        <img src="~/media/UserImages/@photoPath" id="img-aquarium" />
         </div>
 
     <div id="more-buttons-div">
@@ -98,7 +98,7 @@
 
     
 
-    <div id="img-testlog-div">
+  @*  <div id="img-testlog-div">
         <img src="~/media/testlog.jpg" />
     </div>
     <div class="btn-grp-div">
@@ -114,7 +114,7 @@
             <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" checked="">
             <label class="btn btn-outline-primary" for="btnradio5">ALL</label>
         </div>
-    </div>
+    </div>*@
 
 
     @*Test Results will need a selector for viewing only the last (x-number) of recents*@

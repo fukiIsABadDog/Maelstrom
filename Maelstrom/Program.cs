@@ -1,5 +1,6 @@
 global using EF_Models;
 using EF_Models.Models;
+using Maelstrom.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
@@ -20,6 +21,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<MaelstromContext>();
+
+builder.Services.AddScoped<IAppUserService, AppUserService>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();

@@ -1,20 +1,22 @@
 using EF_Models.Models;
 using Maelstrom.Controllers;
+using Maelstrom.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-
 namespace Maelstrom
 {
  
     public class UserHomeModel : PageModel
     {
         private readonly MaelstromContext _context;
-
-        public UserHomeModel(MaelstromContext context)
+        private readonly IAppUserService _appUserService;
+        public UserHomeModel(MaelstromContext context, IAppUserService appUserService)
         {
 
             _context = context;
+            _appUserService = appUserService;
+            
         }
 
         public string Message  {get; set;} = string.Empty;
@@ -27,6 +29,9 @@ namespace Maelstrom
         [BindProperty(SupportsGet = true)]
         public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
 
+        //extention types will change
+        public string SiteImage { get; set; }
+
         public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } 
 
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
@@ -35,11 +40,9 @@ namespace Maelstrom
         public void OnGet(Site currentSite)
         {
 
-            if (User.Identity != null)
-            {   
-                //selects current user
-                var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-                this.CurrentAppUser = currentAppUser;
+            CurrentAppUser = _appUserService.FindAppUser(User.Identity); /// This Works!!!!!!
+            // now we can refactor all this code below
+
 
                 if (CurrentAppUser != null)
                 {
@@ -67,10 +70,11 @@ namespace Maelstrom
                         var firstCurrentSite = CurrentUserSites.FirstOrDefault();
                         if (firstCurrentSite != null)
                         {
-                            this.CurrentSite = firstCurrentSite;
+                            CurrentSite = firstCurrentSite;
 
                         }
                     }
+
                     try
                     {
                         var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
@@ -81,7 +85,6 @@ namespace Maelstrom
                         Message = "There was an error finding the test results.";
                     }
 
-                }
 
                 //This might get refactored 
                 if (CurrentSite.Name != "Default") 

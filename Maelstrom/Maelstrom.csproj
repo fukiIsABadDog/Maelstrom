@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AppUserService\Maelstrom.Services.csproj" />
     <ProjectReference Include="..\EF_Models\EF_Models.csproj" />
   </ItemGroup>
 
@@ -34,7 +35,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap_sandstone.css" />
-    <None Include="wwwroot\media\aquarium.jpeg" />
+    <None Include="wwwroot\media\userImages\default.jpeg" />
     <None Include="wwwroot\media\testlog.jpg" />
   </ItemGroup>
 
