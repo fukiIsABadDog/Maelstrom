@@ -3,17 +3,19 @@ using Maelstrom.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using AppUserService;
 namespace Maelstrom
 {
  
     public class UserHomeModel : PageModel
     {
         private readonly MaelstromContext _context;
-
+        //private readonly AppUserService.AppUserService _appUserService; <------not currently working
         public UserHomeModel(MaelstromContext context)
         {
 
             _context = context;
+            
         }
 
         public string Message  {get; set;} = string.Empty;
@@ -37,8 +39,10 @@ namespace Maelstrom
         public void OnGet(Site currentSite)
         {
 
+            /*CurrentAppUser = _appUserService.FindAppUser(User.Identity)*/;
+
             if (User.Identity != null)
-            {   
+            {
                 //selects current user
                 var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
                 this.CurrentAppUser = currentAppUser;
@@ -73,16 +77,6 @@ namespace Maelstrom
 
                         }
                     }
-                    // FOR DEMO
-                    // This requires that Sites in database are unique! Do not forget to change it!
-                    // in the very near future this will not validate the output... the input would be validated instead
-                    //------------------------------------------------------------------------
-                    //var siteImage = $"{CurrentSite.Name.ToLower()}";
-                    //siteImage = String.Concat(siteImage.Where(c => !char.IsWhiteSpace(c)));
-                    //SiteImage = $"{siteImage}.jpg";
-                    //------------------------------------------------------------------------
-
-                  
 
                     try
                     {
