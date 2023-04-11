@@ -42,15 +42,17 @@
 }
 
 
-
-
+@{
+    
+    var photoPath = Model.CurrentSite.ImagePath ?? "default.jpg";
+}
 
    <div class="container-fluid">
 
   
     <h2 id="site-name">@Model.CurrentSite.Name</h2>
         <div id="img-aquarium-div">
-            <img src="~/media/UserImages/@Model.SiteImage" id="img-aquarium" />
+        <img src="~/media/UserImages/@photoPath" id="img-aquarium" />
         </div>
 
     <div id="more-buttons-div">
