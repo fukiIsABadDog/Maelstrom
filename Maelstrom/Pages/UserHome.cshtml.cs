@@ -40,15 +40,9 @@ namespace Maelstrom
         public void OnGet(Site currentSite)
         {
 
-            CurrentAppUser = _appUserService.FindAppUser(User.Identity);
+            CurrentAppUser = _appUserService.FindAppUser(User.Identity); /// This Works!!!!!!
+            // now we can refactor all this code below
 
-            /*CurrentAppUser = _appUserService.FindAppUser(User.Identity)*/;
-
-            //if (User.Identity != null)
-            //{
-            //    //selects current user
-            //    var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-            //    this.CurrentAppUser = currentAppUser;
 
                 if (CurrentAppUser != null)
                 {
@@ -91,7 +85,6 @@ namespace Maelstrom
                         Message = "There was an error finding the test results.";
                     }
 
-                //}
 
                 //This might get refactored 
                 if (CurrentSite.Name != "Default") 
