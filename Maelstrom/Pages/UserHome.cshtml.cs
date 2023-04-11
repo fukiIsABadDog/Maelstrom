@@ -1,20 +1,21 @@
 using EF_Models.Models;
 using Maelstrom.Controllers;
+using Maelstrom.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using AppUserService;
 namespace Maelstrom
 {
  
     public class UserHomeModel : PageModel
     {
         private readonly MaelstromContext _context;
-        //private readonly AppUserService.AppUserService _appUserService; <------not currently working
-        public UserHomeModel(MaelstromContext context)
+        private readonly IAppUserService _appUserService;
+        public UserHomeModel(MaelstromContext context, IAppUserService appUserService)
         {
 
             _context = context;
+            _appUserService = appUserService;
             
         }
 
@@ -39,13 +40,15 @@ namespace Maelstrom
         public void OnGet(Site currentSite)
         {
 
+            CurrentAppUser = _appUserService.FindAppUser(User.Identity);
+
             /*CurrentAppUser = _appUserService.FindAppUser(User.Identity)*/;
 
-            if (User.Identity != null)
-            {
-                //selects current user
-                var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-                this.CurrentAppUser = currentAppUser;
+            //if (User.Identity != null)
+            //{
+            //    //selects current user
+            //    var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            //    this.CurrentAppUser = currentAppUser;
 
                 if (CurrentAppUser != null)
                 {
@@ -88,7 +91,7 @@ namespace Maelstrom
                         Message = "There was an error finding the test results.";
                     }
 
-                }
+                //}
 
                 //This might get refactored 
                 if (CurrentSite.Name != "Default") 
