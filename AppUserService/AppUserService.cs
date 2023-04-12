@@ -25,9 +25,9 @@ namespace Maelstrom.Services
 
         public AppUser FindAppUser(IIdentity user)
         {
-            var currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == "DEFAULT@MAELSTROM.COM");
+            var currentAppUser = _context.Users.FirstOrDefault(x => x.Email == "Default@Maelstrom.com");
 
-            if(user != null) 
+            if(user.IsAuthenticated != false) 
             {
                 currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == user.Name);
 
@@ -37,6 +37,30 @@ namespace Maelstrom.Services
             return currentAppUser;
 
         }
+
+        public ICollection<Site> CurrentUserSites(AppUser user)
+        {
+            if(user.Email != "Default@Maelstrom.com")
+            {
+                var querySiteUsers = from SiteUser in _context.SiteUsers
+                                     join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+                                     select new
+                                     {
+                                         site = SiteUser.Site,
+                                         appUser = SiteUser.AppUser
+                                     };
+                var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == user.Id).Select(x => x.site).ToList();
+                return usersSites;
+            }
+
+            else
+            { // this may cause issues
+                return new List<Site>();
+            }
+        }
+
+       //public Site SelectedSite(ICollection<Site> sites);
+       //public TestResult SelectedSiteTestResults(Site site);
 
 
     }

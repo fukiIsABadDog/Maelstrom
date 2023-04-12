@@ -41,23 +41,10 @@ namespace Maelstrom
         {
 
             CurrentAppUser = _appUserService.FindAppUser(User.Identity); /// This Works!!!!!!
-            // now we can refactor all this code below
+         
 
+            CurrentUserSites = _appUserService.CurrentUserSites(CurrentAppUser);
 
-                if (CurrentAppUser != null)
-                {
-                    //selects a collection of user and site object 
-                    var querySiteUsers = from SiteUser in _context.SiteUsers
-                                     join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
-                                     select new
-                                     {
-                                         site = SiteUser.Site,
-                                         appUser = SiteUser.AppUser                                     
-                                     };
-
-                    //selects only the sites where the SiteUser matches the current user
-                    var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == CurrentAppUser.Id).Select(x => x.site).ToList(); 
-                    this.CurrentUserSites = usersSites;
 
                     if(currentSite.Name != null)
                     {
@@ -93,7 +80,7 @@ namespace Maelstrom
                     this.CurrentSiteType = siteTypeQuery.First();
 
                 }
-            }
+            //}
         }
         public void OnPost()
         {

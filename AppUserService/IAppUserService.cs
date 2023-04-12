@@ -1,4 +1,5 @@
 ﻿using EF_Models.Models;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace Maelstrom.Services
 {
     public interface IAppUserService
     {
-        public AppUser FindAppUser(IIdentity user);
+        AppUser FindAppUser(IIdentity user);
+        ICollection<Site> CurrentUserSites(AppUser user);
+        //Site SelectedSite (ICollection<Site> sites);
+        //TestResult SelectedSiteTestResults(Site site);
     }
 }
