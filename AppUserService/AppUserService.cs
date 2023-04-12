@@ -74,13 +74,16 @@ namespace Maelstrom.Services
                     return sites.First(x => x.Name == currentSite.Name);
                 }
                 else { return sites.FirstOrDefault(); }
-            
-          
-
-
-
         }
-       //public TestResult SelectedSiteTestResults(Site site);
+
+        public ICollection<TestResult> SelectedSiteTestResults(Site site)
+        {
+            var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID);
+            if(currentSiteTestResultsQuery.Any()) { return  currentSiteTestResultsQuery.ToList(); }
+            else { return new List<TestResult>(); }
+
+           
+        }
 
 
     }

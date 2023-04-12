@@ -43,34 +43,8 @@ namespace Maelstrom
             CurrentAppUser = _appUserService.FindAppUser(User.Identity); 
             CurrentUserSites = _appUserService.CurrentUserSites(CurrentAppUser);
             CurrentSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
-
-                    //if(currentSite.Name != null)
-                    //{
-                    //    // needs model validation
-                    //   CurrentSite = CurrentUserSites.First(x => x.Name == currentSite.Name);
-
-                    //}
-                    //else
-                    //{
-                    //    var firstCurrentSite = CurrentUserSites.FirstOrDefault();
-                    //    if (firstCurrentSite != null)
-                    //    {
-                    //        CurrentSite = firstCurrentSite;
-
-                    //    }
-                    //}
-
-                    try
-                    {
-                        var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
-                        CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
-                    }
-            catch
-            {
-                CurrentSiteTestResults = null;
-            }
-                  
-
+            CurrentSiteTestResults = _appUserService.SelectedSiteTestResults(CurrentSite);
+                
 
                 //This might get refactored into a enum --  
                 if (CurrentSite.Name != "Default") 

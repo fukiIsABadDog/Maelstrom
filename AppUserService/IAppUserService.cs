@@ -13,7 +13,7 @@ namespace Maelstrom.Services
     {
         AppUser FindAppUser(IIdentity user);
         ICollection<Site> CurrentUserSites(AppUser user);
-        Site SelectedSite(ICollection<Site> sites, Site? currentSite);
-        //TestResult SelectedSiteTestResults(Site site);
+        Site SelectedSite(ICollection<Site> sites, Site? currentSite);  
+        ICollection<TestResult>  SelectedSiteTestResults(Site site);
     }
 }
