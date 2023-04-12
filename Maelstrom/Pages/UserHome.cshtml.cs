@@ -19,7 +19,7 @@ namespace Maelstrom
             
         }
 
-        public string Message  {get; set;} = string.Empty;
+        
         public string CurrentSiteType { get; private set; } = string.Empty;
         public AppUser? CurrentAppUser { get; private set; }
 
@@ -27,7 +27,7 @@ namespace Maelstrom
 
 
         [BindProperty(SupportsGet = true)]
-        public Site CurrentSite { get; private set; } = new Site { SiteID = 999, Name= "Default", Capacity = 0, Location = "Does not exist yet"}; 
+        public Site CurrentSite { get; set; }   
 
         //extention types will change
         public string SiteImage { get; set; }
@@ -40,40 +40,39 @@ namespace Maelstrom
         public void OnGet(Site currentSite)
         {
 
-            CurrentAppUser = _appUserService.FindAppUser(User.Identity); /// This Works!!!!!!
-         
-
+            CurrentAppUser = _appUserService.FindAppUser(User.Identity); 
             CurrentUserSites = _appUserService.CurrentUserSites(CurrentAppUser);
+            CurrentSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
 
+                    //if(currentSite.Name != null)
+                    //{
+                    //    // needs model validation
+                    //   CurrentSite = CurrentUserSites.First(x => x.Name == currentSite.Name);
 
-                    if(currentSite.Name != null)
-                    {
-                        // needs model validation
-                       CurrentSite = CurrentUserSites.First(x => x.Name == currentSite.Name);
+                    //}
+                    //else
+                    //{
+                    //    var firstCurrentSite = CurrentUserSites.FirstOrDefault();
+                    //    if (firstCurrentSite != null)
+                    //    {
+                    //        CurrentSite = firstCurrentSite;
 
-                    }
-                    else
-                    {
-                        var firstCurrentSite = CurrentUserSites.FirstOrDefault();
-                        if (firstCurrentSite != null)
-                        {
-                            CurrentSite = firstCurrentSite;
-
-                        }
-                    }
+                    //    }
+                    //}
 
                     try
                     {
                         var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == CurrentSite.SiteID);
                         CurrentSiteTestResults = currentSiteTestResultsQuery.ToList();
                     }
-                    catch
-                    {
-                        Message = "There was an error finding the test results.";
-                    }
+            catch
+            {
+                CurrentSiteTestResults = null;
+            }
+                  
 
 
-                //This might get refactored 
+                //This might get refactored into a enum --  
                 if (CurrentSite.Name != "Default") 
                 {
                     var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);

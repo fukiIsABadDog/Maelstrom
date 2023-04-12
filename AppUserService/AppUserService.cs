@@ -54,12 +54,32 @@ namespace Maelstrom.Services
             }
 
             else
-            { // this may cause issues
-                return new List<Site>();
+            { //probably could shorten this code
+
+                var defaultSite = new Site { SiteID = 999, Name = "Default", Capacity = 0, Location = "Does not exist yet" };
+                var defaultSiteList = new List<Site>();
+                defaultSiteList.Add(defaultSite);
+                return defaultSiteList;
             }
         }
 
-       //public Site SelectedSite(ICollection<Site> sites);
+       public Site SelectedSite(ICollection<Site> sites, Site currentSite)
+        {
+
+            // could use opperator for oneline expression or cleaned up some other way
+            // also,  need to use ID attribute instead after view is modified
+
+                if (currentSite.Name != null)
+                {
+                    return sites.First(x => x.Name == currentSite.Name);
+                }
+                else { return sites.FirstOrDefault(); }
+            
+          
+
+
+
+        }
        //public TestResult SelectedSiteTestResults(Site site);
 
 
