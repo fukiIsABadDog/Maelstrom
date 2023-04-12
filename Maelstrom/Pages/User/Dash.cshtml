@@ -26,21 +26,25 @@
 
 @*----Tank Toggler----*@
 
-@if(@Model.CurrentUserSites != null)
-{
-    //needs to be styled
-    <form method="get">
-        @foreach (var site in @Model.CurrentUserSites)
-        {
-            <input type="radio" asp-for="CurrentSite.Name" value="@site.Name" />
+<div class="col-3">
+    <p class="text-center ">
+        @Model.CurrentAppUser.FirstName 's Sites
+    </p>
 
-            @site.Name
+    @if (@Model.CurrentUserSites != null)
+    {
 
-            <br />
-        }
-        <input type="submit" />
-    </form>
-}
+        <form method="get">
+            @foreach (var site in @Model.CurrentUserSites)
+            {
+                <input type="submit" asp-for="CurrentSite.Name" value="@site.Name" class="btn btn-outline-success" />
+            }
+        </form>
+    }
+</div>
+
+
+
 
 
 @{
