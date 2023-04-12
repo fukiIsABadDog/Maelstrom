@@ -15,5 +15,6 @@ namespace Maelstrom.Services
         ICollection<Site> CurrentUserSites(AppUser user);
         Site SelectedSite(ICollection<Site> sites, Site? currentSite);  
         ICollection<TestResult>  SelectedSiteTestResults(Site site);
+        string GetSiteType(Site site);
     }
 }

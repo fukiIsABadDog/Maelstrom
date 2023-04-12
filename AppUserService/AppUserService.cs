@@ -5,37 +5,27 @@ using System.Security.Principal;
 
 namespace Maelstrom.Services
 {
+    /// <summary>
+    /// This Service helps us reuse code accross multiple pages
+    /// </summary>
     public class AppUserService: IAppUserService
     {
-        private readonly MaelstromContext _context;
-
-       
-        
-        
+        private readonly MaelstromContext _context;      
         public AppUserService(MaelstromContext context)
         {
 
             _context = context;
         }
-        
-        // this might require middleware... still figuring this one out
-
-        // The idea is to be able to reuse user code accross all user pages
-
-
+       
         public AppUser FindAppUser(IIdentity user)
         {
             var currentAppUser = _context.Users.FirstOrDefault(x => x.Email == "Default@Maelstrom.com");
 
             if(user.IsAuthenticated != false) 
             {
-                currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == user.Name);
-
-               
+                currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == user.Name);    
             }
-
             return currentAppUser;
-
         }
 
         public ICollection<Site> CurrentUserSites(AppUser user)
@@ -56,7 +46,7 @@ namespace Maelstrom.Services
             else
             { //probably could shorten this code
 
-                var defaultSite = new Site { SiteID = 999, Name = "Default", Capacity = 0, Location = "Does not exist yet" };
+                var defaultSite = new Site { SiteID = 999, Name = "Default", Capacity = 0, Location = "Does not exist yet", SiteTypeID = 1 };
                 var defaultSiteList = new List<Site>();
                 defaultSiteList.Add(defaultSite);
                 return defaultSiteList;
@@ -80,11 +70,16 @@ namespace Maelstrom.Services
         {
             var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID);
             if(currentSiteTestResultsQuery.Any()) { return  currentSiteTestResultsQuery.ToList(); }
-            else { return new List<TestResult>(); }
-
-           
+            else { return new List<TestResult>(); }    
         }
 
+        public string GetSiteType(Site site)
+        {
+            //This might get refactored into a enum or dictionary to reduce trips to the DB 
+
+            var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == site.SiteTypeID).Select(x => x.Name);
+            return siteTypeQuery.First();
+        }
 
     }
 }

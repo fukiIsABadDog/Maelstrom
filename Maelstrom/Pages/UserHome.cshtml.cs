@@ -13,24 +13,21 @@ namespace Maelstrom
         private readonly IAppUserService _appUserService;
         public UserHomeModel(MaelstromContext context, IAppUserService appUserService)
         {
-
             _context = context;
-            _appUserService = appUserService;
-            
+            _appUserService = appUserService;     
         }
 
-        
-        public string CurrentSiteType { get; private set; } = string.Empty;
+        public string CurrentSiteType { get; set; } = string.Empty;
         public AppUser? CurrentAppUser { get; private set; }
 
         public ICollection<Site>? CurrentUserSites { get; private set; }
 
 
         [BindProperty(SupportsGet = true)]
-        public Site CurrentSite { get; set; }   
+        public Site CurrentSite { get; private set; }   
 
-        //extention types will change
-        public string SiteImage { get; set; }
+        // -- this feature is still in development --
+        public string SiteImage { get; private set; }
 
         public ICollection<TestResult>? CurrentSiteTestResults  { get; private set; } 
 
@@ -39,21 +36,12 @@ namespace Maelstrom
 
         public void OnGet(Site currentSite)
         {
-
+            //This block calls custom services to set this page's properities
             CurrentAppUser = _appUserService.FindAppUser(User.Identity); 
             CurrentUserSites = _appUserService.CurrentUserSites(CurrentAppUser);
             CurrentSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
             CurrentSiteTestResults = _appUserService.SelectedSiteTestResults(CurrentSite);
-                
-
-                //This might get refactored into a enum --  
-                if (CurrentSite.Name != "Default") 
-                {
-                    var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == CurrentSite.SiteTypeID).Select(x => x.Name);
-                    this.CurrentSiteType = siteTypeQuery.First();
-
-                }
-            //}
+            CurrentSiteType = _appUserService.GetSiteType(CurrentSite);   
         }
         public void OnPost()
         {
