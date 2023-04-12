@@ -27,9 +27,7 @@
 @*----Tank Toggler----*@
 
 <div class="col-3">
-    <p class="text-center ">
-        @Model.CurrentAppUser.FirstName 's Sites
-    </p>
+    <p class="text-center"> @Model.CurrentAppUser.FirstName 's Sites </p>
 
     @if (@Model.CurrentUserSites != null)
     {
@@ -43,18 +41,12 @@
     }
 </div>
 
-
-
-
-
 @{
     // sets file name for Image URL or returns default
     var photoPath = Model.CurrentSite.ImagePath ?? "default.jpg";
 }
 
    <div class="container-fluid">
-
-  
     <h2 id="site-name">@Model.CurrentSite.Name</h2>
         <div id="img-aquarium-div">
         <img src="~/media/UserImages/@photoPath" id="img-aquarium" />
@@ -78,7 +70,6 @@
                     <th scope="col">Location</th>
                     <th scope="col">Type</th>
                     <th scope="col">Capacity</th>
-
                 </tr>
             </thead>
             <tbody>
