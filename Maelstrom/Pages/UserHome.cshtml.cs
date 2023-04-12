@@ -37,6 +37,8 @@ namespace Maelstrom
             CurrentSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
             CurrentSiteTestResults = _appUserService.SelectedSiteTestResults(CurrentSite);
             CurrentSiteType = _appUserService.GetSiteType(CurrentSite);   
+
+            // may want to create another method for handling maintance after the table is created in DB
         }
         public void OnPost()
         {
