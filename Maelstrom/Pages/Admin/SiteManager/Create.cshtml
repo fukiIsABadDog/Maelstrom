@@ -12,11 +12,10 @@
 
 <h4>Site</h4>
 <hr />
-@*tag helpers arnt working *@
-@*enctype="multipart/form-data"*@
+<h2>@Model.Message</h2>
 <div class="row">
     <div class="col-md-4">
-        <form method="post" > 
+        <form enctype ="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Site.Name" class="control-label"></label>
@@ -37,11 +36,11 @@
                 <label asp-for="Site.SiteTypeID" class="control-label"></label>
                 <select asp-for="Site.SiteTypeID" class ="form-control" asp-items="ViewBag.SiteTypeID"></select>
             </div>
-           @* <div class="form-group">
+            <div class="form-group">
                 <label asp-for="Upload" class="control-label"></label><br />
-                <input asp-for="Upload" accept=".jpg" />
+                <input asp-for="Upload" accept=".jpg" type="file"/>
                 <span asp-validation-for="Upload" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

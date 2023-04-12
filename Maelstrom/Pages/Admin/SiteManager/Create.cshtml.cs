@@ -10,31 +10,30 @@ using EF_Models.Models;
 using Microsoft.Extensions.Hosting;
 using Maelstrom.ValidationAttributes;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Pages.SiteManager
 {
     public class CreateModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;
-        private readonly IWebHostEnvironment _environment;
+    
 
 
-        public CreateModel(EF_Models.MaelstromContext context, IWebHostEnvironment environment )
+        public CreateModel(EF_Models.MaelstromContext context)
         {
             _context = context;
-            _environment = environment;
-
         }
+
+        public string Message { get; set; }
 
         [BindProperty]
         [Required]
         public string Name { get; set; }
 
-        [BindProperty]
-        [UploadFileExtensions(Extensions = ".jpg")]
+        [BindProperty] //[UploadFileExtensions(Extensions = ".jpeg")]
         public IFormFile Upload { get; set; }
-        [TempData]
-        public string Photo { get; set; }
+
 
         public IActionResult OnGet()
         {
@@ -49,19 +48,40 @@ namespace Maelstrom.Pages.SiteManager
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Sites == null || Site == null)
+            using (var memoryStream = new MemoryStream())
             {
-                return Page();
+                await Upload.CopyToAsync(memoryStream);
+
+                // Upload the file if less than 2 MB
+                if (memoryStream.Length < 2097152)
+                {
+
+                    Site.ImageData = memoryStream.ToArray();
+                    try
+                    {
+                        _context.Sites.Add(Site);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                        Message = "There was an issue saving the data as entered.";   
+                    }   
+                }
+                else
+                {
+                    ModelState.AddModelError("File", "The file is too large.");
+                }
+
+              
+                // having issues with this
+                //if (!ModelState.IsValid)
+                //{
+                //    return Page();
+                //}
+               
+
+
             }
-
-            _context.Sites.Add(Site);
-            await _context.SaveChangesAsync();
-
-            TempData["Name"] = Name;
-            Photo = $"{Name.ToLower()}{Path.GetExtension(Upload.FileName)}"; //need to make tank name unique
-            var filePath = Path.Combine(_environment.WebRootPath, "media", "userImages", Photo);
-            using var stream = System.IO.File.Create(filePath);
-            await Upload.CopyToAsync(stream);
 
             return RedirectToPage("./Index");
         }

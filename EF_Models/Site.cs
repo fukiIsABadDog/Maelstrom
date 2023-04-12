@@ -13,6 +13,7 @@ namespace EF_Models.Models
         public string? Location{ get; set; }
 
         public string? ImagePath { get; set; }
+        public byte[] ImageData { get; set; }
 
         public int SiteTypeID { get; set; }
         public SiteType? SiteType {get; set;}
