@@ -8,20 +8,16 @@ using Microsoft.EntityFrameworkCore;
 namespace Maelstrom.Pages.User
 {
 
-    public class UserHomeModel : PageModel
+    public class DashModel : PageModel
     {
         private readonly IAppUserService _appUserService;
-        public UserHomeModel( IAppUserService appUserService)
+        public DashModel( IAppUserService appUserService)
         {
             _appUserService = appUserService;
         }
-
         public string CurrentSiteType { get; set; } = string.Empty;
         public AppUser? CurrentAppUser { get; private set; }
-
         public ICollection<Site>? CurrentUserSites { get; private set; }
-
-
         [BindProperty(SupportsGet = true)]
         public Site CurrentSite { get; private set; }
 
