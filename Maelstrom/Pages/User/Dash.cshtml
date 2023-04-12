@@ -49,8 +49,19 @@
    <div class="container-fluid">
     <h2 id="site-name">@Model.CurrentSite.Name</h2>
         <div id="img-aquarium-div">
-        <img src="~/media/UserImages/@photoPath" id="img-aquarium" />
+            @{
+                if(Model.SiteImage != null)
+                {
+                    <img src=@Model.SiteImage id="img-aquarium" />
+               
+                }
+                else
+                {
+                    <img src="~/media/UserImages/default.jpg" id="img-aquarium" />
+                }
+            }
         </div>
+
 
     <div id="more-buttons-div">
         <button type="button" class="btn btn-primary btn-lg">LOG TEST RESULTS</button>

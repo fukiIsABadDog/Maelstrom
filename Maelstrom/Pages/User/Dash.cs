@@ -20,9 +20,7 @@ namespace Maelstrom.Pages.User
         public ICollection<Site>? CurrentUserSites { get; private set; }
         [BindProperty(SupportsGet = true)]
         public Site CurrentSite { get; private set; }
-
-        // -- this feature is still in development --
-        public string SiteImage { get; private set; }
+        public string? SiteImage { get; private set; } 
 
         public ICollection<TestResult>? CurrentSiteTestResults { get; private set; }
 
@@ -37,6 +35,18 @@ namespace Maelstrom.Pages.User
             CurrentSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
             CurrentSiteTestResults = _appUserService.SelectedSiteTestResults(CurrentSite);
             CurrentSiteType = _appUserService.GetSiteType(CurrentSite);
+
+            // ---Reminder -- make a service for this ---
+
+            // this converts the byte[] into an image, if it exists
+    
+            if (CurrentSite.ImageData != null && CurrentSite.ImageData.Length > 1 == true) 
+            {
+                var base64 = Convert.ToBase64String(CurrentSite.ImageData);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                SiteImage= imgSrc;
+            }
+   
         }
         public void OnPost()
         {
