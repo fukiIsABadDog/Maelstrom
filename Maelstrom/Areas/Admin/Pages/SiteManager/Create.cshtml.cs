@@ -57,13 +57,6 @@ namespace Maelstrom.Pages.SiteManager
 
                     Site.ImageData = memoryStream.ToArray();
 
-                    if (!ModelState.IsValid)
-                    {
-                        var message = string.Join(" | ", ModelState.Values
-                            .SelectMany(v => v.Errors)
-                            .Select(e => e.ErrorMessage));
-                        
-                    }
 
 
                     try
