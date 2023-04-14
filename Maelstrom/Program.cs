@@ -22,6 +22,10 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<MaelstromContext>();
 
+
+
+
+
 builder.Services.AddScoped<IAppUserService, AppUserService>();
 
 builder.Services.AddRazorPages();

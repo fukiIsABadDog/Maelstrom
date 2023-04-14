@@ -15,6 +15,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Maelstrom.Pages.SiteManager
 {
+    
     public class CreateModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;
