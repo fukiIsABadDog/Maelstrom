@@ -11,7 +11,7 @@ using EF_Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace Maelstrom.Pages.SiteManager
+namespace Maelstrom.Admin.Pages.SiteManager
 {
     [Authorize(Roles = "Admin")]
     public class EditModel : PageModel

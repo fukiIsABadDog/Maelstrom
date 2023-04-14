@@ -16,7 +16,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace Maelstrom.Pages.SiteManager
+namespace Maelstrom.Admin.Pages.SiteManager
 {
     [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
