@@ -21,7 +21,7 @@ namespace Maelstrom.Pages.SiteManager
 
         [BindProperty]
       public Site Site { get; set; } = default!;
-
+      
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Sites == null)

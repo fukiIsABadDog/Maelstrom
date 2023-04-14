@@ -19,7 +19,9 @@ namespace Maelstrom.Pages.SiteManager
             _context = context;
         }
 
-      public Site Site { get; set; } = default!; 
+      public Site Site { get; set; } = default!;
+
+     public string? SiteImage { get; private set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,6 +38,13 @@ namespace Maelstrom.Pages.SiteManager
             else 
             {
                 Site = site;
+                //this 100% needs a service method
+                if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
+                {
+                    var base64 = Convert.ToBase64String(Site.ImageData);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    SiteImage = imgSrc;
+                }
             }
             return Page();
         }
