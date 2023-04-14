@@ -36,7 +36,7 @@ namespace EF_Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+               
             }
         }
 
