@@ -26,6 +26,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark"  asp-page="/Dash" asp-area="User">User DashBoard</a> 
                         </li>
+                        @*It might make since to make another _layout for admin*@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">

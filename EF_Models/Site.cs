@@ -11,10 +11,7 @@ namespace EF_Models.Models
         public string Name { get; set; } = null!;
         public int? Capacity { get; set; } 
         public string? Location{ get; set; }
-
-        public string? ImagePath { get; set; }
-        public byte[] ImageData { get; set; }
-
+        public byte[]? ImageData { get; set; }
         public int SiteTypeID { get; set; }
         public SiteType? SiteType {get; set;}
         public ICollection<SiteUser>? SiteUsers { get; set; }
