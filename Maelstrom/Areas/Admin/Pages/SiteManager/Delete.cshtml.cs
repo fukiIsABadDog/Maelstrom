@@ -7,20 +7,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EF_Models;
 using EF_Models.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Maelstrom.Pages.SiteManager
 {
-    public class DetailsModel : PageModel
+    [Authorize(Roles = "Admin")]
+    public class DeleteModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;
 
-        public DetailsModel(EF_Models.MaelstromContext context)
+        public DeleteModel(EF_Models.MaelstromContext context)
         {
             _context = context;
         }
 
-      public Site Site { get; set; } = default!; 
-
+        [BindProperty]
+      public Site Site { get; set; } = default!;
+      
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Sites == null)
@@ -29,6 +33,7 @@ namespace Maelstrom.Pages.SiteManager
             }
 
             var site = await _context.Sites.FirstOrDefaultAsync(m => m.SiteID == id);
+
             if (site == null)
             {
                 return NotFound();
@@ -38,6 +43,24 @@ namespace Maelstrom.Pages.SiteManager
                 Site = site;
             }
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null || _context.Sites == null)
+            {
+                return NotFound();
+            }
+            var site = await _context.Sites.FindAsync(id);
+
+            if (site != null)
+            {
+                Site = site;
+                _context.Sites.Remove(Site);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index");
         }
     }
 }

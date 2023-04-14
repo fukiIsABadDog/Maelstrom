@@ -38,6 +38,20 @@
             @Html.DisplayFor(model => model.Site.SiteType.Name)
         </dd>
     </dl>
+
+    <div class="card-img">
+        @{
+            if (Model.SiteImage != null)
+            {
+                <img src=@Model.SiteImage id="img-aquarium" />
+
+            }
+            else
+            {
+                <img src="~/media/UserImages/default.jpg" id="img-aquarium" />
+            }
+        }
+    </div>
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Site?.SiteID">Edit</a> |

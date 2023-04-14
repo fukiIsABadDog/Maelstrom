@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace Maelstrom.Pages.User
+namespace Maelstrom.Areas.User.Pages
 {
 
     public class DashModel : PageModel
@@ -50,7 +50,7 @@ namespace Maelstrom.Pages.User
         }
         public void OnPost()
         {
-
+            
         }
     }
 }

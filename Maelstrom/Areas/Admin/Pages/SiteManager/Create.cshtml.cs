@@ -12,9 +12,13 @@ using Maelstrom.ValidationAttributes;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.Mime.MediaTypeNames;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Maelstrom.Pages.SiteManager
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;
@@ -28,34 +32,19 @@ namespace Maelstrom.Pages.SiteManager
 
         public string Message { get; set; }
 
-        [BindProperty]
-        [Required]
-        public string Name { get; set; }
 
         [BindProperty] //[UploadFileExtensions(Extensions = ".jpeg")]
         public IFormFile Upload { get; set; }
 
-
-        public IActionResult OnGet()
-        {
-        ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
-            return Page();
-        }
-
         [BindProperty]
         public Site Site { get; set; } = default!;
 
-        // could use this templete to validate input extension type.. but i have seen other ways
-        //private string[] permittedExtensions = { ".txt", ".pdf" };
+        public IActionResult OnGet()
+        {
+            ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
+            return Page();
+        }
 
-        // var ext = Path.GetExtension(uploadedFileName).ToLowerInvariant();
-
-        //if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
-        //{
-        //    // The extension is invalid ... discontinue processing the file
-        //}
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             using (var memoryStream = new MemoryStream())
@@ -67,10 +56,24 @@ namespace Maelstrom.Pages.SiteManager
                 {
 
                     Site.ImageData = memoryStream.ToArray();
+
+                    if (!ModelState.IsValid)
+                    {
+                        var message = string.Join(" | ", ModelState.Values
+                            .SelectMany(v => v.Errors)
+                            .Select(e => e.ErrorMessage));
+                        
+                    }
+
+
                     try
                     {
-                        _context.Sites.Add(Site);
-                        await _context.SaveChangesAsync();
+                        if (ModelState.IsValid) 
+                        {
+                            _context.Sites.Add(Site);
+                            await _context.SaveChangesAsync();
+                        }
+                        
                     }
                     catch
                     {
@@ -81,16 +84,7 @@ namespace Maelstrom.Pages.SiteManager
                 {
                     ModelState.AddModelError("File", "The file is too large.");
                 }
-
-              
-                // having issues with this
-                //if (!ModelState.IsValid)
-                //{
-                //    return Page();
-                //}
                
-
-
             }
 
             return RedirectToPage("./Index");
