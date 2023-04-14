@@ -31,14 +31,12 @@ namespace EF_Models
 
 
 
-        //Dont forget to add credentials here!
+       
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 
-                optionsBuilder.UseSqlServer("Server=dotnet.reynolds.edu;DataBase=Maelstrom;User a=Maelstrom;Password=$Camero7");
-                //optionsBuilder.UseSqlServer("Server=(localdb)mssqllocaldb;Database=aspnet-Maelstrom-544b22ef-322c-4196-b14f-f34b2cf355ec;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
@@ -46,14 +44,7 @@ namespace EF_Models
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<AppUser>(b =>
-            //{
-            //    
-            //    b.HasMany(e => e.Claims)
-            //        .WithOne()
-            //        .HasForeignKey(uc => uc.UserId)
-            //        .IsRequired();
-            //});
+        
 
             //composite key  --------------------------------   * currently broken -- fix in progress *
             //modelBuilder.Entity<SiteUser>()
@@ -62,7 +53,7 @@ namespace EF_Models
 
 
 
-            //seed data for tests
+            //seed data for tests -- currently not in use
             //modelBuilder.ApplyConfiguration(new SeedAccountStandings());
             //modelBuilder.ApplyConfiguration(new SeedAccountTypes());
         }
