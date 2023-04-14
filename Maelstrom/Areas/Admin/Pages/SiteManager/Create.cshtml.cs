@@ -13,10 +13,12 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.Mime.MediaTypeNames;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Maelstrom.Pages.SiteManager
 {
-    
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;
