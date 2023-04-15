@@ -44,20 +44,24 @@ namespace Maelstrom.Services
                 //var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == user.Id).Select(x => x.site).ToList();
                 //return usersSites;
 
-                var querySiteUsers = from SiteUser in _context.SiteUsers
+
+                var querySiteUsers = from SiteUser in _context.SiteUsers                                     
+                                     join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                      join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+                                     join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
+                                     where AppUser == user
                                      select new
                                      {
-                                         site = SiteUser.Site,
-                                         appUser = SiteUser.AppUser
+                                         siteUser = SiteUser,
+                                         sites = Sites,
+                                         appUser = AppUser,
+                                         siteType = SiteType
+
                                      };
+            
 
-               
-                var usersSites = querySiteUsers.Select(x => x).Where(x => x.appUser.Id == user.Id).Select(x => x.site).ToList();
-              
+                return querySiteUsers.Select( x => x.sites).ToList();
 
-               
-                return usersSites;
             }
 
             else

@@ -6,21 +6,21 @@
 
 <table class="table">
     <thead>
-     @*   <tr>
+        <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CurrentUserSites.Name)
+                @Html.DisplayNameFor(model => model.CurrentUserSites[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Site[0].Capacity)
+                @Html.DisplayNameFor(model => model.CurrentUserSites[0].Capacity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Site[0].Location)
+                @Html.DisplayNameFor(model => model.CurrentUserSites[0].Location)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Site[0].SiteType)
+                @Html.DisplayNameFor(model => model.CurrentUserSites[0].SiteType)
             </th>
-            <th></th>*@
-        @*</tr>*@
+            
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.CurrentUserSites)
@@ -35,15 +35,20 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
-              @*  <td>
-                    @Html.DisplayFor(modelItem => item.SiteType.Name)
-                </td>*@
+                
                 <td>
+
+                  @*  @Html.DisplayFor(modelItem => item.SiteType.Name)*@
+                    
+                </td>
+            
+                
                @*     <a asp-page="./Edit" asp-route-id="@item.SiteID">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.SiteID">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.SiteID">Delete</a>*@
-                </td>
+                
             </tr>
         }
+        
     </tbody>
 </table>
