@@ -4,6 +4,53 @@
     Layout = "_Layout";
 }
 
+@foreach(var item in Model.CurrentUserSites)
+{
+    <div class="card" style="width: 18rem;">
+
+        @if (@Model.ImageDictionary[item.SiteID] != String.Empty)
+        {
+            <img src=@Model.ImageDictionary[item.SiteID] class="card-img-top" alt="DB Image">
+        }
+        else
+        {
+            <img src="~/media/UserImages/default.jpg" class="card-img-top" alt="Default Image">
+        }
+
+        
+        <div class="card-body">
+            <h5 class="card-title">@item.Name</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@item.Capacity</li>
+            <li class="list-group-item">@Model.SiteTypeDictionary[item.SiteTypeID]</li>
+            <li class="list-group-item">@item.Location</li>
+        </ul>
+        <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <table class="table">
     <thead>
         <tr>

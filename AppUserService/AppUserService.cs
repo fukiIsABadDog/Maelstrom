@@ -118,7 +118,7 @@ namespace Maelstrom.Services
                                      siteType = SiteType
 
                                  };
-
+            //this might be making two calls to DB... revisit to optimize later
             var currentUserSites = querySiteUsers.Select(x => x.sites).ToList();
 
             var currentUserSiteTypes = querySiteUsers.Select(x => x.siteType).ToList();
@@ -132,9 +132,5 @@ namespace Maelstrom.Services
 
             return (currentUserSites, currentUserSiteTypesDict);
         }
-
-
-
-
     }
 }
