@@ -4,34 +4,38 @@
     Layout = "_Layout";
 }
 
-@foreach(var item in Model.CurrentUserSites)
-{
-    <div class="card" style="width: 18rem;">
+<div class="row row-cols-1 row-cols-md-3 g-4" style="margin-top:2rem">
 
-        @if (@Model.ImageDictionary[item.SiteID] != String.Empty)
-        {
-            <img src=@Model.ImageDictionary[item.SiteID] class="card-img-top" alt="DB Image">
-        }
-        else
-        {
-            <img src="~/media/UserImages/default.jpg" class="card-img-top" alt="Default Image">
-        }
+    @foreach(var item in Model.CurrentUserSites)
+    {
+        <div class="col">
+            <div class="card">
 
-        
-        <div class="card-body">
-            <h5 class="card-title">@item.Name</h5>
+                @if (@Model.ImageDictionary[item.SiteID] != String.Empty)
+                {
+                    <img src=@Model.ImageDictionary[item.SiteID] class="card-img-top" alt="DB Image">
+                }
+                else
+                {
+                    <img src="~/media/UserImages/default.jpg" class="card-img-top" alt="Default Image">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">@item.Capacity</li>
+                    <li class="list-group-item">@Model.SiteTypeDictionary[item.SiteTypeID]</li>
+                    <li class="list-group-item">@item.Location</li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="btn btn-outline-primary">TestResults</a>
+                    <a href="#" class="btn btn-outline-warning">Edit</a>
+                    <a href="#" class="btn btn-outline-danger">Delete</a>
+                </div>
+            </div>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">@item.Capacity</li>
-            <li class="list-group-item">@Model.SiteTypeDictionary[item.SiteTypeID]</li>
-            <li class="list-group-item">@item.Location</li>
-        </ul>
-        <div class="card-body">
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-        </div>
-    </div>
-}
+    }
+</div>
 
 
 
@@ -50,50 +54,3 @@
 
 
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentUserSites[0].Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentUserSites[0].Capacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentUserSites[0].Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentUserSites[0].SiteType)
-            </th>
-            
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.CurrentUserSites)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Capacity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                
-                <td>
-                    @Model.SiteTypeDictionary[item.SiteTypeID]
-                </td>
-            
-                
-               @*     <a asp-page="./Edit" asp-route-id="@item.SiteID">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.SiteID">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.SiteID">Delete</a>*@
-                
-            </tr>
-        }
-        
-    </tbody>
-</table>
