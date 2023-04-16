@@ -9,7 +9,7 @@ using EF_Models;
 using EF_Models.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Maelstrom.Pages.SiteManager
+namespace Maelstrom.Admin.Pages.SiteManager
 {
     [Authorize(Roles ="Admin")]
     public class IndexModel : PageModel

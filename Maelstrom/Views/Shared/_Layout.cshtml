@@ -33,6 +33,12 @@
                                 <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="Admin">Admin Site Mangager</a>
                             </li>
                         }
+                        @if (User.IsInRole("Admin") == false && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="User">Site Mangager</a>
+                            </li>
+                        }
                         
                        
                     </ul>

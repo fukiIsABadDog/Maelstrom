@@ -1,0 +1,56 @@
+﻿@page
+@model Maelstrom.Areas.User.Pages.SiteManager.IndexModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="row row-cols-1 row-cols-md-3 g-4" style="margin-top:2rem">
+
+    @foreach(var item in Model.CurrentUserSites)
+    {
+        <div class="col">
+            <div class="card">
+
+                @if (@Model.ImageDictionary[item.SiteID] != String.Empty)
+                {
+                    <img src=@Model.ImageDictionary[item.SiteID] class="card-img-top" alt="DB Image">
+                }
+                else
+                {
+                    <img src="~/media/UserImages/default.jpg" class="card-img-top" alt="Default Image">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">@item.Capacity</li>
+                    <li class="list-group-item">@Model.SiteTypeDictionary[item.SiteTypeID]</li>
+                    <li class="list-group-item">@item.Location</li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="btn btn-outline-primary">TestResults</a>
+                    <a href="#" class="btn btn-outline-warning">Edit</a>
+                    <a href="#" class="btn btn-outline-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

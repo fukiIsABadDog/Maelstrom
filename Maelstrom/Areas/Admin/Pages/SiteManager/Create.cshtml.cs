@@ -16,7 +16,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace Maelstrom.Pages.SiteManager
+namespace Maelstrom.Admin.Pages.SiteManager
 {
     [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
@@ -57,13 +57,6 @@ namespace Maelstrom.Pages.SiteManager
 
                     Site.ImageData = memoryStream.ToArray();
 
-                    if (!ModelState.IsValid)
-                    {
-                        var message = string.Join(" | ", ModelState.Values
-                            .SelectMany(v => v.Errors)
-                            .Select(e => e.ErrorMessage));
-                        
-                    }
 
 
                     try

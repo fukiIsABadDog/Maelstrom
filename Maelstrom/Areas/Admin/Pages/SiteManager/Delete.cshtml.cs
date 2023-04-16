@@ -10,7 +10,7 @@ using EF_Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace Maelstrom.Pages.SiteManager
+namespace Maelstrom.Admin.Pages.SiteManager
 {
     [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
@@ -24,7 +24,8 @@ namespace Maelstrom.Pages.SiteManager
 
         [BindProperty]
       public Site Site { get; set; } = default!;
-      
+      public string? SiteImage { get; private set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Sites == null)
@@ -41,6 +42,12 @@ namespace Maelstrom.Pages.SiteManager
             else 
             {
                 Site = site;
+                if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
+                {
+                    var base64 = Convert.ToBase64String(Site.ImageData);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    SiteImage = imgSrc;
+                }
             }
             return Page();
         }
@@ -56,6 +63,7 @@ namespace Maelstrom.Pages.SiteManager
             if (site != null)
             {
                 Site = site;
+               
                 _context.Sites.Remove(Site);
                 await _context.SaveChangesAsync();
             }

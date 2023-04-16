@@ -1,5 +1,5 @@
 ﻿@page
-@model Maelstrom.Pages.SiteManager.EditModel
+@model Maelstrom.Admin.Pages.SiteManager.EditModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Edit";
@@ -13,7 +13,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Site.SiteID" />
             <div class="form-group">
@@ -37,9 +37,27 @@
                 <span asp-validation-for="Site.SiteTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Upload" class="control-label"></label><br />
+                <input asp-for="Upload" accept=".jpg" type="file" />
+                <span asp-validation-for="Upload" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+        <div class="card-img">
+            @{
+                if (Model.SiteImage != null)
+                {
+                    <img src=@Model.SiteImage id="img-aquarium" />
+
+                }
+                else
+                {
+                    <img src="~/media/UserImages/default.jpg" id="img-aquarium" />
+                }
+            }
+        </div>
     </div>
 </div>
 
