@@ -23,8 +23,6 @@ namespace Maelstrom.Admin.Pages.SiteManager
     {
         private readonly EF_Models.MaelstromContext _context;
     
-
-
         public CreateModel(EF_Models.MaelstromContext context)
         {
             _context = context;
@@ -33,7 +31,7 @@ namespace Maelstrom.Admin.Pages.SiteManager
         public string Message { get; set; }
 
 
-        [BindProperty] //[UploadFileExtensions(Extensions = ".jpeg")]
+        [BindProperty] [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile Upload { get; set; }
 
         [BindProperty]
@@ -56,9 +54,6 @@ namespace Maelstrom.Admin.Pages.SiteManager
                 {
 
                     Site.ImageData = memoryStream.ToArray();
-
-
-
                     try
                     {
                         if (ModelState.IsValid) 
@@ -79,7 +74,6 @@ namespace Maelstrom.Admin.Pages.SiteManager
                 }
                
             }
-
             return RedirectToPage("./Index");
         }
     }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using EF_Models.Models;
 using Maelstrom.Services;
+using Maelstrom.ValidationAttributes;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
@@ -17,7 +18,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         }
         public string Message { get; set; }
 
-        [BindProperty] //[UploadFileExtensions(Extensions = ".jpeg")]
+        [BindProperty] [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile Upload { get; set; }
 
         [BindProperty]
