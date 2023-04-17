@@ -132,5 +132,26 @@ namespace Maelstrom.Services
 
             return (currentUserSites, currentUserSiteTypesDict);
         }
+
+        public Site? DeleteModelAppUserSite(AppUser user, int? id)
+        {
+            var querySiteUsers = from SiteUser in _context.SiteUsers
+                                 join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
+                                 join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+                                 join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
+                                 where AppUser == user
+                                 where Sites.SiteID == id
+                                 select new
+                                 {
+                                     siteUser = SiteUser,
+                                     sites = Sites,
+                                     appUser = AppUser,
+                                     siteType = SiteType
+
+                                 };
+
+            return querySiteUsers.Select(x => x.sites).FirstOrDefault();
+
+        }
     }
 }
