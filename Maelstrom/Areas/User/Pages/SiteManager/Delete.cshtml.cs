@@ -25,27 +25,26 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public AppUser AppUser { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            this.AppUser = _appUserService.FindAppUser(User.Identity);
-            this.SiteUser = new SiteUser { AppUser = this.AppUser, Site = this.Site };
-
-            if(this.AppUser!= this.SiteUser.AppUser)
-            {
-                return RedirectToPage("./Index");
-            }
+          
             if (id == null || _context.Sites == null)
             {
                 return NotFound();
             }
-            
-            var site = await _context.Sites.FirstOrDefaultAsync(m => m.SiteID == id);
+            //old code
+            //var site = await _context.Sites.FirstOrDefaultAsync(m => m.SiteID == id);
 
-            if (site == null)
+            this.AppUser = _appUserService.FindAppUser(User.Identity);
+            this.Site = _appUserService.DeleteModelAppUserSite(AppUser, id);
+
+          
+            // maybe think  access denied logic and also think about custom 404 page
+            if (Site == null)
             {
                 return NotFound();
             }
             else
             {
-                Site = site;
+                //Site = site;
                 if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
                 {
                     var base64 = Convert.ToBase64String(Site.ImageData);
