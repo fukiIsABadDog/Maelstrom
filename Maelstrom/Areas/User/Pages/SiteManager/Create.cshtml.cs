@@ -15,9 +15,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             _context = context;
             _appUserService = appUserService;
         }
-
         public string Message { get; set; }
-
 
         [BindProperty] //[UploadFileExtensions(Extensions = ".jpeg")]
         public IFormFile Upload { get; set; }
@@ -32,9 +30,6 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
             return Page();
         }
-
-        
-     
         public async Task<IActionResult> OnPostAsync()
         {
             using (var memoryStream = new MemoryStream())
@@ -48,7 +43,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                     try
                     {
                         if (ModelState.IsValid)
-                        {
+                        { //if time: refactor into service
                             this.AppUser = _appUserService.FindAppUser(User.Identity);
                             this.SiteUser = new SiteUser { AppUser = this.AppUser, Site = this.Site};
                             _context.Sites.Add(Site);
