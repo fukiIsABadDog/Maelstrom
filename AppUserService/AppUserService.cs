@@ -8,6 +8,9 @@ namespace Maelstrom.Services
 {
     /// <summary>
     /// This Service helps us reuse code accross multiple pages
+    /// 
+    /// Note: Refactor & think about Async
+    /// Note: Dictionary? Need to reduce DB calls
     /// </summary>
     public class AppUserService : IAppUserService
     {
@@ -133,7 +136,7 @@ namespace Maelstrom.Services
             return (currentUserSites, currentUserSiteTypesDict);
         }
 
-        public Site? DeleteModelAppUserSite(AppUser user, int? id)
+        public Site? GetAppUserSite(AppUser user, int? id)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
@@ -153,5 +156,31 @@ namespace Maelstrom.Services
             return querySiteUsers.Select(x => x.sites).FirstOrDefault();
 
         }
+
+        public ICollection<TestResult>? GetUserSiteTestResults(AppUser user, int? id)
+        {
+            var querySiteUsers = from SiteUser in _context.SiteUsers
+                                 join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
+                                 join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+                                 join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
+                                 join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
+                                 where AppUser == user
+                                 where Sites.SiteID == id
+                                 select new
+                                 {
+                                     siteUser = SiteUser,
+                                     sites = Sites,
+                                     appUser = AppUser,
+                                     siteType = SiteType,
+                                     testResults= TestResult
+
+                                 };
+
+           
+           var results = querySiteUsers.Select(x=> x.testResults).ToList();
+
+           return(results);
+        }
+
     }
 }

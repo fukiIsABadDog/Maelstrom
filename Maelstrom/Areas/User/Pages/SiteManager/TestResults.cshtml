@@ -1,0 +1,67 @@
+﻿@page
+@model Maelstrom.Areas.User.Pages.SiteManager.TestResultsModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = @Model.Site.Name;
+    Layout = "_Layout";
+}
+<h3 id="recent-results-heading">Test Results</h3>
+<div class="table-div">
+    <table class="table table-hover table-primary">
+        <thead>
+            <tr class="table-dark">
+
+                @*date time needs to be entered into database*@
+
+                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Ammonia)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Calcium)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Sality)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Magnesium)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Ph)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Alkalinty)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Nitrate)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Nitrite)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Temperature)</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.TestResults != null)
+            {
+                @foreach (var tr in Model.TestResults)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(td => tr.Ammonia)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Calcium)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Sality)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Magnesium)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Ph)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Alkalinty)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Nitrate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Nitrite)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(td => tr.Temperature)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
