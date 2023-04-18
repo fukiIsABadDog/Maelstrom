@@ -9,7 +9,7 @@
 }
 
 @*----Tank Toggler----*@
-<div class="container-fluid container shadow mt-4 mb-4">
+<div class="container-fluid container shadow mt-4 mb-4" style=" background-color:floralwhite">
 <div class="row">
     <div class="col mt-4 mb-4">
             @if (@Model.CurrentUserSites != null)
@@ -18,7 +18,7 @@
                 <form method="get">
                     @foreach (var site in @Model.CurrentUserSites)
                     {
-                        <input type="submit" asp-for="CurrentSite.Name" value="@site.Name" class="btn btn-outline-success" />
+                        <input type="submit" asp-for="CurrentSite.Name" value="@site.Name" class="btn btn-outline-success btn-lg" />
                     }
                 </form>
             }
@@ -26,7 +26,7 @@
 </div>
 </div>
 
-<div class="container-fluid container shadow mt-4 mb-4">
+<div class="container-fluid container shadow mt-4 mb-4" style=" background-color:floralwhite">
     <div class="row shadow mb-5 mt-5">
         <h2 id="site-name" class="text-center">@Model.CurrentSite.Name</h2>
 
@@ -78,7 +78,7 @@
             </tbody>
         </table>
             <div class="text-center mb-3">
-            <a asp-page="./SiteManager/Edit" asp-route-id="@Model.CurrentSite.SiteID" class="btn btn-outline-warning">Edit @Model.CurrentSite.Name</a>
+            <a asp-page="./SiteManager/Edit" asp-route-id="@Model.CurrentSite.SiteID" class="btn btn-outline-warning">Edit info</a>
             </div>
     </div>
     </div>
