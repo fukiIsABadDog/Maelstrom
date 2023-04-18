@@ -10,6 +10,7 @@ using EF_Models;
 using EF_Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Maelstrom.ValidationAttributes;
 
 namespace Maelstrom.Admin.Pages.SiteManager
 {
@@ -21,7 +22,7 @@ namespace Maelstrom.Admin.Pages.SiteManager
         [BindProperty]
         public Site Site { get; set; } = default!;
 
-        [BindProperty] //[UploadFileExtensions(Extensions = ".jpeg")]
+        [BindProperty] [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile? Upload { get; set; }
         public string? SiteImage { get; private set; }
         public EditModel(EF_Models.MaelstromContext context)
@@ -79,10 +80,8 @@ namespace Maelstrom.Admin.Pages.SiteManager
                     }
 
                 }
-
-
             }
-
+         
                 _context.Attach(Site).State = EntityState.Modified;
 
                 try
