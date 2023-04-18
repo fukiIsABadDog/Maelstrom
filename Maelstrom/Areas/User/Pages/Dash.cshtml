@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <div class="container shadow mt-4 mb-4 w-50">
+    <div class="container shadow mt-4 mb-4 w-75">
         <div class="row">
             <div class="text-center">
                 <h3>Information</h3>
@@ -57,10 +57,10 @@
         <table class="table table-hover table-primary table-sm">
             <thead>
                 <tr class="table-dark">
-
                     <th scope="col">Location</th>
-                    <th scope="col">Type</th>
                     <th scope="col">Capacity</th>
+                    <th scope="col">Type</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -68,17 +68,18 @@
                    <td>
                        @Model.CurrentSite.Location
                    </td>
+                    <td>
+                        @Model.CurrentSite.Capacity Gallons
+                    </td>
               
                     <td>
                         @Model.CurrentSiteType
                     </td>
-                    <td>
-                        @Model.CurrentSite.Capacity Gallons
-                    </td>
+                   
                 </tr>
             </tbody>
         </table>
-            <div class="text-center mb-3">
+            <div class=" text-center mb-3">
             <a asp-page="./SiteManager/Edit" asp-route-id="@Model.CurrentSite.SiteID" class="btn btn-outline-warning">Edit info</a>
             </div>
     </div>
@@ -105,15 +106,16 @@
         </div>
     </div>*@
     @*Test Results will need a selector for viewing only the last (x-number) of recents*@
+
 <div class="container shadow mt-4 mb-4">
     <div class="row">
         <div class="text-center">
             <h3>Test Results</h3>
         </div>
-        <div class="table-responsive">
+            <div class="table-responsive">
 
 
-            <table class="table table-hover table-primary">
+                <table class="table table-hover table-primary text-center">
                 <thead>
                     <tr class="table-dark">
                         <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ammonia)</th>
@@ -171,6 +173,7 @@
         <div class="text-center mb-3">
             <a asp-page="./SiteManager/TestResults" asp-route-id="@Model.CurrentSite.SiteID" class="btn btn-outline-primary">Show All Results</a>
         </div>
+</div>
 </div>
     @*
         "Maintanance" log needs to be implimented in the Data Base
