@@ -6,43 +6,46 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
-    //refactor
-    public class DeleteModel : PageModel
+    public class TestResultsModel : PageModel
     {
+
         private readonly EF_Models.MaelstromContext _context;
         private readonly IAppUserService _appUserService;
 
-        public DeleteModel(EF_Models.MaelstromContext context, IAppUserService appUserService)
+        public TestResultsModel(EF_Models.MaelstromContext context, IAppUserService appUserService)
         {
             _context = context;
             _appUserService = appUserService;
         }
-
-        [BindProperty]
+        public AppUser? AppUser { get; set; }
         public Site Site { get; set; } = default!;
-        public SiteUser SiteUser { get; set; }
         public string? SiteImage { get; private set; }
+        public ICollection<TestResult>? TestResults { get; set; }
 
-        public AppUser AppUser { get; set; }
+        //think about async... need to read docs. Does service need to be async as well?
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-          
-            if (id == null)
+            if (id == null || _context.Sites == null)
             {
                 return NotFound();
             }
 
             this.AppUser = _appUserService.FindAppUser(User.Identity);
             var site = _appUserService.GetAppUserSite(AppUser, id);
+            var results = _appUserService.GetUserSiteTestResults(AppUser, id);
 
-            // maybe think  access denied logic and also think about custom 404 page
             if (site == null)
             {
                 return NotFound();
             }
+                
             else
             {
-                Site = site;
+                this.Site = site;
+
+                this.TestResults = results;
+
+                //this 100% needs a service method
                 if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
                 {
                     var base64 = Convert.ToBase64String(Site.ImageData);
@@ -52,24 +55,6 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             }
             return Page();
         }
-
-        public async Task<IActionResult> OnPostAsync(int? id)
-        {
-            if (id == null || _context.Sites == null)
-            {
-                return NotFound();
-            }
-            var site = await _context.Sites.FindAsync(id);
-
-            if (site != null)
-            {
-                Site = site;
-
-                _context.Sites.Remove(Site);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
-        }
+        
     }
 }

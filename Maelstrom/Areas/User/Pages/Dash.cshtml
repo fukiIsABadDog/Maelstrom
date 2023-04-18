@@ -8,47 +8,32 @@
     ViewData["Title"] = $"{Model.CurrentAppUser.FirstName}'s Dash";
 }
 
-@*----Notes----@**@
-@*<P>
-    -backend-
-    to be completed:
-    1)redirect to login if AppUser is null
-    2) Links
-    3) Maintainance Table
-    4) image service
-</P>
-<p>
-    -frontend-
-    1)Javescript/Jquery for charts
-    1)Javescript/Jquery for range table selection
-</p>*@
-
-
 @*----Tank Toggler----*@
-
-<div class="col-3">
-    <p class="text-center"> @Model.CurrentAppUser.FirstName 's Sites </p>
-
-    @if (@Model.CurrentUserSites != null)
-    {
-
-        <form method="get">
-            @foreach (var site in @Model.CurrentUserSites)
+<div class="container-fluid container shadow mt-4 mb-4" style=" background-color:floralwhite">
+<div class="row">
+    <div class="col mt-4 mb-4">
+            @if (@Model.CurrentUserSites != null)
             {
-                <input type="submit" asp-for="CurrentSite.Name" value="@site.Name" class="btn btn-outline-success" />
+
+                <form method="get">
+                    @foreach (var site in @Model.CurrentUserSites)
+                    {
+                        <input type="submit" asp-for="CurrentSite.Name" value="@site.Name" class="btn btn-outline-success btn-lg" />
+                    }
+                </form>
             }
-        </form>
-    }
+            <a asp-page="./SiteManager/create" class="btn btn-outline-success btn-lg">Create New</a>
+    </div> 
+</div>
 </div>
 
-@*@{
-    // sets file name for Image URL or returns default
-    var photoPath = Model.CurrentSite.ImagePath ?? "default.jpg";
-}*@
+<div class="container-fluid container shadow mt-4 mb-4" style=" background-color:floralwhite">
+    <div class="row shadow mb-5 mt-5">
+        <h2 id="site-name" class="text-center">@Model.CurrentSite.Name</h2>
 
-   <div class="container-fluid">
-    <h2 id="site-name">@Model.CurrentSite.Name</h2>
-        <div id="img-aquarium-div">
+    </div>
+    <div class="row">
+        <div class="text-center mt-1 mb-5">
             @{
                 if(Model.SiteImage != null)
                 {
@@ -61,19 +46,14 @@
                 }
             }
         </div>
-
-
-    <div id="more-buttons-div">
-        <button type="button" class="btn btn-primary btn-lg">LOG TEST RESULTS</button>
-        <button type="button" class="btn btn-primary btn-lg">LOG A WATER CHANGE</button>
-        <button type="button" class="btn btn-primary btn-lg">ADD CHEMICALS</button>
     </div>
 
-    <div id="button-edit-div">
-        <button type="button" class="btn btn-warning">EDIT SITE</button>
-    </div>
-
-    <div class="table-div">
+    <div class="container shadow mt-4 mb-4 w-50">
+        <div class="row">
+            <div class="text-center">
+                <h3>Information</h3>
+            </div>
+            <div class="table-responsive">
         <table class="table table-hover table-primary table-sm">
             <thead>
                 <tr class="table-dark">
@@ -98,12 +78,14 @@
                 </tr>
             </tbody>
         </table>
+            <div class="text-center mb-3">
+            <a asp-page="./SiteManager/Edit" asp-route-id="@Model.CurrentSite.SiteID" class="btn btn-outline-warning">Edit info</a>
+            </div>
     </div>
     </div>
-
+  </div>
 @*We need to discuss what the "Water change" & "Add Chemicals" logic will look like... this might be complicataed mathematically *@
 
-    
 
   @*  <div id="img-testlog-div">
         <img src="~/media/testlog.jpg" />
@@ -122,83 +104,78 @@
             <label class="btn btn-outline-primary" for="btnradio5">ALL</label>
         </div>
     </div>*@
-
-
     @*Test Results will need a selector for viewing only the last (x-number) of recents*@
-    <h3 id="recent-results-heading">Recent Test Results</h3>
-    <div class="table-div">
-        <table class="table table-hover table-primary">
-            <thead>
-                <tr class="table-dark">
+<div class="container shadow mt-4 mb-4">
+    <div class="row">
+        <div class="text-center">
+            <h3>Test Results</h3>
+        </div>
+        <div class="table-responsive">
 
-                    @*date time needs to be entered into database*@
-                    
-                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ammonia)</th>
-                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Calcium)</th>
-                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Sality)</th>
-                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Magnesium)</th>
-                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ph)</th>
-                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Alkalinty)</th>
-                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrate)</th>
-                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrite)</th>
-                    <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Temperature)</th>
-             
-              
-                </tr>
-            </thead>
-            <tbody>
 
-                @*Null values still need to be handled*@
-
-            @if(Model.CurrentSiteTestResults != null)
-            {
-                @foreach (var tr in Model.CurrentSiteTestResults)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(td => tr.Ammonia)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(td => tr.Calcium)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(td => tr.Sality)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(td => tr.Magnesium)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(td => tr.Ph)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(td => tr.Alkalinty)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(td => tr.Nitrate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(td => tr.Nitrite)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(td => tr.Temperature)
-                        </td>
+            <table class="table table-hover table-primary">
+                <thead>
+                    <tr class="table-dark">
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ammonia)</th>
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Calcium)</th>
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Sality)</th>
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Magnesium)</th>
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ph)</th>
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Alkalinty)</th>
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrate)</th>
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrite)</th>
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Temperature)</th>
                     </tr>
-                }
-                
-            }
-                  
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @if (Model.CurrentSiteTestResults != null)
+                    {
+                        @foreach (var tr in Model.CurrentSiteTestResults)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(td => tr.Ammonia)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(td => tr.Calcium)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(td => tr.Sality)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(td => tr.Magnesium)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(td => tr.Ph)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(td => tr.Alkalinty)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(td => tr.Nitrate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(td => tr.Nitrite)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(td => tr.Temperature)
+                                </td>
+                            </tr>
+                        }
 
-    <div id="more-buttons-div">
-        <button type="button" class="btn btn-primary btn-lg">SEE ALL RECORDS</button>
-    </div>
-
+                    }
+                </tbody>
+            </table>
+            
+        </div>
+        <div class="text-center mb-3">
+            <a asp-page="./SiteManager/TestResults" asp-route-id="@Model.CurrentSite.SiteID" class="btn btn-outline-primary">Show All Results</a>
+        </div>
+</div>
     @*
         "Maintanance" log needs to be implimented in the Data Base
     *@
-    <h3 id="recent-results-heading">--NOT YET WORKING-- Recent Maintenance Tasks </h3>
+   @* <h3 id="recent-results-heading">--NOT YET WORKING-- Recent Maintenance Tasks </h3>
     <div class="table-div">
         <table class="table table-hover table-primary">
             <thead>
@@ -234,7 +211,7 @@
 
     <div id="more-buttons-div">
         <button type="button" class="btn btn-primary btn-lg">SEE ALL RECORDS</button>
-    </div>
+    </div>*@
 
 
 

@@ -9,7 +9,7 @@
     @foreach(var item in Model.CurrentUserSites)
     {
         <div class="col">
-            <div class="card">
+            <div class="card shadow">
 
                 @if (@Model.ImageDictionary[item.SiteID] != String.Empty)
                 {
@@ -19,8 +19,11 @@
                 {
                     <img src="~/media/UserImages/default.jpg" class="card-img-top" alt="Default Image">
                 }
-                <div class="card-body" style="background-color:powderblue">
-                    <h5 class="card-title shadow p-3 mb-1 bg-body rounded text-center">@item.Name</h5>
+                <div class="card-body" style="background-color:floralwhite">
+                    <div class="row shadow p-3 mb-1 rounded text-center">
+                        <h5 class="card-title">@item.Name</h5>
+                        </div>
+              
                 </div>
                     <table class="table table-striped table-hover"style="margin-bottom:0px">
                         <th>
@@ -40,19 +43,25 @@
                             </tr>
 
                     </table>
-           
-                
 
-                <div class="card-body text-center" style="background-color:powderblue">
+
+
+                <div class="card-body text-center" style="background-color:floralwhite">
                     
-                    <a asp-page="./Edit" asp-route-id="@item.SiteID" class="btn btn-lg btn-outline-primary">Edit</a>
-                    <a asp-page="./Details" asp-route-id="@item.SiteID" class="btn btn-lg btn-outline-warning">Details</a>
-                    <a asp-page="./Delete" asp-route-id="@item.SiteID" class="btn btn-lg btn-outline-danger">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.SiteID" class="btn btn-lg btn-primary">Edit</a>
+                    <a asp-page="./TestResults" asp-route-id="@item.SiteID" class="btn btn-lg btn-warning">Details and Results</a>
+                    <a asp-page="./Delete" asp-route-id="@item.SiteID" class="btn btn-lg btn-danger">Delete</a>
                     
                 </div>
             </div>
         </div>
     }
+    <div class="col">
+        <div class="card shadow">
+            <div class="card-body text-center" style="background-color:floralwhite">
+                <a asp-page="./create" class="btn btn-success btn-lg">Create New</a>
+            </div>
+        </div></div>
 </div>
 
 
