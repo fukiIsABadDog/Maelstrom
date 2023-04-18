@@ -22,7 +22,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             [BindProperty]
             public Site Site { get; set; } = default!;
 
-            [BindProperty]
+            [BindProperty] 
             [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
             public IFormFile? Upload { get; set; }
             public string? SiteImage { get; private set; }
