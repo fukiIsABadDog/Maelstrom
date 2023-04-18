@@ -27,25 +27,22 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public async Task<IActionResult> OnGetAsync(int? id)
         {
           
-            if (id == null || _context.Sites == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            //old code
-            //var site = await _context.Sites.FirstOrDefaultAsync(m => m.SiteID == id);
 
             this.AppUser = _appUserService.FindAppUser(User.Identity);
-            
+            var site = _appUserService.GetAppUserSite(AppUser, id);
 
-          
             // maybe think  access denied logic and also think about custom 404 page
-            if (Site == null)
+            if (site == null)
             {
                 return NotFound();
             }
             else
             {
-                //Site = site;
+                Site = site;
                 if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
                 {
                     var base64 = Convert.ToBase64String(Site.ImageData);
