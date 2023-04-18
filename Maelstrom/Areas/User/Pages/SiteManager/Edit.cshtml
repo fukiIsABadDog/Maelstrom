@@ -1,4 +1,74 @@
 ﻿@page
 @model Maelstrom.Areas.User.Pages.SiteManager.EditModel
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
+    ViewData["Title"] = "Edit";
+    Layout = "_Layout";
+}
+
+    
+<h1>Edit</h1>
+
+<h4>Site</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Site.SiteID" />
+            <input type="hidden" asp-for="Site.ImageData" />
+            <div class="form-group">
+                <label asp-for="Site.Name" class="control-label"></label>
+                <input asp-for="Site.Name" class="form-control" />
+                <span asp-validation-for="Site.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Site.Capacity" class="control-label"></label>
+                <input asp-for="Site.Capacity" class="form-control" />
+                <span asp-validation-for="Site.Capacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Site.Location" class="control-label"></label>
+                <input asp-for="Site.Location" class="form-control" />
+                <span asp-validation-for="Site.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Site.SiteTypeID" class="control-label"></label>
+                <select asp-for="Site.SiteTypeID" class="form-control" asp-items="ViewBag.SiteTypeID"></select>
+                <span asp-validation-for="Site.SiteTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Upload" class="control-label"></label><br />
+                <input asp-for="Upload" accept=".jpg" type="file" />
+                <span asp-validation-for="Upload" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+        <div class="card-img">
+            @{
+                if (Model.SiteImage != null)
+                {
+                    <img src=@Model.SiteImage id="img-aquarium" />
+
+                }
+                else
+                {
+                    <img src="~/media/UserImages/default.jpg" id="img-aquarium" />
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
