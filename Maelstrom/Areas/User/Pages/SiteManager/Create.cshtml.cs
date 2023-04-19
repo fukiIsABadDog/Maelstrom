@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using EF_Models.Models;
 using Maelstrom.Services;
 using Maelstrom.ValidationAttributes;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;

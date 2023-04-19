@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/SiteManager/TestResults/{id}"
 @model Maelstrom.Areas.User.Pages.SiteManager.TestResultsModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
@@ -21,7 +21,7 @@
                 }
                 else
                 {
-                            <img src="~/media/UserImages/default.jpg" class="w-100" />
+                  <img src="~/media/UserImages/default.jpg" class="w-100 shadow" />
                 }
             }
         </div>
@@ -41,7 +41,7 @@
 </div>
 </div>
 
-<div class="row" style=" background-color:floralwhite">
+<div class="row shadow" style=" background-color:floralwhite">
     <div class="container shadow mt-4 mb-4" >
 
     <div class="text-center">

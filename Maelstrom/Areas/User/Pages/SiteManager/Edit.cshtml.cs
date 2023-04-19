@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Maelstrom.Services;
 using EF_Models.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
+    [Authorize]
     public class EditModel : PageModel
     {
        
@@ -22,7 +24,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             [BindProperty]
             public Site Site { get; set; } = default!;
 
-            [BindProperty]
+            [BindProperty] 
             [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
             public IFormFile? Upload { get; set; }
             public string? SiteImage { get; private set; }
