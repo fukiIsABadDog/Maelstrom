@@ -37,12 +37,12 @@
             @{
                 if(Model.SiteImage != null)
                 {
-                    <img src=@Model.SiteImage id="img-aquarium" />
+                    <img src=@Model.SiteImage id="img-aquarium" class="shadow" />
                
                 }
                 else
                 {
-                    <img src="~/media/UserImages/default.jpg" id="img-aquarium" />
+                    <img src="~/media/UserImages/default.jpg" id="img-aquarium" class="shadow" />
                 }
             }
         </div>
@@ -107,8 +107,8 @@
     </div>*@
     @*Test Results will need a selector for viewing only the last (x-number) of recents*@
 
-<div class="container shadow mt-4 mb-4">
-    <div class="row">
+<div class="row shadow mt-4 mb-4">
+    <div class="col shadow mb-4">
         <div class="text-center">
             <h3>Test Results</h3>
         </div>
@@ -173,7 +173,7 @@
         <div class="text-center mb-3">
             <a asp-page="./SiteManager/TestResults" asp-route-id="@Model.CurrentSite.SiteID" class="btn btn-outline-primary">Show All Results</a>
         </div>
-</div>
+ </div>
 </div>
     @*
         "Maintanance" log needs to be implimented in the Data Base
