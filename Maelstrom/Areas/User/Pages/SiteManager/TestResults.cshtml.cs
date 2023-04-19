@@ -1,11 +1,13 @@
 using EF_Models.Models;
 using Maelstrom.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
+    [Authorize]
     public class TestResultsModel : PageModel
     {
 

@@ -1,5 +1,6 @@
 using EF_Models.Models;
 using Maelstrom.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
     //refactor
+    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;

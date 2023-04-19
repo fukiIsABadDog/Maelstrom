@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Maelstrom.Services;
 using EF_Models.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
+    [Authorize]
     public class EditModel : PageModel
     {
        
