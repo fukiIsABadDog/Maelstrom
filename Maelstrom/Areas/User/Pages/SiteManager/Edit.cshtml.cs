@@ -1,38 +1,38 @@
+using EF_Models.Models;
+using Maelstrom.Services;
 using Maelstrom.ValidationAttributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Maelstrom.Services;
-using EF_Models.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
     [Authorize]
     public class EditModel : PageModel
     {
-       
-            private readonly EF_Models.MaelstromContext _context;
-            private readonly IAppUserService _appUserService;
-            public EditModel(EF_Models.MaelstromContext context, IAppUserService appUserService)
-            {
-                _context = context;
-                _appUserService = appUserService;
-            }
 
-            [BindProperty]
-            public Site Site { get; set; } = default!;
+        private readonly EF_Models.MaelstromContext _context;
+        private readonly IAppUserService _appUserService;
+        public EditModel(EF_Models.MaelstromContext context, IAppUserService appUserService)
+        {
+            _context = context;
+            _appUserService = appUserService;
+        }
 
-            [BindProperty] 
-            [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
-            public IFormFile? Upload { get; set; }
-            public string? SiteImage { get; private set; }
+        [BindProperty]
+        public Site Site { get; set; } = default!;
 
-            public AppUser AppUser { get; set; }
- 
-            public async Task<IActionResult> OnGetAsync(int? id)
-            {
+        [BindProperty]
+        [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
+        public IFormFile? Upload { get; set; }
+        public string? SiteImage { get; private set; }
+
+        public AppUser AppUser { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int? id)
+        {
             if (id == null)
             {
                 return NotFound();
@@ -60,60 +60,59 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             return Page();
         }
 
-            public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return Page();
-                }
+                return Page();
+            }
 
-                if (Upload != null && Upload.Length > 1 == true)
+            if (Upload != null && Upload.Length > 1 == true)
+            {
+                using (var memoryStream = new MemoryStream())
                 {
-                    using (var memoryStream = new MemoryStream())
+                    await Upload.CopyToAsync(memoryStream);
+
+                    // Upload the file if less than 2 MB
+                    if (memoryStream.Length < 2097152)
                     {
-                        await Upload.CopyToAsync(memoryStream);
 
-                        // Upload the file if less than 2 MB
-                        if (memoryStream.Length < 2097152)
-                        {
+                        Site.ImageData = memoryStream.ToArray();
 
-                            Site.ImageData = memoryStream.ToArray();
-
-                        }
                     }
+                }
+            }
+            else
+            {
+                Site.ImageData = Site.ImageData;
+            }
+
+            _context.Attach(Site).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SiteExists(Site.SiteID))
+                {
+                    return NotFound();
                 }
                 else
-                 {
-                    Site.ImageData = Site.ImageData;
-                 }
-
-               _context.Attach(Site).State = EntityState.Modified;
-
-                try
                 {
-                    await _context.SaveChangesAsync();
+                    throw;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SiteExists(Site.SiteID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-
-                return RedirectToPage("./Index");
             }
 
-            private bool SiteExists(int id)
-            {
-                return (_context.Sites?.Any(e => e.SiteID == id)).GetValueOrDefault();
-            }
+            return RedirectToPage("./Index");
+        }
+
+        private bool SiteExists(int id)
+        {
+            return (_context.Sites?.Any(e => e.SiteID == id)).GetValueOrDefault();
         }
     }
+}
 
 
