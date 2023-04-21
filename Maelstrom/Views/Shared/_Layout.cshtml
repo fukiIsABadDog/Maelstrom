@@ -28,10 +28,10 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="Admin">Admin Site Mangager</a>
+                                <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="Admin">Admin Site Manager</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/ResultManager/Index" asp-area="Admin">Admin Result Mangager</a>
+                                <a class="nav-link text-dark" asp-page="/ResultManager/Index" asp-area="Admin">Admin Result Manager</a>
                             </li>
                         }
                         @if (User.IsInRole("Admin") == false && User.Identity.IsAuthenticated)
@@ -41,7 +41,7 @@
                                 <a class="nav-link text-dark" asp-page="/Dash" asp-area="User">DashBoard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="User">Site Mangager</a>
+                                <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="User">Site Manager</a>
                             </li>
                         }                          
                     </ul>
