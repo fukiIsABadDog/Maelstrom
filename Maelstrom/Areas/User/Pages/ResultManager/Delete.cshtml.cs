@@ -27,7 +27,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
         public TestResult TestResult { get; set; }
 
         // If I have time. I will think about making a cookie for all this validation stuff.
-        // I beleive it will improve performance 
+        // I beleive it will improve performance... I really don't like going to the DB this much
         public async Task<IActionResult> OnGetAsync(int? id)
         {
 
