@@ -124,7 +124,7 @@ namespace EF_Models.Migrations
 
                     b.HasIndex("SiteID");
 
-                    b.ToTable("Fishs");
+                    b.ToTable("Fishs", (string)null);
                 });
 
             modelBuilder.Entity("EF_Models.Models.FishType", b =>
@@ -161,7 +161,7 @@ namespace EF_Models.Migrations
 
                     b.HasKey("FishTypeID");
 
-                    b.ToTable("FishTypes");
+                    b.ToTable("FishTypes", (string)null);
                 });
 
             modelBuilder.Entity("EF_Models.Models.Site", b =>
@@ -192,7 +192,7 @@ namespace EF_Models.Migrations
 
                     b.HasIndex("SiteTypeID");
 
-                    b.ToTable("Sites");
+                    b.ToTable("Sites", (string)null);
                 });
 
             modelBuilder.Entity("EF_Models.Models.SiteType", b =>
@@ -209,7 +209,7 @@ namespace EF_Models.Migrations
 
                     b.HasKey("SiteTypeID");
 
-                    b.ToTable("SiteTypes");
+                    b.ToTable("SiteTypes", (string)null);
                 });
 
             modelBuilder.Entity("EF_Models.Models.SiteUser", b =>
@@ -232,7 +232,7 @@ namespace EF_Models.Migrations
 
                     b.HasIndex("SiteID");
 
-                    b.ToTable("SiteUsers");
+                    b.ToTable("SiteUsers", (string)null);
                 });
 
             modelBuilder.Entity("EF_Models.Models.TestResult", b =>
@@ -280,7 +280,7 @@ namespace EF_Models.Migrations
 
                     b.HasIndex("SiteUserID");
 
-                    b.ToTable("TestResults");
+                    b.ToTable("TestResults", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
