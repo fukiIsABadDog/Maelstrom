@@ -127,6 +127,7 @@
                         <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrate)</th>
                         <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrite)</th>
                         <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Temperature)</th>
+                        <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().CreationDate)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -161,6 +162,9 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(td => tr.Temperature)
+                                </td>
+                                <td>
+                                   @Html.DisplayFor(td => tr.CreationDate)
                                 </td>
                             </tr>
                         }

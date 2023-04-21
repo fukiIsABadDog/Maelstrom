@@ -41,6 +41,7 @@
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Nitrate)</th>
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Nitrite)</th>
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Temperature)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.CreationDate)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +72,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(model => Model.TestResult.Temperature)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.CreationDate)
                             </td>
                         </tr>
                     </tbody>
