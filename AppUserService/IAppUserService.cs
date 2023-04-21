@@ -9,7 +9,7 @@ namespace Maelstrom.Services
         ICollection<Site> CurrentUserSites(AppUser user);
         Site SelectedSite(ICollection<Site> sites, Site? currentSite);
         ICollection<TestResult> SelectedSiteTestResults(Site site);
-        string GetSiteType(Site site);
+        string? GetSiteType(Site site);
         (ICollection<Site>, Dictionary<int, String>) CurrentUsersSitesAndTypes(AppUser user);
         Site? GetAppUserSite(AppUser user, int? id);
         ICollection<TestResult>? GetUserSiteTestResults(AppUser user, int? id);

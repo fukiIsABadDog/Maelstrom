@@ -1,10 +1,13 @@
 ﻿using EF_Models.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
+
 namespace Maelstrom.Areas.Admin.Pages.ResultManager
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;

@@ -23,27 +23,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"  asp-page="/Dash" asp-area="User">User DashBoard</a> 
-                        </li>
+                      
                         @*It might make since to make another _layout for admin*@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="Admin">Admin Site Mangager</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/ResultManager/Index" asp-area="Admin">Admin Result Mangager</a>
+                            </li>
                         }
                         @if (User.IsInRole("Admin") == false && User.Identity.IsAuthenticated)
                         {
+                          
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Dash" asp-area="User">User DashBoard</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="User">Site Mangager</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/SiteManager/Create" asp-area="User">Create New Site</a>
-                            </li>
-                        }
-                        
-                       
+                        }                          
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

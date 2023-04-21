@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EF_Models.Models;
+using Maelstrom.ValidationAttributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using EF_Models;
-using EF_Models.Models;
-using Microsoft.Extensions.Hosting;
-using Maelstrom.ValidationAttributes;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
-using System.Net;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
 
 namespace Maelstrom.Admin.Pages.SiteManager
 {
@@ -22,7 +11,7 @@ namespace Maelstrom.Admin.Pages.SiteManager
     public class CreateModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;
-    
+
         public CreateModel(EF_Models.MaelstromContext context)
         {
             _context = context;
@@ -31,7 +20,8 @@ namespace Maelstrom.Admin.Pages.SiteManager
         public string Message { get; set; }
 
 
-        [BindProperty] [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
+        [BindProperty]
+        [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile Upload { get; set; }
 
         [BindProperty]
@@ -56,23 +46,23 @@ namespace Maelstrom.Admin.Pages.SiteManager
                     Site.ImageData = memoryStream.ToArray();
                     try
                     {
-                        if (ModelState.IsValid) 
+                        if (ModelState.IsValid)
                         {
                             _context.Sites.Add(Site);
                             await _context.SaveChangesAsync();
                         }
-                        
+
                     }
                     catch
                     {
-                        Message = "There was an issue saving the data as entered.";   
-                    }   
+                        Message = "There was an issue saving the data as entered.";
+                    }
                 }
                 else
                 {
                     ModelState.AddModelError("File", "The file is too large.");
                 }
-               
+
             }
             return RedirectToPage("./Index");
         }

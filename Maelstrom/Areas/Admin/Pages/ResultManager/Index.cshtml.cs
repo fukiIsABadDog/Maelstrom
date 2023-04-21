@@ -1,9 +1,11 @@
 ﻿using EF_Models.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Areas.Admin.Pages.ResultManager
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;

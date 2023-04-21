@@ -1,10 +1,12 @@
 ﻿using EF_Models.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Areas.Admin.Pages.ResultManager
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;

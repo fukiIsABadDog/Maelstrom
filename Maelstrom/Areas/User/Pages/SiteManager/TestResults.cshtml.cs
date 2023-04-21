@@ -3,7 +3,6 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
@@ -23,8 +22,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public Site Site { get; set; } = default!;
         public string? SiteImage { get; private set; }
         public ICollection<TestResult>? TestResults { get; set; }
+        public string SiteTypeName { get; set; }
 
-        //think about async... need to read docs. Does service need to be async as well?
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Sites == null)
@@ -34,18 +34,17 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
             this.AppUser = _appUserService.FindAppUser(User.Identity);
             var site = _appUserService.GetAppUserSite(AppUser, id);
-            var results = _appUserService.GetUserSiteTestResults(AppUser, id);
 
             if (site == null)
             {
                 return NotFound();
             }
-                
+
             else
             {
                 this.Site = site;
-
-                this.TestResults = results;
+                this.SiteTypeName = _appUserService.GetSiteType(site) ?? "Empty";
+                this.TestResults = _appUserService.GetUserSiteTestResults(AppUser, id);
 
                 //this 100% needs a service method
                 if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
@@ -57,6 +56,6 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             }
             return Page();
         }
-        
+
     }
 }
