@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Maelstrom.Areas.User.Pages.SiteManager
+namespace Maelstrom.Areas.User.Pages.ResultManager
 {
-    //refactor
+
+    // not complete! developing now 4/21
     [Authorize]
     public class DeleteModel : PageModel
     {
@@ -19,12 +20,11 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             _appUserService = appUserService;
         }
 
-        [BindProperty]
-        public Site Site { get; set; } = default!;
-        public SiteUser SiteUser { get; set; }
-        public string? SiteImage { get; private set; }
 
+        [BindProperty]
+        public SiteUser SiteUser { get; set; }
         public AppUser AppUser { get; set; }
+        public TestResult TestResult { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
 
@@ -32,23 +32,19 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             {
                 return NotFound();
             }
-
             this.AppUser = _appUserService.FindAppUser(User.Identity);
-            var site = _appUserService.GetAppUserSite(AppUser, id);
+            var testResult = _context.TestResults.Select(x => x).Where(x => x.TestResultID == id).FirstOrDefault();
+            var siteUser = _appUserService.FindTestResultSiteUser(testResult); // making now
 
-            if (site == null)
+            // need to impliment custom 404 page
+            if (siteUser == null || testResult == null)
             {
                 return NotFound();
             }
             else
             {
-                Site = site;
-                if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
-                {
-                    var base64 = Convert.ToBase64String(Site.ImageData);
-                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                    SiteImage = imgSrc;
-                }
+                SiteUser = siteUser;
+                TestResult = testResult;
             }
             return Page();
         }
@@ -59,13 +55,11 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             {
                 return NotFound();
             }
-            var site = await _context.Sites.FindAsync(id);
+            var tr = await _context.TestResults.FindAsync(id);
 
-            if (site != null)
+            if (tr != null)
             {
-                Site = site;
-
-                _context.Sites.Remove(Site);
+                _context.TestResults.Remove(tr);
                 await _context.SaveChangesAsync();
             }
 

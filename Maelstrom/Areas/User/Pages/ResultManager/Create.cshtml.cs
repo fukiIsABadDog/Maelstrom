@@ -3,11 +3,11 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Cryptography;
 
 namespace Maelstrom.Areas.User.Pages.ResultManager
 {
+    //notes:
+    //to be fixed: user can enter empty results 
 
     [Authorize]
     public class CreateModel : PageModel
@@ -31,7 +31,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
         public int SiteID { get; set; }
         public AppUser? AppUser { get; set; }
 
-       
+
         public IActionResult OnGet(int? id)
         {
             if (id == null)
@@ -52,7 +52,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             else
             {
                 SiteID = siteID;
-                SiteUserID = siteUserID;         
+                SiteUserID = siteUserID;
             }
             return Page();
         }

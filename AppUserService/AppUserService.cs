@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EF_Models;
 using EF_Models.Models;
-using EF_Models;
 using System.Security.Principal;
-using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Services
 {
@@ -201,7 +199,7 @@ namespace Maelstrom.Services
                                  };
 
             return querySiteUsers.Select(x => x.siteUser).FirstOrDefault();
-            
+
         }
 
 
