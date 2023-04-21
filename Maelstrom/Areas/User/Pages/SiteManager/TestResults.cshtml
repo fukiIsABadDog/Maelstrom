@@ -11,7 +11,7 @@
     </div>
     <div class="container shadow">
         <div class="row mt-4 mb-4">
-            <div class=" image-fluid col">
+            <div class=" image-fluid col-md-6">
                 <div>
                     @{
                         if (Model.SiteImage != null)
@@ -26,15 +26,23 @@
                     }
                 </div>
             </div>
-            <div class="col">
-                <div class="container-fluid">
-                    <dt class="col-3">Capacity</dt>
-                    <dd class="col-3">@Model.Site.Capacity</dd>
 
-                    <dt class="col-3">Type</dt>
-                    <dd class="col-3"> @Model.SiteTypeName </dd>
-                    <dt class="col-3">Location</dt>
-                    <dd class="col-3"> @Model.Site.Location </dd>
+            <div class="col-md-6">
+                <div class=" row">
+
+                    <div class="col shadow">
+                        <dt class="col-3">Capacity</dt>
+                        <dd class="col-3">@Model.Site.Capacity</dd>
+                        <dt class="col-3">Type</dt>
+                        <dd class="col-3"> @Model.SiteTypeName </dd>
+                        <dt class="col-3">Location</dt>
+                        <dd class="col-3"> @Model.Site.Location </dd>
+                    </div>
+
+                    <div class="col">
+                        <a asp-page="./Index" class="btn btn-primary w-50 mt-2"> Back to Sites</a>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -106,7 +114,7 @@
                                 <td>
 
                                     <a asp-page="/ResultManager/Edit" asp-route-id="@tr.TestResultID" class="btn  btn-warning">Edit</a>
-                                    <a asp-page="/ResultManager/Delete" asp-route-id="@tr.TestResultID" class="btn  btn-danger">Delete</a>       
+                                    <a asp-page="/ResultManager/Delete" asp-route-id="@tr.TestResultID" class="btn  btn-danger">Delete</a>
                                 </td>
                             </tr>
                         }
