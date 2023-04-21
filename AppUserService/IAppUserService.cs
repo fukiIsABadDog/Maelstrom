@@ -14,5 +14,7 @@ namespace Maelstrom.Services
         Site? GetAppUserSite(AppUser user, int? id);
         ICollection<TestResult>? GetUserSiteTestResults(AppUser user, int? id);
         SiteUser? GetSiteUser(AppUser user, int? id);
+
+        SiteUser? CheckTestResultUser(AppUser user, TestResult testResult);
     }
 }

@@ -25,6 +25,9 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
         public SiteUser SiteUser { get; set; }
         public AppUser AppUser { get; set; }
         public TestResult TestResult { get; set; }
+
+        // If I have time. I will think about making a cookie for all this validation stuff.
+        // I beleive it will improve performance 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
 
@@ -34,7 +37,11 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             }
             this.AppUser = _appUserService.FindAppUser(User.Identity);
             var testResult = _context.TestResults.Select(x => x).Where(x => x.TestResultID == id).FirstOrDefault();
-            var siteUser = _appUserService.FindTestResultSiteUser(testResult); // making now
+            if (testResult == null)
+            {
+                return NotFound();
+            }
+            var siteUser = _appUserService.CheckTestResultUser(AppUser, testResult);
 
             // need to impliment custom 404 page
             if (siteUser == null || testResult == null)
