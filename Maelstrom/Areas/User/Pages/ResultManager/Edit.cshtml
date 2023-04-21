@@ -77,6 +77,11 @@
                         <input asp-for="TestResult.Ammonia" class="form-control" />
                         <span asp-validation-for="TestResult.Ammonia" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <label asp-for="TestResult.CreationDate" class="control-label"></label>
+                        <input asp-for="TestResult.CreationDate" class="form-control" />
+                        <span asp-validation-for="TestResult.CreationDate" class="text-danger"></span>
+                    </div>
 
                     <div class="form-group">
                         <input type="submit" value="Save" class="btn btn-warning w-50 mt-5 mb-3" style="height:3rem" />

@@ -59,6 +59,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
         }
         public async Task<IActionResult> OnPostAsync()
         {
+            TestResult.CreationDate = DateTime.Now;
 
             if (ModelState.IsValid)
             {

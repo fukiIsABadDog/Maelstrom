@@ -1,8 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace EF_Models.Models
 {
     public class TestResult
     {
         public int TestResultID { get; set; }
+
+        [Display(Name = "Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [DataType(DataType.Date)]
         public DateTime CreationDate { get; set; }
         public float? Temperature { get; set; }
         public float? Ph { get; set; }
