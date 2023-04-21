@@ -34,6 +34,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 
         public IActionResult OnGet(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -61,7 +62,6 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 
             if (ModelState.IsValid)
             {
-                var id = SiteID;
                 TestResult.SiteUserID = SiteUserID;
                 _context.TestResults.Add(TestResult);
                 await _context.SaveChangesAsync();

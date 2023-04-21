@@ -20,11 +20,14 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             _appUserService = appUserService;
         }
 
-
+        [BindProperty]
+        public TestResult TestResult { get; set; }
         [BindProperty]
         public SiteUser SiteUser { get; set; }
+        [BindProperty]
+        public int SiteID { get; set; }
         public AppUser AppUser { get; set; }
-        public TestResult TestResult { get; set; }
+
 
         // If I have time. I will think about making a cookie for all this validation stuff.
         // I beleive it will improve performance... I really don't like going to the DB this much
@@ -70,7 +73,8 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/SiteManager/TestResults", new { id = SiteID.ToString() });
+
         }
     }
 }
