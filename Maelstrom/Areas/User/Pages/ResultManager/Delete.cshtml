@@ -1,6 +1,87 @@
 ﻿@page
 @model Maelstrom.Areas.User.Pages.ResultManager.DeleteModel
 @{
-    ViewData["Title"] = "Delete" ;
+    ViewData["Title"] = "Delete";
     Layout = "_Layout";
 }
+
+<div class="container-fluid mt-5" style=" background-color:floralwhite">
+    <div class="row">
+        <div class="shadow-lg mt-2 mb-3 text-center fw-bolder">
+            <h1>Delete</h1>
+            <hr>
+            <hr>
+            <div class="mt-4 mb-4">
+                <a asp-page="/SiteManager/TestResults" asp-route-id="@Model.SiteUser.SiteID" class=" btn btn-lg btn-primary w-50" style="height:3rem">Back to List</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 shadow mt-2  fw-bolder">
+
+        <h3 class="mt-1  text-danger text-center">Are you sure you want to delete this Test Result?</h3>
+        <hr />
+    </div>
+
+    <div class="row shadow" style=" background-color:floralwhite">
+        <div class="text-center mt-2">
+            <h3>Test Result</h3>
+        </div>
+        <div class="container shadow mb-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-primary">
+                    <thead>
+                        <tr class="table-dark">
+                            @*date time needs to be entered into database*@
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Ammonia)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Calcium)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Sality)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Magnesium)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Ph)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Alkalinty)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Nitrate)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Nitrite)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Temperature)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.Ammonia)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.Calcium)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.Sality)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.Magnesium)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.Ph)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.Alkalinty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.Nitrate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.Nitrite)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.TestResult.Temperature)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form method="post" class="text-center">
+                    <input type="hidden" asp-for="SiteUser.SiteID" />
+                    <input type="hidden" asp-for="TestResult.TestResultID" />
+                    <input type="submit" value="Delete" class="btn btn-danger w-50 mt-5 mb-3" style="height:3rem" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
