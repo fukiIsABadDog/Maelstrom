@@ -4,6 +4,7 @@ using EF_Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_Models.Migrations
 {
     [DbContext(typeof(MaelstromContext))]
-    partial class MaelstromContextModelSnapshot : ModelSnapshot
+    [Migration("20230421211558_DateTimeTestResultsProp")]
+    partial class DateTimeTestResultsProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +126,7 @@ namespace EF_Models.Migrations
 
                     b.HasIndex("SiteID");
 
-                    b.ToTable("Fishs", (string)null);
+                    b.ToTable("Fishs");
                 });
 
             modelBuilder.Entity("EF_Models.Models.FishType", b =>
@@ -161,7 +163,7 @@ namespace EF_Models.Migrations
 
                     b.HasKey("FishTypeID");
 
-                    b.ToTable("FishTypes", (string)null);
+                    b.ToTable("FishTypes");
                 });
 
             modelBuilder.Entity("EF_Models.Models.Site", b =>
@@ -192,7 +194,7 @@ namespace EF_Models.Migrations
 
                     b.HasIndex("SiteTypeID");
 
-                    b.ToTable("Sites", (string)null);
+                    b.ToTable("Sites");
                 });
 
             modelBuilder.Entity("EF_Models.Models.SiteType", b =>
@@ -209,7 +211,7 @@ namespace EF_Models.Migrations
 
                     b.HasKey("SiteTypeID");
 
-                    b.ToTable("SiteTypes", (string)null);
+                    b.ToTable("SiteTypes");
                 });
 
             modelBuilder.Entity("EF_Models.Models.SiteUser", b =>
@@ -232,7 +234,7 @@ namespace EF_Models.Migrations
 
                     b.HasIndex("SiteID");
 
-                    b.ToTable("SiteUsers", (string)null);
+                    b.ToTable("SiteUsers");
                 });
 
             modelBuilder.Entity("EF_Models.Models.TestResult", b =>
@@ -283,7 +285,7 @@ namespace EF_Models.Migrations
 
                     b.HasIndex("SiteUserID");
 
-                    b.ToTable("TestResults", (string)null);
+                    b.ToTable("TestResults");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
