@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EF_Models;
 using EF_Models.Models;
-using EF_Models;
 using System.Security.Principal;
-using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Services
 {
@@ -201,8 +199,21 @@ namespace Maelstrom.Services
                                  };
 
             return querySiteUsers.Select(x => x.siteUser).FirstOrDefault();
-            
+
         }
+
+        public SiteUser? CheckTestResultUser(AppUser user, TestResult testResult)
+        {
+            var queryTrUser = from SiteUser in _context.SiteUsers
+                              join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
+                              join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
+                              where AppUser == user
+                              where TestResult == testResult
+                              select SiteUser;
+
+            return queryTrUser.FirstOrDefault();
+        }
+
 
 
     }

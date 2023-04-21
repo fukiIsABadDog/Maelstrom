@@ -3,7 +3,6 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
@@ -28,7 +27,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public AppUser AppUser { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-          
+
             if (id == null)
             {
                 return NotFound();
@@ -37,7 +36,6 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             this.AppUser = _appUserService.FindAppUser(User.Identity);
             var site = _appUserService.GetAppUserSite(AppUser, id);
 
-            // maybe think  access denied logic and also think about custom 404 page
             if (site == null)
             {
                 return NotFound();
