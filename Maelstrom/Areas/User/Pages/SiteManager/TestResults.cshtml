@@ -36,15 +36,17 @@
                         <dt class="col-3">Type</dt>
                         <dd class="col-3"> @Model.SiteTypeName </dd>
                         <dt class="col-3">Location</dt>
-                        <dd class="col-3"> @Model.Site.Location </dd>
-
+                        <dd class="col-3"> @Model.Site.Location </dd>        
                     </div>
                     <div class="col-3">
                     </div>
 
                     <div class="row">
                         <div class="col-12">
-                            <a asp-page="./Index" class="btn btn-primary w-75 mt-4"> Back to Sites</a>
+                            <a asp-page="./Index" class="btn btn-primary w-75 mt-4"> Back to Site Manager</a>
+                            <a asp-page="/Dash" class="btn btn-success w-75 mt-4"> Back to Dashboard</a>
+                            <a asp-page="/ResultManager/Create" asp-route-id="@Model.Site.SiteID.ToString()" class="btn  btn-warning w-75 mt-4">Add Result</a>
+
                         </div>
                     </div>
                 </div>

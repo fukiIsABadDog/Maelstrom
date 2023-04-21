@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model Maelstrom.Areas.User.Pages.SiteManager.IndexModel
 @{
     Layout = "_Layout";
@@ -47,9 +47,9 @@
 
 
                 <div class="card-body text-center" style="background-color:floralwhite">
-                    <div class="row"> 
-                    <a asp-page="/ResultManager/Create" asp-route-id="@item.SiteID" class="btn  btn-success">Add Result</a>
+                    <div class="row">                     
                     <a asp-page="./TestResults" asp-route-id="@item.SiteID" class="btn  btn-primary">All Results & Details</a>
+                        <a asp-page="/ResultManager/Create" asp-route-id="@item.SiteID" class="btn  btn-success">Add Result</a>
                     <a asp-page="./Edit" asp-route-id="@item.SiteID" class="btn  btn-warning">Edit</a>
                     <a asp-page="./Delete" asp-route-id="@item.SiteID" class="btn  btn-danger">Delete</a>
                     </div>

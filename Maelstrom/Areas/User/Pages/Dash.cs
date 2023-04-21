@@ -34,9 +34,9 @@ namespace Maelstrom.Areas.User.Pages
             CurrentSiteTestResults = _appUserService.SelectedSiteTestResults(CurrentSite);
             CurrentSiteType = _appUserService.GetSiteType(CurrentSite);
 
-            // ---Reminder -- make a service for this ---
 
-            // this converts the byte[] into an image, if it exists
+
+
 
             if (CurrentSite.ImageData != null && CurrentSite.ImageData.Length > 1 == true)
             {

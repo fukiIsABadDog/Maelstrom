@@ -1,8 +1,6 @@
 using EF_Models.Models;
 using Maelstrom.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
@@ -11,7 +9,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         private readonly IAppUserService _appUserService;
 
         public IndexModel(IAppUserService appUserService)
-        {  
+        {
             _appUserService = appUserService;
         }
         public AppUser? CurrentAppUser { get; private set; }
@@ -27,7 +25,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             CurrentUserSites = cusat.Item1.ToList();
             SiteTypeDictionary = cusat.Item2;
 
-            foreach(var site in CurrentUserSites)
+            foreach (var site in CurrentUserSites)
             {
                 ImageDictionary.Add(site.SiteID, ImageConverter(site.ImageData));
             }
@@ -50,5 +48,5 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             }
 
         }
-    } 
+    }
 }

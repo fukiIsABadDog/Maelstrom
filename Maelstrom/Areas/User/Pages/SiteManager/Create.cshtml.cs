@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using EF_Models.Models;
 using Maelstrom.Services;
 using Maelstrom.ValidationAttributes;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
@@ -20,7 +20,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         }
         public string Message { get; set; }
 
-        [BindProperty] [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
+        [BindProperty]
+        [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile Upload { get; set; }
 
         [BindProperty]
@@ -29,7 +30,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public AppUser? AppUser { get; set; }
         public IActionResult OnGet()
         {
-            
+
             ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
             return Page();
         }
@@ -48,9 +49,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                         if (ModelState.IsValid)
                         { //if time: refactor into service
                             this.AppUser = _appUserService.FindAppUser(User.Identity);
-                            this.SiteUser = new SiteUser { AppUser = this.AppUser, Site = this.Site};
+                            this.SiteUser = new SiteUser { AppUser = this.AppUser, Site = this.Site };
                             _context.Sites.Add(Site);
-                            _context.SiteUsers.Add(SiteUser); 
+                            _context.SiteUsers.Add(SiteUser);
                             await _context.SaveChangesAsync();
                         }
                     }

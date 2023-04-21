@@ -77,7 +77,7 @@ namespace Maelstrom.Services
 
         public ICollection<TestResult> SelectedSiteTestResults(Site site)
         {
-            var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID);
+            var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID).OrderByDescending(x => x.CreationDate);
             if (currentSiteTestResultsQuery.Any()) { return currentSiteTestResultsQuery.ToList(); }
             else { return new List<TestResult>(); }
         }
@@ -164,7 +164,7 @@ namespace Maelstrom.Services
                                  };
 
 
-            var results = querySiteUsers.Select(x => x.testResults).ToList();
+            var results = querySiteUsers.Select(x => x.testResults).OrderByDescending(x => x.CreationDate).ToList();
             return (results);
         }
 
