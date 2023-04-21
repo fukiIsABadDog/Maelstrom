@@ -3,7 +3,7 @@ namespace EF_Models.Models
     public class TestResult
     {
         public int TestResultID { get; set; }
-        public DateTime? CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
         public float? Temperature { get; set; }
         public float? Ph { get; set; }
         public decimal? Sality { get; set; }
