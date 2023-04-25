@@ -15,24 +15,24 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public AppUser? CurrentAppUser { get; private set; }
         public ICollection<SiteType>? MySiteTypes { get; set; }
         public IList<Site>? CurrentUserSites { get; private set; }
-        public Dictionary<int, string>? SiteTypeDictionary { get; set; } = new Dictionary<int, string> { };
-
+        public Dictionary<int, string> SiteTypeDictionary { get; set; } = new Dictionary<int, string> { };
         public Dictionary<int, string?> ImageDictionary { get; set; } = new Dictionary<int, string?> { };
+
         public void OnGet()
         {
             CurrentAppUser = _appUserService.FindAppUser(User.Identity);
-            var cusat = _appUserService.CurrentUsersSitesAndTypes(CurrentAppUser);
-            CurrentUserSites = cusat.Item1.ToList();
-            SiteTypeDictionary = cusat.Item2;
+            CurrentUserSites = _appUserService.CurrentUserSites(CurrentAppUser).ToList();
+            var siteTypes = _appUserService.GetAllSiteTypeValues();
 
+            if (siteTypes.Any())
+            {
+                SiteTypeDictionary = siteTypes;
+            }
             foreach (var site in CurrentUserSites)
             {
                 ImageDictionary.Add(site.SiteID, ImageConverter(site.ImageData));
             }
-
-            var test = ImageDictionary.Values.ToList();
         }
-
         //turn this into service later
         public string ImageConverter(byte[]? dbImage)
         {
@@ -46,7 +46,6 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             {
                 return string.Empty;
             }
-
         }
     }
 }

@@ -6,16 +6,15 @@ namespace Maelstrom.Services
 {
     /// <summary>
     /// This Service helps us reuse code accross multiple pages
-    /// 
+    /// </summary>
+
     /// Note: Refactor & think about Async
     /// Note: Dictionary? Need to reduce DB calls
-    /// </summary>
     public class AppUserService : IAppUserService
     {
         private readonly MaelstromContext _context;
         public AppUserService(MaelstromContext context)
         {
-
             _context = context;
         }
 
@@ -88,37 +87,6 @@ namespace Maelstrom.Services
 
             var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == site.SiteTypeID).Select(x => x.Name);
             return siteTypeQuery.FirstOrDefault();
-        }
-
-        public (ICollection<Site>, Dictionary<int, String>) CurrentUsersSitesAndTypes(AppUser user)
-        {
-
-            var querySiteUsers = from SiteUser in _context.SiteUsers
-                                 join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
-                                 join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
-                                 join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
-                                 where AppUser == user
-                                 select new
-                                 {
-                                     siteUser = SiteUser,
-                                     sites = Sites,
-                                     appUser = AppUser,
-                                     siteType = SiteType
-
-                                 };
-            //this is making two calls to DB... revisit to optimize later (ToList() first and then iterate?)
-            var currentUserSites = querySiteUsers.Select(x => x.sites).ToList();
-
-            var currentUserSiteTypes = querySiteUsers.Select(x => x.siteType).ToList();
-
-            var currentUserSiteTypesDict = new Dictionary<int, String>();
-
-            foreach (var site in currentUserSiteTypes)
-            {
-                currentUserSiteTypesDict.Add(site.SiteTypeID, site.Name);
-            }
-
-            return (currentUserSites, currentUserSiteTypesDict);
         }
 
         public Site? GetAppUserSite(AppUser user, int? id)
@@ -201,7 +169,20 @@ namespace Maelstrom.Services
             return queryTrUser.FirstOrDefault();
         }
 
+        public Dictionary<int, string> GetAllSiteTypeValues()
+        {
+            var siteTypesDict = new Dictionary<int, String>();
 
+            var siteList = _context.SiteTypes.Select(x => x).ToList();
+
+
+            foreach (var site in siteList)
+            {
+                siteTypesDict.Add(site.SiteTypeID, site.Name);
+            }
+
+            return siteTypesDict;
+        }
 
     }
 }
