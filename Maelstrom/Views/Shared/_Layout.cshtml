@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="~/Maelstrom.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar position-fixed navbar-expand-lg navbar-toggleable-sm bg-Primary border-bottom box-shadow w-100 mb-3" style="background-color:white;z-index:3;">
+    <header class="navbar position-fixed navbar-expand-lg navbar-toggleable-sm bg-Primary border-bottom box-shadow w-100 mb-3" style="background-color:white;z-index:3;">
             <div class="container-fluid">
               @*  <a class="navbar-brand" style="color:DodgerBlue;" asp-area="" asp-controller="Home" asp-action="Index">Maelstrom</a>*@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="max-width:150px">
@@ -47,13 +46,16 @@
                     <partial name="_LoginPartial" />
                 </div>
             </div>
-        </nav>
+        
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+   
+      
+            <main role="main">
             @RenderBody()
-        </main>
-    </div>
+            </main>
+       
+           
+    
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
