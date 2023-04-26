@@ -32,7 +32,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
         public AppUser? AppUser { get; set; }
 
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
 
             if (id == null)
@@ -40,8 +40,8 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
                 return NotFound();
             }
 
-            this.AppUser = _appUserService.FindAppUser(User.Identity);
-            var siteUser = _appUserService.GetSiteUser(AppUser, id);
+            this.AppUser = await _appUserService.FindAppUser(User.Identity);
+            var siteUser = await _appUserService.GetSiteUser(AppUser, id);
 
             var siteUserID = siteUser.SiteUserID;
             var siteID = siteUser.SiteID;

@@ -33,8 +33,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 return NotFound();
             }
 
-            this.AppUser = _appUserService.FindAppUser(User.Identity);
-            var site = _appUserService.GetAppUserSite(AppUser, id);
+            this.AppUser = await _appUserService.FindAppUser(User.Identity);
+            var site = await _appUserService.GetAppUserSite(AppUser, id);
 
             if (site == null)
             {
@@ -53,21 +53,11 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null || _context.Sites == null)
-            {
-                return NotFound();
-            }
-            var site = await _context.Sites.FindAsync(id);
-
-            if (site != null)
-            {
-                Site = site;
-
-                _context.Sites.Remove(Site);
-                await _context.SaveChangesAsync();
-            }
+            var site = new Site() { SiteID = id };
+            _context.Remove(site);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

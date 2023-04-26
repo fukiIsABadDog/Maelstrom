@@ -24,30 +24,30 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
         public SiteUser SiteUser { get; set; }// for validation and redirection
         public AppUser AppUser { get; set; } // for validation
 
-        public Task<IActionResult> OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
             if (id == null)
             {
-                return Task.FromResult<IActionResult>(NotFound());
+                return (NotFound());
             }
-            this.AppUser = _appUserService.FindAppUser(User.Identity);
-            var testResult = _context.TestResults.Select(x => x).Where(x => x.TestResultID == id).FirstOrDefault();
+            this.AppUser = await _appUserService.FindAppUser(User.Identity);
+            var testResult = await _context.TestResults.Select(x => x).Where(x => x.TestResultID == id).FirstOrDefaultAsync();
             if (testResult == null)
             {
-                return Task.FromResult<IActionResult>(NotFound());
+                return (NotFound());
             }
-            var siteUser = _appUserService.CheckTestResultUser(AppUser, testResult);
+            var siteUser = await _appUserService.CheckTestResultUser(AppUser, testResult);
             // need to impliment custom 404 page
             if (siteUser == null || testResult == null)
             {
-                return Task.FromResult<IActionResult>(NotFound());
+                return (NotFound());
             }
             else
             {
                 SiteUser = siteUser;
                 TestResult = testResult;
             }
-            return Task.FromResult<IActionResult>(Page());
+            return (Page());
         }
 
         public async Task<IActionResult> OnPostAsync()

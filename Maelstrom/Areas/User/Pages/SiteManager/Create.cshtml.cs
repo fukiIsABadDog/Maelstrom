@@ -48,7 +48,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                     {
                         if (ModelState.IsValid)
                         { //if time: refactor into service
-                            this.AppUser = _appUserService.FindAppUser(User.Identity);
+                            this.AppUser = await _appUserService.FindAppUser(User.Identity);
                             this.SiteUser = new SiteUser { AppUser = this.AppUser, Site = this.Site };
                             _context.Sites.Add(Site);
                             _context.SiteUsers.Add(SiteUser);

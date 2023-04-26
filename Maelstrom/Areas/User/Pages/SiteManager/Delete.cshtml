@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int}"
 @model Maelstrom.Areas.User.Pages.SiteManager.DeleteModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
@@ -60,7 +60,7 @@
         </dd>
       
             <form method="post">
-                <input type="hidden" asp-for="Site.SiteID" />
+                @*<input type="hidden" asp-for="Site.SiteID" />*@
                 <input type="submit" value="Delete" class="btn btn-danger w-50 mt-5 mb-3" style="height:3rem"/> 
             </form>
             </dl>
