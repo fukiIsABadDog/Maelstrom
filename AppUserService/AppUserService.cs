@@ -210,5 +210,11 @@ namespace Maelstrom.Services
             return siteTypesDict;
         }
 
+        public async Task<TestResult?> FindTestResult(int? id)
+        {
+            return await _context.TestResults.Select(x => x)
+                .Where(x => x.TestResultID == id).FirstOrDefaultAsync();
+
+        }
     }
 }

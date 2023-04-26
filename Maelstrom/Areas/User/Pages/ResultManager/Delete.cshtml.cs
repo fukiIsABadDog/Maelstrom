@@ -3,11 +3,9 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Areas.User.Pages.ResultManager
 {
-
 
     [Authorize]
     public class DeleteModel : PageModel
@@ -33,7 +31,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
                 return (NotFound());
             }
             this.AppUser = await _appUserService.FindAppUser(User.Identity);
-            var testResult = await _context.TestResults.Select(x => x).Where(x => x.TestResultID == id).FirstOrDefaultAsync();// needs service
+            var testResult = await _appUserService.FindTestResult(id);
             if (testResult == null)
             {
                 return (NotFound());
