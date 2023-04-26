@@ -42,6 +42,7 @@ namespace Maelstrom.Services
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
                                  join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
                                  where AppUser == user
+                                 where Sites.Deleted == null
                                  select new
                                  {
                                      siteUser = SiteUser,
@@ -210,5 +211,24 @@ namespace Maelstrom.Services
             return siteTypesDict;
         }
 
+        public async Task<TestResult?> FindTestResult(int? id)
+        {
+            return await _context.TestResults.Select(x => x)
+                .Where(x => x.TestResultID == id).FirstOrDefaultAsync();
+
+        }
+        public async Task DeleteSiteAsync(int id)
+        {
+            var site = new Site() { SiteID = id, Deleted = DateTime.Now };
+            _context.Attach(site).Property(p => p.Deleted).IsModified = true;
+            await _context.SaveChangesAsync();
+        }
+
+        //public async Task DeleteTestResultAsync(int id)
+        //{
+        //    var testResult = new TestResult() { TestResultID = id, Deleted = DateTime.Now };
+        //    _context.Attach(testResult).Property(p => p.Deleted).IsModified = true;
+        //    await _context.SaveChangesAsync();
+        //}
     }
 }
