@@ -6,15 +6,19 @@
     Layout = "_Layout";
 }
 
-<div class="container-fluid mt-5" style=" background-color:floralwhite">
+<div class="container">
 
-    <div class="row ">
-        <div class="shadow-lg mt-2 mb-3 text-center fw-bolder">
+<div class="row" style=" background-color:floralwhite">
+
+    <div class="col-12 mt-5">
+
+    
+        <div class="shadow-lg mt-5 mb-3 text-center fw-bolder">
             <h1>Create</h1>
             <hr>
             <hr>
             <div class="mt-4 mb-4">
-                <a asp-page="/SiteManager/Index" class=" btn btn-lg btn-primary w-50" style="height:3rem">Back to Site Manager</a>
+                <a asp-page="/SiteManager/Index" class=" btn btn-lg btn-primary w-50 mb-4" style="height:3rem">Back to Site Manager</a>
             </div>
         </div>
         <div class="col-12 shadow mt-3 text-center fw-bolder">
@@ -77,14 +81,15 @@
 
 
                 <div class="form-group mt-5 mb-3 text-center">
-                    <input type="submit" value="Submit" class="btn btn-lg btn-success w-25" style="height:3rem" />
+                    <input type="submit" value="Submit" class="btn btn-lg btn-success w-25 mb-4" style="height:3rem" />
                 </div>
             </form>
         </div>
-    </div>
+    
 
 </div>
-
+</div>
+</div>
 
 @section Scripts {
     @{
