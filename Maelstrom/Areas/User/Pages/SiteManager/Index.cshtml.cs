@@ -1,5 +1,6 @@
 using EF_Models.Models;
 using Maelstrom.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
@@ -12,17 +13,28 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         {
             _appUserService = appUserService;
         }
-        public AppUser? CurrentAppUser { get; private set; }
+        public AppUser CurrentAppUser { get; private set; } = new AppUser() { FirstName = "default", Email = "Default@Maelstrom.com" };
         public ICollection<SiteType>? MySiteTypes { get; set; }
         public IList<Site>? CurrentUserSites { get; private set; }
         public Dictionary<int, string> SiteTypeDictionary { get; set; } = new Dictionary<int, string> { };
         public Dictionary<int, string?> ImageDictionary { get; set; } = new Dictionary<int, string?> { };
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            CurrentAppUser = _appUserService.FindAppUser(User.Identity);
-            CurrentUserSites = _appUserService.CurrentUserSites(CurrentAppUser).ToList();
-            var siteTypes = _appUserService.GetAllSiteTypeValues();
+            if (User.Identity == null)
+            {
+                return NotFound();
+            }
+
+            CurrentAppUser = await _appUserService.FindAppUser(User.Identity);
+
+            if (CurrentAppUser.Email == "Default@Maelstrom.com")
+            {
+                return NotFound();
+            }
+
+            CurrentUserSites = (IList<Site>?)await _appUserService.CurrentUserSites(CurrentAppUser); // needs to be tested
+            var siteTypes = await _appUserService.GetAllSiteTypeValues();
 
             if (siteTypes.Any())
             {
@@ -32,6 +44,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             {
                 ImageDictionary.Add(site.SiteID, ImageConverter(site.ImageData));
             }
+
+            return Page();
         }
         //turn this into service later
         public string ImageConverter(byte[]? dbImage)
