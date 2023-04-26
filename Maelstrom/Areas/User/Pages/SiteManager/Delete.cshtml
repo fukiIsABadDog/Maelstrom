@@ -53,12 +53,13 @@
                             <dd class="col-sm-10">
                                 @Html.DisplayFor(model => model.Site.Location)
                             </dd>
-                            <dt class="col-sm-2">
+                            @*if time fix... low priority*@
+                            @*<dt class="col-sm-2">
                                 @Html.DisplayNameFor(model => model.Site.SiteType)
                             </dt>
                             <dd class="col-sm-10">
                                 @Html.DisplayFor(model => model.Site.SiteType.Name)
-                            </dd>
+                            </dd>*@
 
                             <form method="post">
                                 @*<input type="hidden" asp-for="Site.SiteID" />*@
