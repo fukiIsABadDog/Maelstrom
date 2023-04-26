@@ -11,7 +11,7 @@ namespace EF_Models.Models
         public SiteType? SiteType { get; set; }
         public ICollection<SiteUser>? SiteUsers { get; set; }
         public ICollection<Fish>? Fishs { get; set; }
+        public DateTime? Deleted { get; set; }
 
-        //public ICollection<TestResult>? TestResults { get; set; }
     }
 }
