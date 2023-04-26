@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/Maelstrom.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header class="navbar position-fixed navbar-expand-lg navbar-toggleable-sm bg-Primary border-bottom box-shadow w-100 mb-3" style="background-color:white;z-index:3;">
+    <header class="navbar navbar-expand-lg position-fixed navbar-toggleable-sm bg-Primary border-bottom box-shadow w-100 mb-3" style="background-color:white;z-index:3;">
             <div class="container-fluid">
               @*  <a class="navbar-brand" style="color:DodgerBlue;" asp-area="" asp-controller="Home" asp-action="Index">Maelstrom</a>*@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="max-width:150px">
@@ -49,11 +49,11 @@
         
     </header>
    
-      
+      <div class="container-fluid">
             <main role="main">
             @RenderBody()
             </main>
-       
+       </div>
            
     
 
