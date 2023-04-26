@@ -3,8 +3,12 @@
 @{
     Layout = "_Layout";
 }
+<div class="container">
+    <div class="row">
 
-<div class="row row-cols-1 row-cols-md-3 g-4" style="margin-top:2rem">
+    </div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-5" @*style="margin-top:2rem"*@>
 
     @foreach(var item in Model.CurrentUserSites)
     {
@@ -66,7 +70,7 @@
 </div>
 
 
-
+</div>
 
 
 
