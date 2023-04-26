@@ -1,5 +1,6 @@
 ﻿using EF_Models;
 using EF_Models.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
 
 namespace Maelstrom.Services
@@ -8,8 +9,12 @@ namespace Maelstrom.Services
     /// This Service helps us reuse code accross multiple pages
     /// </summary>
 
-    /// Note: Refactor & think about Async
-    /// Note: Dictionary? Need to reduce DB calls
+    /// objective: Refactor for async -- doing now 4/26
+    /// objective: Refactor for SRP -- doing now 4/26
+    /// 
+    /// objective: If possible Simplify Queries
+    /// objective:
+
     public class AppUserService : IAppUserService
     {
         private readonly MaelstromContext _context;
@@ -18,63 +23,70 @@ namespace Maelstrom.Services
             _context = context;
         }
 
-        public AppUser FindAppUser(IIdentity user)
+        public async Task<AppUser?> FindAppUser(IIdentity user)
         {
-            var currentAppUser = _context.Users.FirstOrDefault(x => x.Email == "Default@Maelstrom.com");
+            // do this in a constuctor(line 26), we do not really need to have a full default modeled in the db.. it should be local.
+            // until replace know that this may cause breaks in the code that depands on it --- so check for null references
+            //var currentAppUser = await _context.Users.FirstOrDefault(x => x.Email == "Default@Maelstrom.com");
 
-            if (user.IsAuthenticated != false)
-            {
-                currentAppUser = _context.Users.FirstOrDefault(x => x.UserName == user.Name);
-            }
-            return currentAppUser;
+            return await _context.Users.FirstOrDefaultAsync(x => x.UserName == user.Name);
+
+        }
+        public async Task<ICollection<Site>> CurrentUserSites(AppUser user)
+        {
+            // Defaults need to be made in calling objects constructor... and validation should also happen there or in another method to comply with Single-responsibility principle
+            /* if (user.Email != "Default@Maelstrom.com")*/
+
+            var querySiteUsers = from SiteUser in _context.SiteUsers
+                                 join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
+                                 join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+                                 join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
+                                 where AppUser == user
+                                 select new
+                                 {
+                                     siteUser = SiteUser,
+                                     sites = Sites,
+                                     appUser = AppUser,
+                                     siteType = SiteType
+
+                                 };
+
+
+            return await querySiteUsers.Select(x => x.sites).ToListAsync();
+
+
+
+            //this should be done explictly in the contructor of the calling class -- see above
+
+            //else
+            //{
+            //    var defaultSite = new Site { SiteID = 999, Name = "Default", Capacity = 0, Location = "Does not exist yet", SiteTypeID = 1 };
+            //    var defaultSiteList = new List<Site>();
+            //    defaultSiteList.Add(defaultSite);
+            //    return defaultSiteList;
+            //}
         }
 
-        public ICollection<Site> CurrentUserSites(AppUser user)
-        {
-            if (user.Email != "Default@Maelstrom.com")
-            {
-
-                var querySiteUsers = from SiteUser in _context.SiteUsers
-                                     join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
-                                     join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
-                                     join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
-                                     where AppUser == user
-                                     select new
-                                     {
-                                         siteUser = SiteUser,
-                                         sites = Sites,
-                                         appUser = AppUser,
-                                         siteType = SiteType
-
-                                     };
-
-
-                return querySiteUsers.Select(x => x.sites).ToList();
-
-            }
-            else
-            {
-                var defaultSite = new Site { SiteID = 999, Name = "Default", Capacity = 0, Location = "Does not exist yet", SiteTypeID = 1 };
-                var defaultSiteList = new List<Site>();
-                defaultSiteList.Add(defaultSite);
-                return defaultSiteList;
-            }
-        }
-
-        public Site SelectedSite(ICollection<Site> sites, Site currentSite)
+        /// <summary>
+        /// SelectedSite method its depending on something else... need to investigate
+        /// </summary>
+        /// <param name="sites"></param>
+        /// <param name="currentSite"></param>
+        /// <returns></returns>
+        public async Task<Site> SelectedSite(ICollection<Site> sites, Site currentSite)
         {
 
             // could use opperator for oneline expression or cleaned up some other way
             // also,  need to use ID attribute instead after view is modified
 
-            if (currentSite.Name != null)
-            {
-                return sites.First(x => x.Name == currentSite.Name);
-            }
-            else { return sites.FirstOrDefault(); }
+            //if (currentSite.Name != null)
+            //{
+            //    return sites.First(x => x.Name == currentSite.Name);
+            //}
+            //else { return sites.FirstOrDefault(); }
         }
 
-        public ICollection<TestResult> SelectedSiteTestResults(Site site)
+        public async Task<ICollection<TestResult>> SelectedSiteTestResults(Site site)
         {
             var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID).OrderByDescending(x => x.CreationDate);
             if (currentSiteTestResultsQuery.Any()) { return currentSiteTestResultsQuery.ToList(); }
