@@ -16,6 +16,7 @@
         <form enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Site.SiteID" />
+            <input type="hidden" asp-for="Site.ImageData" />
             <div class="form-group">
                 <label asp-for="Site.Name" class="control-label"></label>
                 <input asp-for="Site.Name" class="form-control" />
@@ -41,9 +42,25 @@
                 <input asp-for="Upload" accept=".jpg" type="file" />
                 <span asp-validation-for="Upload" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+            @if(Model.Site.Deleted != null)
+            {
+                <div class="form-group">
+                    <label asp-for="Site.Deleted" class="control-label"></label>
+                    <input type="@Model.Site.Deleted" value="null">
+                </div>
+                
+                <div class="form-group">
+                    <input type="submit" value="Restore" class="btn btn-success" />
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="Site.Deleted" />
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            }     
+            
         </form>
         <div class="card-img">
             @{
