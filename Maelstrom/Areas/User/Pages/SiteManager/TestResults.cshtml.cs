@@ -34,8 +34,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 return NotFound();
             }
 
-            this.AppUser = _appUserService.FindAppUser(User.Identity);
-            var site = _appUserService.GetAppUserSite(AppUser, id);
+            this.AppUser = await _appUserService.FindAppUser(User.Identity);
+            var site = await _appUserService.GetAppUserSite(AppUser, id);
 
             if (site == null)
             {
@@ -45,8 +45,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             else
             {
                 this.Site = site;
-                this.SiteTypeName = _appUserService.GetSiteType(site) ?? "Empty";
-                this.TestResults = _appUserService.GetUserSiteTestResults(AppUser, id);
+                this.SiteTypeName = await _appUserService.GetSiteType(site) ?? "Empty";
+                this.TestResults = await _appUserService.GetUserSiteTestResults(AppUser, id);
 
                 //this 100% needs a service method
                 if (Site.ImageData != null && Site.ImageData.Length > 1 == true)

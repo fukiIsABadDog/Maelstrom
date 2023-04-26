@@ -18,11 +18,11 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public Dictionary<int, string> SiteTypeDictionary { get; set; } = new Dictionary<int, string> { };
         public Dictionary<int, string?> ImageDictionary { get; set; } = new Dictionary<int, string?> { };
 
-        public void OnGet()
+        public async void OnGet()
         {
-            CurrentAppUser = _appUserService.FindAppUser(User.Identity);
-            CurrentUserSites = _appUserService.CurrentUserSites(CurrentAppUser).ToList();
-            var siteTypes = _appUserService.GetAllSiteTypeValues();
+            CurrentAppUser = await _appUserService.FindAppUser(User.Identity);
+            CurrentUserSites = (IList<Site>?)await _appUserService.CurrentUserSites(CurrentAppUser); // needs to be tested
+            var siteTypes = await _appUserService.GetAllSiteTypeValues();
 
             if (siteTypes.Any())
             {

@@ -9,8 +9,8 @@ namespace Maelstrom.Services
     /// This Service helps us reuse code accross multiple pages
     /// </summary>
 
-    /// objective: Refactor for async -- doing now 4/26
-    /// objective: Refactor for SRP -- doing now 4/26
+    /// objective: Refactor for async -- doing now 4/26 -- stage 1 complete
+    /// objective: Refactor for SRP -- doing now 4/26 
     /// objective: Need to test for nulls inside calling objects --doing now 4/26
     /// objective: see if you can get rid of some od these methods by making better db calls --doing now 4/26
     /// objective: If possible Simplify Queries
@@ -35,8 +35,7 @@ namespace Maelstrom.Services
         }
         public async Task<ICollection<Site>> CurrentUserSites(AppUser user)
         {
-            // Defaults need to be made in calling objects constructor... and validation should also happen there or in another method to comply with Single-responsibility principle
-            /* if (user.Email != "Default@Maelstrom.com")*/
+
 
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser

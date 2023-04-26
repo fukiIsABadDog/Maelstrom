@@ -38,8 +38,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 return NotFound();
             }
 
-            this.AppUser = _appUserService.FindAppUser(User.Identity);
-            var site = _appUserService.GetAppUserSite(AppUser, id);
+            this.AppUser = await _appUserService.FindAppUser(User.Identity);
+            var site = await _appUserService.GetAppUserSite(AppUser, id);
 
             // maybe think  access denied logic and also think about custom 404 page
             if (site == null)
