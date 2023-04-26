@@ -15,5 +15,8 @@ namespace Maelstrom.Services
         Task<ICollection<TestResult>?> GetUserSiteTestResults(AppUser user, int? id);
         Task<SiteUser?> GetSiteUser(AppUser user, int? id);
         Task<SiteUser?> CheckTestResultUser(AppUser user, TestResult testResult);
+        Task<TestResult?> FindTestResult(int? id);
+        //Task DeleteTestResultAsync(int id);
+        Task DeleteSiteAsync(int id);
     }
 }

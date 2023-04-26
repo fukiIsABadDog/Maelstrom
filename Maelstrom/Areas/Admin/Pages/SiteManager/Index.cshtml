@@ -29,6 +29,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Site[0].SiteType)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Site[0].Deleted)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -47,6 +50,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.SiteType.Name)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deleted)
+                </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.SiteID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.SiteID">Details</a> |

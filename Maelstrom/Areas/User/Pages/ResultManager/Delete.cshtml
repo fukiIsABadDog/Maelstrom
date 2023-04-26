@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int}"
 @model Maelstrom.Areas.User.Pages.ResultManager.DeleteModel
 @{
     ViewData["Title"] = "Delete";
@@ -30,8 +30,7 @@
             <div class="table-responsive">
                 <table class="table table-hover table-primary">
                     <thead>
-                        <tr class="table-dark">
-                            @*date time needs to be entered into database*@
+                        <tr class="table-dark">                            
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Ammonia)</th>
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Calcium)</th>
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Sality)</th>

@@ -6,16 +6,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
-    //refactor
     [Authorize]
     public class DeleteModel : PageModel
     {
-        private readonly EF_Models.MaelstromContext _context;
+
         private readonly IAppUserService _appUserService;
 
-        public DeleteModel(EF_Models.MaelstromContext context, IAppUserService appUserService)
+        public DeleteModel(IAppUserService appUserService)
         {
-            _context = context;
             _appUserService = appUserService;
         }
 
@@ -55,9 +53,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            var site = new Site() { SiteID = id };
-            _context.Remove(site);
-            await _context.SaveChangesAsync();
+            await _appUserService.DeleteSiteAsync(id);
 
             return RedirectToPage("./Index");
         }
