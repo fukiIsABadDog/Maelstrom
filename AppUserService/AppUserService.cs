@@ -73,36 +73,47 @@ namespace Maelstrom.Services
         /// <param name="sites"></param>
         /// <param name="currentSite"></param>
         /// <returns></returns>
-        public async Task<Site> SelectedSite(ICollection<Site> sites, Site currentSite)
+        public async Task<Site?> SelectedSite(ICollection<Site> sites, Site currentSite)
         {
 
             // could use opperator for oneline expression or cleaned up some other way
             // also,  need to use ID attribute instead after view is modified
 
-            //if (currentSite.Name != null)
-            //{
-            //    return sites.First(x => x.Name == currentSite.Name);
-            //}
-            //else { return sites.FirstOrDefault(); }
+            //old code to be changed
+            if (currentSite.Name != null)
+            {
+                return sites.First(x => x.Name == currentSite.Name);
+            }
+            else { return sites.FirstOrDefault(); }
         }
-
         public async Task<ICollection<TestResult>> SelectedSiteTestResults(Site site)
         {
             var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID).OrderByDescending(x => x.CreationDate);
-            if (currentSiteTestResultsQuery.Any()) { return currentSiteTestResultsQuery.ToList(); }
-            else { return new List<TestResult>(); }
+            if (currentSiteTestResultsQuery.Any())
+            {
+                return await currentSiteTestResultsQuery.ToListAsync();
+            }
+            else
+            {
+                return new List<TestResult>(); // this looks okay-- but to be consistant I will probably put this in the calling object
+            }
         }
 
-        public string? GetSiteType(Site site)
+        /// <summary>
+        /// This maybe be over complicationing the problem... I think we can reduce db calls with the extenstion method .Include()
+        /// </summary>
+        /// <param name="site"></param>
+        /// <returns></returns>
+        public async Task<string?> GetSiteType(Site site)
         {
-            //This might get refactored into a enum or dictionary to reduce trips to the DB 
-
             var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == site.SiteTypeID).Select(x => x.Name);
-            return siteTypeQuery.FirstOrDefault();
+            return await siteTypeQuery.FirstOrDefaultAsync();
         }
 
-        public Site? GetAppUserSite(AppUser user, int? id)
+        public async Task<Site?> GetAppUserSite(AppUser user, int? id)
         {
+
+            //looks good but could probably be written cleaner
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
@@ -118,13 +129,10 @@ namespace Maelstrom.Services
 
                                  };
 
-            var siteUser = querySiteUsers.Select(x => x.siteUser.SiteUserID).FirstOrDefault();
-
-            return querySiteUsers.Select(x => x.sites).FirstOrDefault();
-
+            return await querySiteUsers.Select(x => x.sites).FirstOrDefaultAsync();
         }
 
-        public ICollection<TestResult>? GetUserSiteTestResults(AppUser user, int? id)
+        public async Task<ICollection<TestResult>?> GetUserSiteTestResults(AppUser user, int? id)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
@@ -144,8 +152,7 @@ namespace Maelstrom.Services
                                  };
 
 
-            var results = querySiteUsers.Select(x => x.testResults).OrderByDescending(x => x.CreationDate).ToList();
-            return (results);
+            return await querySiteUsers.Select(x => x.testResults).OrderByDescending(x => x.CreationDate).ToListAsync();
         }
 
         public SiteUser? GetSiteUser(AppUser user, int? id)
