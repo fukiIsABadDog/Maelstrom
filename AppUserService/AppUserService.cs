@@ -11,7 +11,8 @@ namespace Maelstrom.Services
 
     /// objective: Refactor for async -- doing now 4/26
     /// objective: Refactor for SRP -- doing now 4/26
-    /// 
+    /// objective: Need to test for nulls inside calling objects --doing now 4/26
+    /// objective: see if you can get rid of some od these methods by making better db calls --doing now 4/26
     /// objective: If possible Simplify Queries
     /// objective:
 
@@ -134,6 +135,8 @@ namespace Maelstrom.Services
 
         public async Task<ICollection<TestResult>?> GetUserSiteTestResults(AppUser user, int? id)
         {
+            //looks good but could probably be written cleaner
+
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
@@ -151,12 +154,13 @@ namespace Maelstrom.Services
 
                                  };
 
-
             return await querySiteUsers.Select(x => x.testResults).OrderByDescending(x => x.CreationDate).ToListAsync();
         }
 
-        public SiteUser? GetSiteUser(AppUser user, int? id)
+        public async Task<SiteUser?> GetSiteUser(AppUser user, int? id)
         {
+            //looks good but could probably be written cleaner
+
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
@@ -172,11 +176,11 @@ namespace Maelstrom.Services
 
                                  };
 
-            return querySiteUsers.Select(x => x.siteUser).FirstOrDefault();
+            return await querySiteUsers.Select(x => x.siteUser).FirstOrDefaultAsync();
 
         }
 
-        public SiteUser? CheckTestResultUser(AppUser user, TestResult testResult)
+        public async Task<SiteUser?> CheckTestResultUser(AppUser user, TestResult testResult)
         {
             var queryTrUser = from SiteUser in _context.SiteUsers
                               join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
@@ -185,14 +189,18 @@ namespace Maelstrom.Services
                               where TestResult == testResult
                               select SiteUser;
 
-            return queryTrUser.FirstOrDefault();
+            return await queryTrUser.FirstOrDefaultAsync();
         }
 
-        public Dictionary<int, string> GetAllSiteTypeValues()
-        {
-            var siteTypesDict = new Dictionary<int, String>();
+        /// <summary>
+        /// Again... I think I am approaching this problem the wrong way... this might get recoded completly or deleted
+        /// </summary>
 
-            var siteList = _context.SiteTypes.Select(x => x).ToList();
+        public async Task<Dictionary<int, string>> GetAllSiteTypeValues()
+        {
+            var siteTypesDict = new Dictionary<int, String>(); // remove defaults and pass one in? or just use .include() some where else
+
+            var siteList = await _context.SiteTypes.Select(x => x).ToListAsync();
 
 
             foreach (var site in siteList)
