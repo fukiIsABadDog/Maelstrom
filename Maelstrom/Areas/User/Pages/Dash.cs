@@ -49,7 +49,7 @@ namespace Maelstrom.Areas.User.Pages
                 CurrentUserSites = currentUserSites;
             }
 
-            var selectedSite = await _appUserService.SelectedSite(CurrentUserSites, currentSite);
+            var selectedSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
             if (selectedSite == null)
             {
                 return RedirectToPage("/sitemanager/create");

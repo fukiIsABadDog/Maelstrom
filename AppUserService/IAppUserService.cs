@@ -7,7 +7,7 @@ namespace Maelstrom.Services
     {// rename methods for consistency and conciseness
         Task<AppUser?> FindAppUser(IIdentity user);
         Task<ICollection<Site>> CurrentUserSites(AppUser user);
-        Task<Site?> SelectedSite(ICollection<Site> sites, Site? currentSite);
+        Site? SelectedSite(ICollection<Site> sites, Site? currentSite);
         Task<ICollection<TestResult>?> SelectedSiteTestResults(Site site);
         Task<string?> GetSiteType(Site site);
         Task<Dictionary<int, string>> GetAllSiteTypeValues();

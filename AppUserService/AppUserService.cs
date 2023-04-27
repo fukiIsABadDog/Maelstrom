@@ -75,7 +75,7 @@ namespace Maelstrom.Services
         /// <param name="sites"></param>
         /// <param name="currentSite"></param>
         /// <returns></returns>
-        public async Task<Site?> SelectedSite(ICollection<Site> sites, Site currentSite)
+        public Site? SelectedSite(ICollection<Site> sites, Site currentSite)
         {
 
             // could use opperator for oneline expression or cleaned up some other way
