@@ -48,6 +48,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.TestResult[0].SiteUser)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Deleted)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -86,6 +89,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SiteUser.SiteUserID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deleted)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.TestResultID">Edit</a> |

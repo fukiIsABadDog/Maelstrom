@@ -1,8 +1,9 @@
 ﻿@page
 @model Maelstrom.Areas.Admin.Pages.ResultManager.EditModel
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Edit";
+    Layout = "_Layout";
 }
 
 <h1>Edit</h1>
@@ -69,9 +70,25 @@
                 <select asp-for="TestResult.SiteUserID" class="form-control" asp-items="ViewBag.SiteUserID"></select>
                 <span asp-validation-for="TestResult.SiteUserID" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+           
+            @if(Model.TestResult.Deleted != null)
+            {
+                <div class="form-group">
+                    <label asp-for="TestResult.Deleted" class="control-label"></label>
+                    <input type="@Model.TestResult.Deleted" value="null">
+                </div>
+                
+                <div class="form-group">
+                    <input type="submit" value="Restore" class="btn btn-success" />
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="TestResult.Deleted" />
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            }     
         </form>
     </div>
 </div>
