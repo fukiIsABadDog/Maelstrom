@@ -50,14 +50,21 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             return (Page());
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            var tr = new TestResult() { TestResultID = TestResult.TestResultID };
-            _context.Remove(tr);
-            await _context.SaveChangesAsync();
+            await _appUserService.DeleteTestResultAsync(id);
 
             return RedirectToPage("/SiteManager/TestResults", new { id = SiteUser.SiteID.ToString() });
+
         }
+        //public async Task<IActionResult> OnPostAsync()
+        //{
+        //    var tr = new TestResult() { TestResultID = TestResult.TestResultID };
+        //    _context.Remove(tr);
+        //    await _context.SaveChangesAsync();
+
+        //    return RedirectToPage("/SiteManager/TestResults", new { id = SiteUser.SiteID.ToString() });
+        //}
     }
 }
 

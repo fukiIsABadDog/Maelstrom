@@ -88,7 +88,7 @@ namespace Maelstrom.Services
             }
             else { return sites.FirstOrDefault(); }
         }
-        public async Task<ICollection<TestResult>> SelectedSiteTestResults(Site site)
+        public async Task<ICollection<TestResult>?> SelectedSiteTestResults(Site site)
         {
             var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID).OrderByDescending(x => x.CreationDate);
             if (currentSiteTestResultsQuery.Any())
@@ -97,7 +97,7 @@ namespace Maelstrom.Services
             }
             else
             {
-                return new List<TestResult>(); // this looks okay-- but to be consistant I will probably put this in the calling object
+                return null;
             }
         }
 
@@ -108,6 +108,10 @@ namespace Maelstrom.Services
         /// <returns></returns>
         public async Task<string?> GetSiteType(Site site)
         {
+            if (site == null)
+            {
+                return null;
+            }
             var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == site.SiteTypeID).Select(x => x.Name);
             return await siteTypeQuery.FirstOrDefaultAsync();
         }
@@ -145,6 +149,8 @@ namespace Maelstrom.Services
                                  join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
                                  where AppUser == user
                                  where Sites.SiteID == id
+                                 where TestResult.Deleted == null
+                                 where Sites.Deleted == null
                                  select new
                                  {
                                      siteUser = SiteUser,
@@ -225,11 +231,11 @@ namespace Maelstrom.Services
             await _context.SaveChangesAsync();
         }
 
-        //public async Task DeleteTestResultAsync(int id)
-        //{
-        //    var testResult = new TestResult() { TestResultID = id, Deleted = DateTime.Now };
-        //    _context.Attach(testResult).Property(p => p.Deleted).IsModified = true;
-        //    await _context.SaveChangesAsync();
-        //}
+        public async Task DeleteTestResultAsync(int id)
+        {
+            var testResult = new TestResult() { TestResultID = id, Deleted = DateTime.Now };
+            _context.Attach(testResult).Property(p => p.Deleted).IsModified = true;
+            await _context.SaveChangesAsync();
+        }
     }
 }

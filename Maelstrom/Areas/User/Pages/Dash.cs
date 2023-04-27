@@ -18,7 +18,7 @@ namespace Maelstrom.Areas.User.Pages
         public AppUser CurrentAppUser { get; private set; }
         public ICollection<Site>? CurrentUserSites { get; private set; } = new List<Site>();
         [BindProperty(SupportsGet = true)]
-        public Site CurrentSite { get; private set; } = new Site() { Name = "default" };
+        public Site CurrentSite { get; private set; }
         public string? SiteImage { get; private set; }
 
         public ICollection<TestResult>? CurrentSiteTestResults { get; private set; }
@@ -36,16 +36,48 @@ namespace Maelstrom.Areas.User.Pages
                 return NotFound();
             }
             CurrentAppUser = currentAppUser;
-            CurrentUserSites = await _appUserService.CurrentUserSites(CurrentAppUser);
 
-            if (CurrentUserSites.Any() == false)
+            var currentUserSites = await _appUserService.CurrentUserSites(CurrentAppUser);
+
+            if (currentUserSites.Any() == false)
             {
                 return RedirectToPage("/sitemanager/create");
             }
+            else
+            {
+                CurrentUserSites = currentUserSites;
+            }
 
-            CurrentSite = await _appUserService.SelectedSite(CurrentUserSites, currentSite);
-            CurrentSiteTestResults = await _appUserService.SelectedSiteTestResults(CurrentSite);
-            CurrentSiteType = await _appUserService.GetSiteType(CurrentSite);
+            var selectedSite = await _appUserService.SelectedSite(CurrentUserSites, currentSite);
+            if (selectedSite == null)
+            {
+                return RedirectToPage("/sitemanager/create");
+            }
+            else
+            {
+                CurrentSite = selectedSite;
+            }
+
+            var testResults = await _appUserService.SelectedSiteTestResults(CurrentSite);
+            if (testResults == null)
+            {
+                CurrentSiteTestResults = new List<TestResult>();
+            }
+            else
+            {
+                CurrentSiteTestResults = testResults;
+            }
+
+            var currentSiteType = await _appUserService.GetSiteType(CurrentSite);
+
+            if (currentSiteType == null)
+            {
+                CurrentSiteType = "Unknown";
+            }
+            else
+            {
+                CurrentSiteType = currentSiteType;
+            }
 
             if (CurrentSite.ImageData != null && CurrentSite.ImageData.Length > 1 == true)
             {

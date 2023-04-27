@@ -24,6 +24,9 @@ namespace EF_Models.Models
         public int SiteUserID { get; set; }
         public SiteUser? SiteUser { get; set; }
 
+        [DataType(DataType.Date)]
+        public DateTime? Deleted { get; set; }
+
 
 
 

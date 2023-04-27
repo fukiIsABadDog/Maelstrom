@@ -8,7 +8,7 @@ namespace Maelstrom.Services
         Task<AppUser?> FindAppUser(IIdentity user);
         Task<ICollection<Site>> CurrentUserSites(AppUser user);
         Task<Site?> SelectedSite(ICollection<Site> sites, Site? currentSite);
-        Task<ICollection<TestResult>> SelectedSiteTestResults(Site site);
+        Task<ICollection<TestResult>?> SelectedSiteTestResults(Site site);
         Task<string?> GetSiteType(Site site);
         Task<Dictionary<int, string>> GetAllSiteTypeValues();
         Task<Site?> GetAppUserSite(AppUser user, int? id);
@@ -16,7 +16,7 @@ namespace Maelstrom.Services
         Task<SiteUser?> GetSiteUser(AppUser user, int? id);
         Task<SiteUser?> CheckTestResultUser(AppUser user, TestResult testResult);
         Task<TestResult?> FindTestResult(int? id);
-        //Task DeleteTestResultAsync(int id);
+        Task DeleteTestResultAsync(int id);
         Task DeleteSiteAsync(int id);
     }
 }
