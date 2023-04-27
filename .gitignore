@@ -491,3 +491,6 @@ Maelstrom/obj/project.assets.json
 /Maelstrom/obj/Maelstrom.csproj.nuget.g.props
 /Maelstrom/appsettings.json
 /Maelstrom/obj/Maelstrom.csproj.nuget.g.props
+/Maelstrom/.vscode/launch.json
+/Maelstrom/.vscode
+/Maelstrom/obj/Debug/net6.0/project.razor.json
