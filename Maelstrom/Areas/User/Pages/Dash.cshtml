@@ -8,46 +8,29 @@
     ViewData["Title"] = $"{Model.CurrentAppUser.FirstName}'s Dash";
 }
 
-    <div class=" row flex-xl-nowrap">
-        @*----Tank Toggler----*@
+<div class=" row flex-xl-nowrap">
+    @*----Tank Toggler----*@
 
-        <div class="col-lg-1 bd-sidebar mt-5 me-5">
+    <div class="col-lg-1 bd-sidebar mt-5 me-5">
 
         @if (@Model.CurrentUserSites != null)
         {
-                <form method="get" style="padding-top:4rem; padding-right:4rem;">
+            <form method="get" style="padding-top:4rem; padding-right:4rem;">
                 @foreach (var site in @Model.CurrentUserSites)
                 {
-                        <input type="submit" asp-for="CurrentSite.Name" value="@site.Name" class="btn btn-outline-success btn-lg" />
+                    <input type="submit" asp-for="CurrentSite.Name" value="@site.Name" class="btn btn-outline-success btn-lg" />
                 }
-                </form>
-        }
-            <a asp-page="./SiteManager/create" class="btn btn-outline-success btn-lg">Create New</a>
-
-        </div>
-
-        @*<nav class="navbar position-fixed box-shadow w-100 mb-3" style="background-color:white;z-index:3;">
-        <div class="col mt-4 mb-4">
-
-        @if (@Model.CurrentUserSites != null)
-        {
-        <form method="get">
-        @foreach (var site in @Model.CurrentUserSites)
-        {
-        <input type="submit" asp-for="CurrentSite.Name" value="@site.Name" class="btn btn-outline-success btn-lg" />
-        }
-        </form>
+            </form>
         }
         <a asp-page="./SiteManager/create" class="btn btn-outline-success btn-lg">Create New</a>
-        </div>
-        </nav>*@
+
+    </div>
 
 
 
+    <div class="col-lg-10">
 
-        <div class="col-lg-10">
 
-            @*div class="container-fluid container shadow mt-4 mb-4" style=" background-color:floralwhite">*@
 
 
         <div class="row shadow mb-5 mt-5 text-center">
@@ -56,17 +39,17 @@
         </div>
         <div class="row">
             <div class="text-center mt-1 mb-5">
-                    @{
-                        if (Model.SiteImage != null)
-                        {
-                                <img src=@Model.SiteImage id="img-aquarium" class="shadow" />
+                @{
+                    if (Model.SiteImage != null)
+                    {
+                        <img src=@Model.SiteImage id="img-aquarium" class="shadow" />
 
-                        }
-                        else
-                        {
-                                <img src="~/media/UserImages/default.jpg" id="img-aquarium" class="shadow" />
-                        }
                     }
+                    else
+                    {
+                        <img src="~/media/UserImages/default.jpg" id="img-aquarium" class="shadow" />
+                    }
+                }
             </div>
         </div>
 
@@ -88,14 +71,14 @@
                         <tbody>
                             <tr>
                                 <td>
-                                        @Model.CurrentSite.Location
+                                    @Model.CurrentSite.Location
                                 </td>
                                 <td>
-                                        @Model.CurrentSite.Capacity Gallons
+                                    @Model.CurrentSite.Capacity Gallons
                                 </td>
 
                                 <td>
-                                        @Model.CurrentSiteType
+                                    @Model.CurrentSiteType
                                 </td>
 
                             </tr>
@@ -107,130 +90,93 @@
                 </div>
             </div>
         </div>
-            @*We need to discuss what the "Water change" & "Add Chemicals" logic will look like... this might be complicataed mathematically *@
 
-        @*<div class="row mt-4 mb-4">*@
-            <div class="col shadow mb-4">
-                <div class="text-center">
-                    <h3>Recent Test Results</h3>
-                </div>
-                <div class="table-responsive">
+        <div class="col shadow mb-4">
+            <div class="text-center">
+                <h3>Recent Test Results</h3>
+            </div>
+            <div class="table-responsive">
 
 
-                    <table class="table table-hover table-primary text-center">
-                        <thead>
-                            <tr class="table-dark">
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ammonia)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Calcium)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Sality)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Magnesium)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ph)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Alkalinty)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrate)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrite)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Temperature)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().CreationDate)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                                @if (Model.CurrentSiteTestResults != null)
+                <table class="table table-hover table-primary text-center">
+                    <thead>
+                        <tr class="table-dark">
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ammonia)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Calcium)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Sality)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Magnesium)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Ph)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Alkalinty)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrate)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Nitrite)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().Temperature)</th>
+                            <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().CreationDate)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.CurrentSiteTestResults != null)
+                        {
+                            int count = 0;
+                            @foreach (var tr in Model.CurrentSiteTestResults)
+                            {
+                                if (count < 5)
                                 {
-                                    int count = 0;
-                                    @foreach (var tr in Model.CurrentSiteTestResults)
-                                    {
-                                        if (count < 5)
-                                        {
-                                                    <tr>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.Ammonia)
-                                                        </td>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.Calcium)
-                                                        </td>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.Sality)
-                                                        </td>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.Magnesium)
-                                                        </td>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.Ph)
-                                                        </td>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.Alkalinty)
-                                                        </td>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.Nitrate)
-                                                        </td>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.Nitrite)
-                                                        </td>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.Temperature)
-                                                        </td>
-                                                        <td>
-                                                    @Html.DisplayFor(td => tr.CreationDate)
-                                                        </td>
-                                                    </tr>
-                                        }
-                                        count += 1;
-                                    }
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Ammonia)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Calcium)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Sality)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Magnesium)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Ph)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Alkalinty)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Nitrate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Nitrite)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Temperature)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.CreationDate)
+                                        </td>
+                                    </tr>
                                 }
-                        </tbody>
-                    </table>
+                                count += 1;
+                            }
+                        }
+                    </tbody>
+                </table>
 
-                </div>
-                <div class="text-center mb-3">
-                    <a asp-page="./SiteManager/TestResults" asp-route-id="@Model.CurrentSite.SiteID" class="btn btn-outline-primary">Show All Results</a>
-                </div>
-            @*</div>*@
-            <div class="col-lg-1"></div>
-        </div>
+            </div>
+            <div class="text-center mb-3">
+                <a asp-page="./SiteManager/TestResults" asp-route-id="@Model.CurrentSite.SiteID" class="btn btn-outline-primary">Show All Results</a>
+            </div>
 
-            @*</div>*@
+           
+
+
+
+
 
         </div>
     </div>
-    @*
-    "Maintanance" log needs to be implimented in the Data Base
-    *@
-    @* <h3 id="recent-results-heading">--NOT YET WORKING-- Recent Maintenance Tasks </h3>
-    <div class="table-div">
-    <table class="table table-hover table-primary">
-    <thead>
-    <tr class="table-dark">
-    <th scope="col">Date</th>
-    <th scope="col">Action</th>
-    <th scope="col">Amount</th>
-    <th scope="col">Notes</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="table-primary">
-    <th scope="row">2/28/2023</th>
-    <td>Partial Water Change</td>
-    <td>50%</td>
-    <td>Water was cloudy</td>
-    </tr>
-    <tr class="table-secondary">
-    <th scope="row">2/12/2023</th>
-    <td>Chemical Additive</td>
-    <td>6.5 grams</td>
-    <td>Alkalinity Booster</td>
-    </tr>
-    <tr class="table-primary">
-    <th scope="row">3/15/2023</th>
-    <td>Partial Water Change</td>
-    <td>30%</td>
-    <td>Some algae growth</td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
+    <div class="col-lg-1">
 
-    <div id="more-buttons-div">
-    <button type="button" class="btn btn-primary btn-lg">SEE ALL RECORDS</button>
-    </div>*@
+    </div>
+</div>
 
 
 
