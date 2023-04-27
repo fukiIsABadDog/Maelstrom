@@ -68,7 +68,9 @@
                     }
                 </ul>
                 <!-- going to move this -->
-                <!-- <partial name="_LoginPartial" /> -->
+                <div class="d-lg-none">        
+                     <partial name="_LoginPartial" />
+                </div>
                 
 
             </div>
@@ -89,6 +91,13 @@
         <a asp-page="/Dash" asp-area="User">Dash</a>
         <a asp-page="/SiteManager/Index" asp-area="User">Site Manager</a>
         <a asp-page="/SiteManager/Create" asp-area="User">Create Site</a>
+        
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Manage Account</a> 
+    
+            <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button class=" btn btn-danger ms-5" type="submit">Logout</button>
+            </form>
+      
     </div>
 
     <script>
