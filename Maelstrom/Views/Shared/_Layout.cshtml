@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,17 +17,16 @@
 
 <body>
 
-    <header
-        class="navbar navbar-expand-lg position-fixed navbar-toggleable-sm bg-Primary border-bottom box-shadow w-100 mb-3"
-        style="background-color:white;z-index:3;">
+    <header class="navbar navbar-expand-lg position-fixed navbar-toggleable-sm bg-Primary border-bottom box-shadow w-100 mb-3"
+            style="background-color:white;z-index:3;">
         <div class="container-fluid">
             @* <a class="navbar-brand" style="color:DodgerBlue;" asp-area="" asp-controller="Home"
-                asp-action="Index">Maelstrom</a>*@
+            asp-action="Index">Maelstrom</a>*@
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="max-width:125px">
                 <img src="/media/MaelLogo.png" style="max-width:125px" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse  justify-content-between">
@@ -32,51 +35,60 @@
                     @*It might make since to make another _layout for admin*@
                     @if (User.IsInRole("Admin"))
                     {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="Admin">Admin Site
-                            Manager</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-page="/ResultManager/Index" asp-area="Admin">Admin Result
-                            Manager</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="Admin">
+                                Admin Site
+                                Manager
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-page="/ResultManager/Index" asp-area="Admin">
+                                Admin Result
+                                Manager
+                            </a>
+                        </li>
                     }
                     @if (User.IsInRole("Admin") == false && User.Identity.IsAuthenticated)
                     {
-                    <li class="nav-item m-1">
-                        <div class="d-lg-none">
-                            <a class="nav-link text-dark" asp-page="/Dash" asp-area="User">DashBoard</a>
-                        </div>
-                    </li>
-                    <li class="nav-item m-1">
-                        <div class="d-lg-none">
-                            <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="User">Site Manager</a>
-                        </div>
-                    </li>
-                    <li class="nav-item m-1">
-                        <div class="d-lg-none">
-                            <a class="nav-link text-dark" asp-page="/SiteManager/Create" asp-area="User">Create Site</a>
-                        </div>
-                    </li>
-                    <li class="nav-item position-absolute top-0 end-0">
-                        <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
-                        <div class="d-none d-lg-block ">
-                            <button class="btn btn-lg btn-success m-2"  onclick="openNav()">&#9776; User Nav </button>
-                        </div>
+                        <li class="nav-item m-1">
+                            <div class="d-lg-none">
+                                <a class="nav-link text-dark" asp-page="/Dash" asp-area="User">DashBoard</a>
+                            </div>
+                        </li>
+                        <li class="nav-item m-1">
+                            <div class="d-lg-none">
+                                <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="User">Site Manager</a>
+                            </div>
+                        </li>
+                        <li class="nav-item m-1">
+                            <div class="d-lg-none">
+                                <a class="nav-link text-dark" asp-page="/SiteManager/Create" asp-area="User">Create Site</a>
+                            </div>
+                        </li>
+                        <li class="nav-item position-absolute top-0 end-0">
+                            <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+                            <div class="d-none d-lg-block ">
+                                <button class="btn btn-lg btn-success m-2" onclick="openNav()">&#9776; User Nav </button>
+                            </div>
 
-                    </li>
+                        </li>
                     }
                 </ul>
-                <!-- going to move this -->
-                <div class="d-lg-none">        
-                     <partial name="_LoginPartial" />
+
+                @if (SignInManager.IsSignedIn(User) != true)
+                {
+                    <partial name="_LoginPartial" />
+                }
+
+                <div class="d-lg-none">
+                    <partial name="_LoginPartial" />
                 </div>
-                
+
 
             </div>
 
         </div>
-       
+
 
     </header>
 
@@ -91,13 +103,13 @@
         <a asp-page="/Dash" asp-area="User">Dash</a>
         <a asp-page="/SiteManager/Index" asp-area="User">Site Manager</a>
         <a asp-page="/SiteManager/Create" asp-area="User">Create Site</a>
-        
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Manage Account</a> 
-    
-            <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button class=" btn btn-danger ms-5" type="submit">Logout</button>
-            </form>
-      
+
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Manage Account</a>
+
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button class=" btn btn-danger w-100 ms-1 me-1" type="submit">Logout</button>
+        </form>
+
     </div>
 
     <script>
