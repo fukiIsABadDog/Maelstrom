@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/Maelstrom.styles.css" asp-append-version="true" />
 </head>
 <body>
+   
     <header class="navbar navbar-expand-lg position-fixed navbar-toggleable-sm bg-Primary border-bottom box-shadow w-100 mb-3" style="background-color:white;z-index:3;">
             <div class="container-fluid">
               @*  <a class="navbar-brand" style="color:DodgerBlue;" asp-area="" asp-controller="Home" asp-action="Index">Maelstrom</a>*@
@@ -21,8 +22,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse  justify-content-between">
+                    
                     <ul class="navbar-nav flex-grow-1">
-                                          
                         @*It might make since to make another _layout for admin*@
                         @if (User.IsInRole("Admin"))
                         {
@@ -34,13 +35,29 @@
                             </li>
                         }
                         @if (User.IsInRole("Admin") == false && User.Identity.IsAuthenticated)
-                        {      
-                            <li class="nav-item">
+                        {    
+                            <li class="nav-item m-1">
+                                <div class="d-lg-none" > 
                                 <a class="nav-link text-dark" asp-page="/Dash" asp-area="User">DashBoard</a>
+                                </div>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item m-1">    
+                                 <div class="d-lg-none" >
                                 <a class="nav-link text-dark" asp-page="/SiteManager/Index" asp-area="User">Site Manager</a>
+                             </div>
                             </li>
+                        <li class="nav-item m-1">
+                            <div class="d-lg-none">
+                                <a class="nav-link text-dark" asp-page="/SiteManager/Create" asp-area="User">Create Site</a>
+                            </div>
+                        </li>
+                            <li class="nav-item m-lg-1">                                
+                            <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+                                <div class="d-none d-lg-block " >
+                                    <button class="btn btn-sm btn-success sm" onclick="openNav()">&#9776; User Nav </button>
+                                </div>
+                                  
+                            </li>  
                         }                          
                     </ul>
                     <partial name="_LoginPartial" />
@@ -57,10 +74,9 @@
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
+        <a asp-page="/Dash" asp-area="User">Dash</a>
+        <a asp-page="/SiteManager/Index" asp-area="User">Site Manager</a>
+        <a asp-page="/SiteManager/Create" asp-area="User">Create Site</a>
     </div>
     
     <script>
