@@ -26,6 +26,7 @@ namespace Maelstrom.Areas.User.Pages
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
         //public ICollection<Fish>? ThisUsersFish { get; private set; }
 
+        //this doesn't need all these checks but I have to make sure nothing breaks for presentation
         public async Task<IActionResult> OnGetAsync(Site currentSite)
         {
 

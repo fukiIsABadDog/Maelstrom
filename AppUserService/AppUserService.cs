@@ -93,7 +93,7 @@ namespace Maelstrom.Services
             var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID).OrderByDescending(x => x.CreationDate);
             if (currentSiteTestResultsQuery.Any())
             {
-                return await currentSiteTestResultsQuery.ToListAsync();
+                return await currentSiteTestResultsQuery.Where(t => t.Deleted == null).ToListAsync();
             }
             else
             {
