@@ -1,11 +1,12 @@
 using EF_Models.Models;
 using Maelstrom.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Maelstrom.Areas.User.Pages
 {
-
+    [Authorize]
     public class DashModel : PageModel
     {
         private readonly IAppUserService _appUserService;
@@ -14,7 +15,7 @@ namespace Maelstrom.Areas.User.Pages
             _appUserService = appUserService;
         }
         public string CurrentSiteType { get; set; } = string.Empty;
-        public AppUser CurrentAppUser { get; private set; } = new AppUser() { FirstName = "default", Email = "Default@Maelstrom.com" };
+        public AppUser CurrentAppUser { get; private set; }
         public ICollection<Site>? CurrentUserSites { get; private set; } = new List<Site>();
         [BindProperty(SupportsGet = true)]
         public Site CurrentSite { get; private set; } = new Site() { Name = "default" };
@@ -27,14 +28,21 @@ namespace Maelstrom.Areas.User.Pages
 
         public async Task<IActionResult> OnGetAsync(Site currentSite)
         {
-            CurrentAppUser = await _appUserService.FindAppUser(User.Identity);
 
-            if (CurrentAppUser.Email == "Default@Maelstrom.com")
+            var currentAppUser = await _appUserService.FindAppUser(User.Identity);
+
+            if (currentAppUser.Email == "Default@Maelstrom.com")
             {
                 return NotFound();
             }
-
+            CurrentAppUser = currentAppUser;
             CurrentUserSites = await _appUserService.CurrentUserSites(CurrentAppUser);
+
+            if (CurrentUserSites.Any() == false)
+            {
+                return RedirectToPage("/sitemanager/create");
+            }
+
             CurrentSite = await _appUserService.SelectedSite(CurrentUserSites, currentSite);
             CurrentSiteTestResults = await _appUserService.SelectedSiteTestResults(CurrentSite);
             CurrentSiteType = await _appUserService.GetSiteType(CurrentSite);

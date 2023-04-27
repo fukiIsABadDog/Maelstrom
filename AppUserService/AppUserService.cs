@@ -29,8 +29,9 @@ namespace Maelstrom.Services
             // do this in a constuctor(line 26), we do not really need to have a full default modeled in the db.. it should be local.
             // until replace know that this may cause breaks in the code that depands on it --- so check for null references
             //var currentAppUser = await _context.Users.FirstOrDefault(x => x.Email == "Default@Maelstrom.com");
-
-            return await _context.Users.FirstOrDefaultAsync(x => x.UserName == user.Name);
+            var currentAppuser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == user.Name);
+            if (currentAppuser == null) { return new AppUser { Email = "Default@Maelstrom.com" }; }
+            return currentAppuser;
 
         }
         public async Task<ICollection<Site>> CurrentUserSites(AppUser user)
