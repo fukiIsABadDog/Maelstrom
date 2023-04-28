@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("Local");
+var connectionString = builder.Configuration.GetConnectionString("Reynolds");
 builder.Services.AddDbContext<MaelstromContext>(options =>
     options.UseSqlServer(connectionString));
 
