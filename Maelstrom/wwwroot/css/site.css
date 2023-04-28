@@ -109,3 +109,7 @@ body {
 .thespan {
     left: 10px;
 }
+
+.navbar-toggleable-sm{
+    color:aqua;
+}
