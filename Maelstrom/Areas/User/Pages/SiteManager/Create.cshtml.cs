@@ -18,6 +18,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             _context = context;
             _appUserService = appUserService;
         }
+
         public string Message { get; set; }
 
         [BindProperty]
@@ -41,7 +42,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 await Upload.CopyToAsync(memoryStream);
 
                 // Upload the file if less than 2 MB
-                if (memoryStream.Length < 2097152)
+                if (memoryStream.Length < 4194304)
                 {
                     Site.ImageData = memoryStream.ToArray();
                     try
@@ -62,7 +63,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 }
                 else
                 {
-                    ModelState.AddModelError("File", "The file is too large.");
+                    ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
+                    return Page();
                 }
             }
             return RedirectToPage("./Index");
