@@ -92,18 +92,18 @@
 
     <div class="row">
         <main role="main">
+            <div class="container-fluid" style="margin-top: 75px;">
             @RenderBody()
+            </div>
         </main>
     </div>
 
-
-    <!-- will put in folder in a bit -->
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a asp-page="/Dash" asp-area="User">Dash</a>
         <a asp-page="/SiteManager/Index" asp-area="User">Site Manager</a>
         <a asp-page="/SiteManager/Create" asp-area="User">Create Site</a>
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
             Manage
             Account
         </a>
@@ -111,6 +111,8 @@
             <button class=" btn btn-danger w-100 ms-1 me-1" type="submit">Logout</button>
         </form>
     </div>
+
+    <!-- will put in folder in a bit -->
     <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "150px";
