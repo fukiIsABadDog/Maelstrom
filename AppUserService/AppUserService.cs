@@ -53,14 +53,15 @@ namespace Maelstrom.Services
 
                                  };
 
-            if (querySiteUsers.Any())
-            {
-                return await querySiteUsers.Select(x => x.sites).ToListAsync();
-            }
-            else
-            {
-                return new List<Site>();
-            }
+            //if (querySiteUsers.Any())
+            //{ }
+
+            return await querySiteUsers.Select(x => x.sites).ToListAsync();
+
+            //else
+            //{
+            //    return new List<Site>();
+            //}
 
 
 
