@@ -11,14 +11,14 @@ namespace Maelstrom.Areas.User.Pages
     public class DashModel : PageModel
     {
         private readonly IAppUserService _appUserService;
-        private readonly MaelstromContext _context;
-        public DashModel(IAppUserService appUserService, MaelstromContext context)
+        //private readonly MaelstromContext _context;
+        public DashModel(IAppUserService appUserService)
         {
             _appUserService = appUserService;
-            _context = context;
+           
         }
         public string CurrentSiteType { get; set; } = string.Empty;
-        public AppUser CurrentAppUser { get; private set; }
+        //public AppUser CurrentAppUser { get; private set; }
         public ICollection<Site>? CurrentUserSites { get; private set; } = new List<Site>();
         [BindProperty(SupportsGet = true)]
         public Site CurrentSite { get; private set; }
@@ -33,15 +33,15 @@ namespace Maelstrom.Areas.User.Pages
         public async Task<IActionResult> OnGetAsync(Site currentSite)
         {
 
-            var currentAppUser = await _appUserService.FindAppUser(User.Identity);
+            //var currentAppUser = await _appUserService.FindAppUser(User.Identity);
 
-            if (currentAppUser.Email == "Default@Maelstrom.com")
-            {
-                return NotFound();
-            }
-            CurrentAppUser = currentAppUser;
+            //if (currentAppUser.Email == "Default@Maelstrom.com")
+            //{
+            //    return NotFound();
+            //}
+            //CurrentAppUser = currentAppUser;
 
-            var currentUserSites = await _appUserService.CurrentUserSites(CurrentAppUser);
+            var currentUserSites = await _appUserService.CurrentUserSites(User.Identity);
 
             if (currentUserSites.Any() == false)
             {
@@ -82,6 +82,9 @@ namespace Maelstrom.Areas.User.Pages
             {
                 CurrentSiteType = currentSiteType;
             }
+
+            SiteImage = _appUserService.ConvertImage(CurrentSite.ImageData);
+            return Page();
 
             // I think this way is slower for our use case -- but  I should test on the production server
             // This would be good if we wanted to reduce database traffic
@@ -148,20 +151,9 @@ namespace Maelstrom.Areas.User.Pages
 
             //CurrentSiteTestResults = testResults;
 
+            //SiteImage = _appUserService.ConvertImage(CurrentSite.ImageData);
+            //return Page();
 
-
-
-
-
-            if (CurrentSite.ImageData != null && CurrentSite.ImageData.Length > 1 == true)
-            {
-                var base64 = Convert.ToBase64String(CurrentSite.ImageData);
-                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                SiteImage = imgSrc;
-            }
-            else { }
-
-            return Page();
 
         }
         public void OnPost()

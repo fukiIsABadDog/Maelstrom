@@ -24,19 +24,19 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (User.Identity == null)
-            {
-                return NotFound();
-            }
+            //if (User.Identity == null)
+            //{
+            //    return NotFound();
+            //}
 
-            CurrentAppUser = await _appUserService.FindAppUser(User.Identity);
+            //CurrentAppUser = await _appUserService.FindAppUser(User.Identity);
 
-            if (CurrentAppUser.Email == "Default@Maelstrom.com")
-            {
-                return NotFound();
-            }
+            //if (CurrentAppUser.Email == "Default@Maelstrom.com")
+            //{
+            //    return NotFound();
+            //}
 
-            CurrentUserSites = (IList<Site>?)await _appUserService.CurrentUserSites(CurrentAppUser); // needs to be tested
+            CurrentUserSites = (IList<Site>?)await _appUserService.CurrentUserSites(User.Identity); // needs to be tested
             var siteTypes = await _appUserService.GetAllSiteTypeValues();
 
             if (siteTypes.Any())

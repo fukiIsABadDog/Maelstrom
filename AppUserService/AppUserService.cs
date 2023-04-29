@@ -34,7 +34,7 @@ namespace Maelstrom.Services
             return currentAppuser;
 
         }
-        public async Task<ICollection<Site>> CurrentUserSites(AppUser user)
+        public async Task<ICollection<Site>> CurrentUserSites(IIdentity user)
         {
 
 
@@ -42,19 +42,12 @@ namespace Maelstrom.Services
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
                                  join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
-                                 where AppUser == user
+                                 where AppUser.Email == user.Name
                                  where Sites.Deleted == null
-                                 select new
-                                 {
-                                     siteUser = SiteUser,
-                                     sites = Sites,
-                                     appUser = AppUser,
-                                     siteType = SiteType
-
-                                 };
+                                 select Sites;
 
 
-            return await querySiteUsers.Select(x => x.sites).ToListAsync();
+            return await querySiteUsers.Select(x => x).ToListAsync();
 
 
 
@@ -76,14 +69,10 @@ namespace Maelstrom.Services
         /// <param name="currentSite"></param>
         /// <returns></returns>
         public Site? SelectedSite(ICollection<Site> sites, Site currentSite)
-        {
-
-            // could use opperator for oneline expression or cleaned up some other way
-            // also,  need to use ID attribute instead after view is modified
-
-            //old code to be changed
+        {   
             if (currentSite.Name != null)
             {
+                var test = sites.First(x => x.Name == currentSite.Name);
                 return sites.First(x => x.Name == currentSite.Name);
             }
             else { return sites.FirstOrDefault(); }
@@ -108,10 +97,10 @@ namespace Maelstrom.Services
         /// <returns></returns>
         public async Task<string?> GetSiteType(Site site)
         {
-            if (site == null)
-            {
-                return null;
-            }
+            //if (site == null)
+            //{
+            //    return null;
+            //}
             var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == site.SiteTypeID).Select(x => x.Name);
             return await siteTypeQuery.FirstOrDefaultAsync();
         }
@@ -236,6 +225,17 @@ namespace Maelstrom.Services
             var testResult = new TestResult() { TestResultID = id, Deleted = DateTime.Now };
             _context.Attach(testResult).Property(p => p.Deleted).IsModified = true;
             await _context.SaveChangesAsync();
+        }
+
+        public string ConvertImage(byte[] img)
+        {
+            if (img != null && img.Length > 1 == true)
+            {
+                string base64 = Convert.ToBase64String(img);
+                return String.Format("data:image/gif;base64,{0}", base64);
+               
+            }
+            else { return string.Empty; }
         }
     }
 }
