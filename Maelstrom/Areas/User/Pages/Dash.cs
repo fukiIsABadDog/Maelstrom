@@ -33,90 +33,26 @@ namespace Maelstrom.Areas.User.Pages
         public async Task<IActionResult> OnGetAsync(Site currentSite)
         {
 
-            //var currentAppUser = await _appUserService.FindAppUser(User.Identity);
+            var currentAppUser = await _appUserService.FindAppUser(User.Identity);
 
-            //if (currentAppUser.Email == "Default@Maelstrom.com")
-            //{
-            //    return NotFound();
-            //}
-            //CurrentAppUser = currentAppUser;
-
-            //var currentUserSites = await _appUserService.CurrentUserSites(CurrentAppUser);
-
-            //if (currentUserSites.Any() == false)
-            //{
-            //    return RedirectToPage("/sitemanager/create");
-            //}
-            //else
-            //{
-            //    CurrentUserSites = currentUserSites;
-            //}
-
-            //var selectedSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
-            //if (selectedSite == null)
-            //{
-            //    return RedirectToPage("/sitemanager/create");
-            //}
-            //else
-            //{
-            //    CurrentSite = selectedSite;
-            //}
-
-            //var testResults = await _appUserService.SelectedSiteTestResults(CurrentSite);
-            //if (testResults == null)
-            //{
-            //    CurrentSiteTestResults = new List<TestResult>();
-            //}
-            //else
-            //{
-            //    CurrentSiteTestResults = testResults;
-            //}
-
-            //var currentSiteType = await _appUserService.GetSiteType(CurrentSite);
-
-            //if (currentSiteType == null)
-            //{
-            //    CurrentSiteType = "Unknown";
-            //}
-            //else
-            //{
-            //    CurrentSiteType = currentSiteType;
-            //}
-
-
-            //this grabs everything at once
-            var querySiteUsers = from SiteUser in _context.SiteUsers
-                                 join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
-                                 join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
-                                 join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
-                                 join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
-                                 where AppUser.Email == User.Identity.Name
-                                 where TestResult.Deleted == null
-                                 where Sites.Deleted == null
-                                 select new
-                                 {
-
-                                     sites = Sites,
-                                     siteType = SiteType,
-                                     testResults = TestResult
-
-                                 };
-            var listOfObjects = await querySiteUsers.ToListAsync();
-
-
-            // this selects users sites
-            var userSites = new List<Site>();
-            foreach (var obj in listOfObjects)
+            if (currentAppUser.Email == "Default@Maelstrom.com")
             {
-                if (!userSites.Contains(obj.sites))
-                {
-                    userSites.Add(obj.sites);
-                }
+                return NotFound();
             }
-            CurrentUserSites = userSites;
+            CurrentAppUser = currentAppUser;
+
+            var currentUserSites = await _appUserService.CurrentUserSites(CurrentAppUser);
+
+            if (currentUserSites.Any() == false)
+            {
+                return RedirectToPage("/sitemanager/create");
+            }
+            else
+            {
+                CurrentUserSites = currentUserSites;
+            }
 
             var selectedSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
-
             if (selectedSite == null)
             {
                 return RedirectToPage("/sitemanager/create");
@@ -126,25 +62,91 @@ namespace Maelstrom.Areas.User.Pages
                 CurrentSite = selectedSite;
             }
 
-
-
-            var type = string.Empty;
-            foreach (var obj in listOfObjects)
+            var testResults = await _appUserService.SelectedSiteTestResults(CurrentSite);
+            if (testResults == null)
             {
-                if (obj.sites == CurrentSite)
-                    type = obj.siteType.Name;
+                CurrentSiteTestResults = new List<TestResult>();
+            }
+            else
+            {
+                CurrentSiteTestResults = testResults;
             }
 
-            CurrentSiteType = type;
+            var currentSiteType = await _appUserService.GetSiteType(CurrentSite);
 
-            var testResults = new List<TestResult>();
-            foreach (var obj in listOfObjects)
+            if (currentSiteType == null)
             {
-                if (obj.sites == CurrentSite)
-                    testResults.Add(obj.testResults);
+                CurrentSiteType = "Unknown";
+            }
+            else
+            {
+                CurrentSiteType = currentSiteType;
             }
 
-            CurrentSiteTestResults = testResults;
+            // I think this way is slower for our use case -- but  I should test on the production server
+            // This would be good if we wanted to reduce database traffic
+
+            //this grabs everything at once
+            //var querySiteUsers = from SiteUser in _context.SiteUsers
+            //                     join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
+            //                     join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+            //                     join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
+            //                     join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
+            //                     where AppUser.Email == User.Identity.Name
+            //                     where TestResult.Deleted == null
+            //                     where Sites.Deleted == null
+            //                     select new
+            //                     {
+
+            //                         sites = Sites,
+            //                         siteType = SiteType,
+            //                         testResults = TestResult
+
+            //                     };
+            //var listOfObjects = await querySiteUsers.ToListAsync();
+
+
+            //// this selects users sites
+            //var userSites = new List<Site>();
+            //foreach (var obj in listOfObjects)
+            //{
+            //    if (!userSites.Contains(obj.sites))
+            //    {
+            //        userSites.Add(obj.sites);
+            //    }
+            //}
+            //CurrentUserSites = userSites;
+
+            //var selectedSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
+
+            //if (selectedSite == null)
+            //{
+            //    return RedirectToPage("/sitemanager/create");
+            //}
+            //else
+            //{
+            //    CurrentSite = selectedSite;
+            //}
+
+
+
+            //var type = string.Empty;
+            //foreach (var obj in listOfObjects)
+            //{
+            //    if (obj.sites == CurrentSite)
+            //        type = obj.siteType.Name;
+            //}
+
+            //CurrentSiteType = type;
+
+            //var testResults = new List<TestResult>();
+            //foreach (var obj in listOfObjects)
+            //{
+            //    if (obj.sites == CurrentSite)
+            //        testResults.Add(obj.testResults);
+            //}
+
+            //CurrentSiteTestResults = testResults;
 
 
 
