@@ -3,42 +3,27 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
-
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
     [Authorize]
     public class IndexModel : PageModel
     {
         private readonly IAppUserService _appUserService;
-
         public IndexModel(IAppUserService appUserService)
         {
             _appUserService = appUserService;
         }
         public AppUser CurrentAppUser { get; private set; } = new AppUser() { FirstName = "default", Email = "Default@Maelstrom.com" };
         public ICollection<SiteType>? MySiteTypes { get; set; }
-        public IList<Site>? CurrentUserSites { get; private set; }
+        public IList<Site> CurrentUserSites { get; private set; } = null!;
         public Dictionary<int, string> SiteTypeDictionary { get; set; } = new Dictionary<int, string> { };
         public Dictionary<int, string?> ImageDictionary { get; set; } = new Dictionary<int, string?> { };
-
         public async Task<IActionResult> OnGetAsync()
         {
-            //if (User.Identity == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //CurrentAppUser = await _appUserService.FindAppUser(User.Identity);
-
-            //if (CurrentAppUser.Email == "Default@Maelstrom.com")
-            //{
-            //    return NotFound();
-            //}
-            var user = User.Identity;
-            CurrentUserSites = (IList<Site>?)await _appUserService.CurrentUserSites(user); // needs to be tested
-            var siteTypes = await _appUserService.GetAllSiteTypeValues();
-
+            var user = User.Identity!;
+            var sites = (IList<Site>)await _appUserService.GetCurrentUserSites(user);
+            var siteTypes = await _appUserService.CreateSiteTypeDictionary();
+            CurrentUserSites = sites;
             if (siteTypes.Any())
             {
                 SiteTypeDictionary = siteTypes;
@@ -47,10 +32,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             {
                 ImageDictionary.Add(site.SiteID, ImageConverter(site.ImageData));
             }
-
             return Page();
         }
-        //turn this into service later
+
         public string ImageConverter(byte[]? dbImage)
         {
             if (dbImage != null && dbImage.Length > 1 == true)

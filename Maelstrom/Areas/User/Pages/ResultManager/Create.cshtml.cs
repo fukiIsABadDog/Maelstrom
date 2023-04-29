@@ -3,6 +3,7 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.ResultManager
 {
@@ -29,7 +30,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 
         [BindProperty]
         public int SiteID { get; set; }
-        public AppUser? AppUser { get; set; }
+        public IIdentity CurrentUser { get; set; } = null!;
 
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -40,11 +41,8 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
                 return NotFound();
             }
 
-            this.AppUser = await _appUserService.FindAppUser(User.Identity);
-            var siteUser = await _appUserService.GetSiteUser(AppUser, id);
-
-            var siteUserID = siteUser.SiteUserID;
-            var siteID = siteUser.SiteID;
+            CurrentUser = User.Identity!;
+            var siteUser = await _appUserService.GetSiteUser(CurrentUser, id);
 
             if (siteUser == null)
             {
@@ -52,6 +50,9 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             }
             else
             {
+                var siteUserID = siteUser.SiteUserID;
+                var siteID = siteUser.SiteID;
+
                 SiteID = siteID;
                 SiteUserID = siteUserID;
             }

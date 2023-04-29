@@ -1,10 +1,10 @@
 using EF_Models.Models;
-using Maelstrom.Services;
 using Maelstrom.ValidationAttributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
@@ -12,11 +12,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
     public class CreateModel : PageModel
     {
         private readonly EF_Models.MaelstromContext _context;
-        private readonly IAppUserService _appUserService;
-        public CreateModel(EF_Models.MaelstromContext context, IAppUserService appUserService)
+        public CreateModel(EF_Models.MaelstromContext context)
         {
             _context = context;
-            _appUserService = appUserService;
         }
 
         public string Message { get; set; }
@@ -24,14 +22,13 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         [BindProperty]
         [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile Upload { get; set; }
-
         [BindProperty]
         public Site Site { get; set; } = default!;
         public SiteUser SiteUser { get; set; }
-        public AppUser? AppUser { get; set; }
+        public IIdentity CurrentUser { get; set; }
+        public AppUser AppUser { get; set; }
         public IActionResult OnGet()
         {
-
             ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
             return Page();
         }
@@ -48,9 +45,10 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                     try
                     {
                         if (ModelState.IsValid)
-                        { //if time: refactor into service
-                            this.AppUser = await _appUserService.FindAppUser(User.Identity);
-                            this.SiteUser = new SiteUser { AppUser = this.AppUser, Site = this.Site };
+                        {
+                            CurrentUser = User.Identity!;
+                            AppUser = new AppUser() { Email = CurrentUser.Name };
+                            this.SiteUser = new SiteUser { AppUser = AppUser, Site = this.Site }; // needs to be tested - 4/29 1:30
                             _context.Sites.Add(Site);
                             _context.SiteUsers.Add(SiteUser);
                             await _context.SaveChangesAsync();

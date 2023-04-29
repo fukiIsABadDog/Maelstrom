@@ -3,6 +3,7 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.ResultManager
 {
@@ -21,8 +22,8 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
         [BindProperty]
         public TestResult TestResult { get; set; } = null!;
         [BindProperty]
-        public SiteUser SiteUser { get; set; }
-        public AppUser AppUser { get; set; }
+        public SiteUser SiteUser { get; set; } = null!;
+        public IIdentity CurrentUser { get; set; } = null!;
 
         public async Task<IActionResult> OnGet(int? id)
         {
@@ -30,13 +31,13 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             {
                 return (NotFound());
             }
-            this.AppUser = await _appUserService.FindAppUser(User.Identity);
+            CurrentUser = User.Identity!;
             var testResult = await _appUserService.FindTestResult(id);
             if (testResult == null)
             {
                 return (NotFound());
             }
-            var siteUser = await _appUserService.CheckTestResultUser(AppUser, testResult);
+            var siteUser = await _appUserService.CheckAndReturnSiteUser(CurrentUser, testResult);
 
             if (siteUser == null || testResult == null)
             {
@@ -44,15 +45,15 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             }
             else
             {
-                SiteUser = siteUser;
-                TestResult = testResult;
+                SiteUser = siteUser!;
+                TestResult = testResult!;
             }
             return (Page());
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            await _appUserService.DeleteTestResultAsync(id);
+            await _appUserService.DeleteTestResult(id);
 
             return RedirectToPage("/SiteManager/TestResults", new { id = SiteUser.SiteID.ToString() });
 

@@ -3,6 +3,7 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
@@ -22,7 +23,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public SiteUser SiteUser { get; set; }
         public string? SiteImage { get; private set; }
 
-        public AppUser AppUser { get; set; }
+        public IIdentity CurrentUser { get; set; } = null!;
         public async Task<IActionResult> OnGetAsync(int? id)
         {
 
@@ -31,8 +32,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 return NotFound();
             }
 
-            this.AppUser = await _appUserService.FindAppUser(User.Identity);
-            var site = await _appUserService.GetAppUserSite(AppUser, id);
+            CurrentUser = User.Identity!;
+            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id);
 
             if (site == null)
             {
@@ -53,7 +54,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            await _appUserService.DeleteSiteAsync(id);
+            await _appUserService.DeleteSite(id);
 
             return RedirectToPage("./Index");
         }

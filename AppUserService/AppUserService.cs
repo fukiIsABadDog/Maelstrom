@@ -23,16 +23,8 @@ namespace Maelstrom.Services
         {
             _context = context;
         }
-        public async Task<AppUser?> FindAppUser(IIdentity user)
-        {
-            // do this in a constuctor(line 26), we do not really need to have a full default modeled in the db.. it should be local.
-            // until replace know that this may cause breaks in the code that depands on it --- so check for null references
-            //var currentAppUser = await _context.Users.FirstOrDefault(x => x.Email == "Default@Maelstrom.com");
-            var currentAppuser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == user.Name);
-            if (currentAppuser == null) { return new AppUser { Email = "Default@Maelstrom.com" }; }
-            return currentAppuser;
-        }
-        public async Task<ICollection<Site>> CurrentUserSites(IIdentity user)
+
+        public async Task<ICollection<Site>> GetCurrentUserSites(IIdentity user)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
@@ -40,116 +32,84 @@ namespace Maelstrom.Services
                                  join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
                                  where AppUser.Email == user.Name
                                  where Sites.Deleted == null
-                                 select new
-                                 {
-                                     sites = Sites,
-                                     siteType = SiteType
-                                 };
-            return await querySiteUsers.Select(x => x.sites).ToListAsync();
-        }
-        public Site? SelectedSite(ICollection<Site> sites, Site currentSite)
-        {
+                                 select Sites;
 
+            return await querySiteUsers.ToListAsync();
+        }
+        public Site? GetSelectedSite(ICollection<Site> sites, Site currentSite)
+        {
             if (currentSite.Name != null)
             {
                 return sites.First(x => x.SiteID == currentSite.SiteID);
             }
             else { return sites.FirstOrDefault(); }
         }
-        public async Task<ICollection<TestResult>?> SelectedSiteTestResults(Site site)
+        public async Task<ICollection<TestResult>?> GetSelectedSiteTestResults(Site site)
         {
             var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID).OrderByDescending(x => x.CreationDate);
             return await currentSiteTestResultsQuery.Where(t => t.Deleted == null).ToListAsync();
         }
         public async Task<string?> GetSiteType(Site site)
         {
-            if (site == null)
-            {
-                return null;
-            }
             var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == site.SiteTypeID).Select(x => x.Name);
             return await siteTypeQuery.FirstOrDefaultAsync();
         }
-        public async Task<Site?> GetAppUserSite(AppUser user, int? id)
+        public async Task<Site?> GetCurrentUserSite(IIdentity user, int? id)
         {
-
-            //looks good but could probably be written cleaner
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
                                  join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
-                                 where AppUser == user
+                                 where AppUser.Email == user.Name
                                  where Sites.SiteID == id
-                                 select new
-                                 {
-                                     siteUser = SiteUser,
-                                     sites = Sites,
-                                     appUser = AppUser,
-                                     siteType = SiteType
-                                 };
-            return await querySiteUsers.Select(x => x.sites).FirstOrDefaultAsync();
+                                 select Sites;
+
+            return await querySiteUsers.FirstOrDefaultAsync();
         }
 
-        public async Task<ICollection<TestResult>?> GetUserSiteTestResults(AppUser user, int? id)
+        public async Task<ICollection<TestResult>?> GetCurrentUserSiteTestResults(IIdentity user, int? id)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
                                  join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
                                  join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
-                                 where AppUser == user
+                                 where AppUser.Email == user.Name
                                  where Sites.SiteID == id
                                  where TestResult.Deleted == null
                                  where Sites.Deleted == null
-                                 select new
-                                 {
-                                     siteUser = SiteUser,
-                                     sites = Sites,
-                                     appUser = AppUser,
-                                     siteType = SiteType,
-                                     testResults = TestResult
+                                 select TestResult;
 
-                                 };
-            return await querySiteUsers.Select(x => x.testResults).OrderByDescending(x => x.CreationDate).ToListAsync();
+            return await querySiteUsers.OrderByDescending(x => x.CreationDate).ToListAsync();
         }
 
-        public async Task<SiteUser?> GetSiteUser(AppUser user, int? id)
+        public async Task<SiteUser?> GetSiteUser(IIdentity user, int? id)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
                                  join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
-                                 where AppUser == user
+                                 where AppUser.Email == user.Name
                                  where Sites.SiteID == id
-                                 select new
-                                 {
-                                     siteUser = SiteUser,
-                                     sites = Sites,
-                                     appUser = AppUser,
-                                     siteType = SiteType
+                                 select SiteUser;
 
-                                 };
-
-            return await querySiteUsers.Select(x => x.siteUser).FirstOrDefaultAsync();
+            return await querySiteUsers.FirstOrDefaultAsync();
         }
-        public async Task<SiteUser?> CheckTestResultUser(AppUser user, TestResult testResult)
+        public async Task<SiteUser?> CheckAndReturnSiteUser(IIdentity user, TestResult testResult)
         {
             var queryTrUser = from SiteUser in _context.SiteUsers
                               join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                               join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
-                              where AppUser == user
+                              where AppUser.Email == user.Name
                               where TestResult == testResult
                               select SiteUser;
 
             return await queryTrUser.FirstOrDefaultAsync();
         }
-        public async Task<Dictionary<int, string>> GetAllSiteTypeValues()
+        public async Task<Dictionary<int, string>> CreateSiteTypeDictionary()
         {
-            var siteTypesDict = new Dictionary<int, String>(); // remove defaults and pass one in? or just use .include() some where else
-
+            var siteTypesDict = new Dictionary<int, String>();
             var siteList = await _context.SiteTypes.Select(x => x).ToListAsync();
-
-
             foreach (var site in siteList)
             {
                 siteTypesDict.Add(site.SiteTypeID, site.Name);
@@ -161,13 +121,13 @@ namespace Maelstrom.Services
             return await _context.TestResults.Select(x => x)
                 .Where(x => x.TestResultID == id).FirstOrDefaultAsync();
         }
-        public async Task DeleteSiteAsync(int id)
+        public async Task DeleteSite(int id)
         {
             var site = new Site() { SiteID = id, Deleted = DateTime.Now };
             _context.Attach(site).Property(p => p.Deleted).IsModified = true;
             await _context.SaveChangesAsync();
         }
-        public async Task DeleteTestResultAsync(int id)
+        public async Task DeleteTestResult(int id)
         {
             var testResult = new TestResult() { TestResultID = id, Deleted = DateTime.Now };
             _context.Attach(testResult).Property(p => p.Deleted).IsModified = true;

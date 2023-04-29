@@ -5,18 +5,18 @@ namespace Maelstrom.Services
 {
     public interface IAppUserService
     {// rename methods for consistency and conciseness
-        Task<AppUser?> FindAppUser(IIdentity user);
-        Task<ICollection<Site>> CurrentUserSites(IIdentity user);
-        Site? SelectedSite(ICollection<Site> sites, Site? currentSite);
-        Task<ICollection<TestResult>?> SelectedSiteTestResults(Site site);
+
+        Task<ICollection<Site>> GetCurrentUserSites(IIdentity user);
+        Site? GetSelectedSite(ICollection<Site> sites, Site? currentSite);
+        Task<ICollection<TestResult>?> GetSelectedSiteTestResults(Site site);
         Task<string?> GetSiteType(Site site);
-        Task<Dictionary<int, string>> GetAllSiteTypeValues();
-        Task<Site?> GetAppUserSite(AppUser user, int? id);
-        Task<ICollection<TestResult>?> GetUserSiteTestResults(AppUser user, int? id);
-        Task<SiteUser?> GetSiteUser(AppUser user, int? id);
-        Task<SiteUser?> CheckTestResultUser(AppUser user, TestResult testResult);
+        Task<Dictionary<int, string>> CreateSiteTypeDictionary();
+        Task<Site?> GetCurrentUserSite(IIdentity user, int? id);
+        Task<ICollection<TestResult>?> GetCurrentUserSiteTestResults(IIdentity user, int? id);
+        Task<SiteUser?> GetSiteUser(IIdentity user, int? id);
+        Task<SiteUser?> CheckAndReturnSiteUser(IIdentity user, TestResult testResult); //here
         Task<TestResult?> FindTestResult(int? id);
-        Task DeleteTestResultAsync(int id);
-        Task DeleteSiteAsync(int id);
+        Task DeleteTestResult(int id);
+        Task DeleteSite(int id);
     }
 }

@@ -29,8 +29,8 @@ namespace Maelstrom.Areas.User.Pages
 
         public async Task<IActionResult> OnGetAsync(Site currentSite)
         {
-            var user = User.Identity;
-            var currentUserSites = await _appUserService.CurrentUserSites(user);
+            var user = User.Identity!;
+            var currentUserSites = await _appUserService.GetCurrentUserSites(user);
 
             if (currentUserSites.Any() == false)
             {
@@ -40,7 +40,7 @@ namespace Maelstrom.Areas.User.Pages
             {
                 CurrentUserSites = currentUserSites;
             }
-            var selectedSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
+            var selectedSite = _appUserService.GetSelectedSite(CurrentUserSites, currentSite);
             if (selectedSite == null)
             {
                 return RedirectToPage("/sitemanager/create");
@@ -49,7 +49,7 @@ namespace Maelstrom.Areas.User.Pages
             {
                 CurrentSite = selectedSite;
             }
-            var testResults = await _appUserService.SelectedSiteTestResults(CurrentSite);
+            var testResults = await _appUserService.GetSelectedSiteTestResults(CurrentSite);
             CurrentSiteTestResults = testResults;
             var currentSiteType = await _appUserService.GetSiteType(CurrentSite);
 

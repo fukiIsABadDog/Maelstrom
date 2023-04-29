@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
@@ -29,7 +30,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public IFormFile? Upload { get; set; }
         public string? SiteImage { get; private set; }
 
-        public AppUser AppUser { get; set; }
+        public IIdentity CurrentUser { get; set; } = null!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -37,10 +38,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             {
                 return NotFound();
             }
-
-            this.AppUser = await _appUserService.FindAppUser(User.Identity);
-            var site = await _appUserService.GetAppUserSite(AppUser, id);
-
+            CurrentUser = User.Identity!;
+            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id);
+            ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
             // maybe think  access denied logic and also think about custom 404 page
             if (site == null)
             {
@@ -55,7 +55,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                     var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                     SiteImage = imgSrc;
                 }
-                ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
+
             }
             return Page();
         }

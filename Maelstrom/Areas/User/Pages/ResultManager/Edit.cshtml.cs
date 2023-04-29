@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.ResultManager
 {
@@ -21,8 +22,8 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
         [BindProperty]
         public TestResult TestResult { get; set; } = default!; //main object
         [BindProperty]
-        public SiteUser SiteUser { get; set; }// for validation and redirection
-        public AppUser AppUser { get; set; } // for validation
+        public SiteUser? SiteUser { get; set; }// for validation and redirection
+        public IIdentity CurrentUser { get; set; } = null!;
 
         public async Task<IActionResult> OnGet(int? id)
         {
@@ -30,13 +31,13 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             {
                 return (NotFound());
             }
-            this.AppUser = await _appUserService.FindAppUser(User.Identity);
+            CurrentUser = User.Identity!;
             var testResult = await _context.TestResults.Select(x => x).Where(x => x.TestResultID == id).FirstOrDefaultAsync();
             if (testResult == null)
             {
                 return (NotFound());
             }
-            var siteUser = await _appUserService.CheckTestResultUser(AppUser, testResult);
+            var siteUser = await _appUserService.CheckAndReturnSiteUser(CurrentUser, testResult);
             // need to impliment custom 404 page
             if (siteUser == null || testResult == null)
             {
