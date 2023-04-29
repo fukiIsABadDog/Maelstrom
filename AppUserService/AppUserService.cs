@@ -23,7 +23,6 @@ namespace Maelstrom.Services
         {
             _context = context;
         }
-
         public async Task<AppUser?> FindAppUser(IIdentity user)
         {
             // do this in a constuctor(line 26), we do not really need to have a full default modeled in the db.. it should be local.
@@ -32,12 +31,9 @@ namespace Maelstrom.Services
             var currentAppuser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == user.Name);
             if (currentAppuser == null) { return new AppUser { Email = "Default@Maelstrom.com" }; }
             return currentAppuser;
-
         }
         public async Task<ICollection<Site>> CurrentUserSites(IIdentity user)
         {
-
-
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
@@ -46,76 +42,25 @@ namespace Maelstrom.Services
                                  where Sites.Deleted == null
                                  select new
                                  {
-                                     siteUser = SiteUser,
                                      sites = Sites,
-                                     appUser = AppUser,
                                      siteType = SiteType
-
                                  };
-
-            //if (querySiteUsers.Any())
-            //{ }
-
             return await querySiteUsers.Select(x => x.sites).ToListAsync();
-
-            //else
-            //{
-            //    return new List<Site>();
-            //}
-
-
-
-
-
-
-            //this should be done explictly in the contructor of the calling class -- see above
-
-            //else
-            //{
-            //    var defaultSite = new Site { SiteID = 999, Name = "Default", Capacity = 0, Location = "Does not exist yet", SiteTypeID = 1 };
-            //    var defaultSiteList = new List<Site>();
-            //    defaultSiteList.Add(defaultSite);
-            //    return defaultSiteList;
-            //}
         }
-
-        /// <summary>
-        /// SelectedSite method its depending on something else... need to investigate
-        /// </summary>
-        /// <param name="sites"></param>
-        /// <param name="currentSite"></param>
-        /// <returns></returns>
         public Site? SelectedSite(ICollection<Site> sites, Site currentSite)
         {
 
-            // could use opperator for oneline expression or cleaned up some other way
-            // also,  need to use ID attribute instead after view is modified
-
-            //old code to be changed
             if (currentSite.Name != null)
             {
-                return sites.First(x => x.Name == currentSite.Name);
+                return sites.First(x => x.SiteID == currentSite.SiteID);
             }
             else { return sites.FirstOrDefault(); }
         }
         public async Task<ICollection<TestResult>?> SelectedSiteTestResults(Site site)
         {
             var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID).OrderByDescending(x => x.CreationDate);
-            if (currentSiteTestResultsQuery.Any())
-            {
-                return await currentSiteTestResultsQuery.Where(t => t.Deleted == null).ToListAsync();
-            }
-            else
-            {
-                return null;
-            }
+            return await currentSiteTestResultsQuery.Where(t => t.Deleted == null).ToListAsync();
         }
-
-        /// <summary>
-        /// This maybe be over complicationing the problem... I think we can reduce db calls with the extenstion method .Include()
-        /// </summary>
-        /// <param name="site"></param>
-        /// <returns></returns>
         public async Task<string?> GetSiteType(Site site)
         {
             if (site == null)
@@ -125,7 +70,6 @@ namespace Maelstrom.Services
             var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == site.SiteTypeID).Select(x => x.Name);
             return await siteTypeQuery.FirstOrDefaultAsync();
         }
-
         public async Task<Site?> GetAppUserSite(AppUser user, int? id)
         {
 
@@ -142,16 +86,12 @@ namespace Maelstrom.Services
                                      sites = Sites,
                                      appUser = AppUser,
                                      siteType = SiteType
-
                                  };
-
             return await querySiteUsers.Select(x => x.sites).FirstOrDefaultAsync();
         }
 
         public async Task<ICollection<TestResult>?> GetUserSiteTestResults(AppUser user, int? id)
         {
-            //looks good but could probably be written cleaner
-
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
@@ -170,14 +110,11 @@ namespace Maelstrom.Services
                                      testResults = TestResult
 
                                  };
-
             return await querySiteUsers.Select(x => x.testResults).OrderByDescending(x => x.CreationDate).ToListAsync();
         }
 
         public async Task<SiteUser?> GetSiteUser(AppUser user, int? id)
         {
-            //looks good but could probably be written cleaner
-
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
@@ -194,9 +131,7 @@ namespace Maelstrom.Services
                                  };
 
             return await querySiteUsers.Select(x => x.siteUser).FirstOrDefaultAsync();
-
         }
-
         public async Task<SiteUser?> CheckTestResultUser(AppUser user, TestResult testResult)
         {
             var queryTrUser = from SiteUser in _context.SiteUsers
@@ -208,11 +143,6 @@ namespace Maelstrom.Services
 
             return await queryTrUser.FirstOrDefaultAsync();
         }
-
-        /// <summary>
-        /// Again... I think I am approaching this problem the wrong way... this might get recoded completly or deleted
-        /// </summary>
-
         public async Task<Dictionary<int, string>> GetAllSiteTypeValues()
         {
             var siteTypesDict = new Dictionary<int, String>(); // remove defaults and pass one in? or just use .include() some where else
@@ -224,15 +154,12 @@ namespace Maelstrom.Services
             {
                 siteTypesDict.Add(site.SiteTypeID, site.Name);
             }
-
             return siteTypesDict;
         }
-
         public async Task<TestResult?> FindTestResult(int? id)
         {
             return await _context.TestResults.Select(x => x)
                 .Where(x => x.TestResultID == id).FirstOrDefaultAsync();
-
         }
         public async Task DeleteSiteAsync(int id)
         {
@@ -240,7 +167,6 @@ namespace Maelstrom.Services
             _context.Attach(site).Property(p => p.Deleted).IsModified = true;
             await _context.SaveChangesAsync();
         }
-
         public async Task DeleteTestResultAsync(int id)
         {
             var testResult = new TestResult() { TestResultID = id, Deleted = DateTime.Now };

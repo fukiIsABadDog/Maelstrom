@@ -26,19 +26,9 @@ namespace Maelstrom.Areas.User.Pages
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
         //public ICollection<Fish>? ThisUsersFish { get; private set; }
 
-        //this doesn't need all these checks but I have to make sure nothing breaks for presentation
+
         public async Task<IActionResult> OnGetAsync(Site currentSite)
         {
-
-            //var currentAppUser = await _appUserService.FindAppUser(User.Identity);
-
-            //if (currentAppUser.Email == "Default@Maelstrom.com")
-            //{
-            //    return NotFound();
-            //}
-
-            //CurrentAppUser = currentAppUser;
-
             var user = User.Identity;
             var currentUserSites = await _appUserService.CurrentUserSites(user);
 
@@ -50,7 +40,6 @@ namespace Maelstrom.Areas.User.Pages
             {
                 CurrentUserSites = currentUserSites;
             }
-
             var selectedSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
             if (selectedSite == null)
             {
@@ -60,22 +49,13 @@ namespace Maelstrom.Areas.User.Pages
             {
                 CurrentSite = selectedSite;
             }
-
             var testResults = await _appUserService.SelectedSiteTestResults(CurrentSite);
-            if (testResults == null)
-            {
-                CurrentSiteTestResults = new List<TestResult>();
-            }
-            else
-            {
-                CurrentSiteTestResults = testResults;
-            }
-
+            CurrentSiteTestResults = testResults;
             var currentSiteType = await _appUserService.GetSiteType(CurrentSite);
 
             if (currentSiteType == null)
             {
-                CurrentSiteType = "Unknown";
+                CurrentSiteType = "N/A";
             }
             else
             {

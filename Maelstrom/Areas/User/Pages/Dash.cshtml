@@ -113,8 +113,8 @@
                             <th scope="col">@Html.DisplayNameFor(Model => Model.CurrentSiteTestResults.FirstOrDefault().CreationDate)</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @if (Model.CurrentSiteTestResults != null)
+                    <tbody> 
+                        @if (Model.CurrentSiteTestResults.Any() == true) 
                         {
                             int count = 0;
                             @foreach (var tr in Model.CurrentSiteTestResults)
