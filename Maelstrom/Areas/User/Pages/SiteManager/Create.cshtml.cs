@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
@@ -34,6 +35,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         }
         public async Task<IActionResult> OnPostAsync()
         {
+            CurrentUser = User.Identity!;
+            var appUser = await _context.AppUsers.Where(x => x.Email == CurrentUser.Name).FirstAsync();
+
             using (var memoryStream = new MemoryStream())
             {
                 await Upload.CopyToAsync(memoryStream);
@@ -44,11 +48,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                     Site.ImageData = memoryStream.ToArray();
                     try
                     {
-                        if (ModelState.IsValid)
+                        if (ModelState.IsValid && appUser != null)
                         {
-                            CurrentUser = User.Identity!;
-                            AppUser = new AppUser() { Email = CurrentUser.Name };
-                            this.SiteUser = new SiteUser { AppUser = AppUser, Site = this.Site }; // needs to be tested - 4/29 1:30
+                            this.SiteUser = new SiteUser { AppUser = appUser, Site = this.Site }; // needs to be tested - 4/29 1:30
                             _context.Sites.Add(Site);
                             _context.SiteUsers.Add(SiteUser);
                             await _context.SaveChangesAsync();

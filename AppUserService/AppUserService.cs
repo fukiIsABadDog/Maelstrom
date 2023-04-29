@@ -1,21 +1,9 @@
-﻿using EF_Models;
+﻿using System.Security.Principal;
+using EF_Models;
 using EF_Models.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Principal;
-
 namespace Maelstrom.Services
 {
-    /// <summary>
-    /// This Service helps us reuse code accross multiple pages
-    /// </summary>
-
-    /// objective: Refactor for async -- doing now 4/26 -- stage 1 complete
-    /// objective: Refactor for SRP -- doing now 4/26 
-    /// objective: Need to test for nulls inside calling objects --doing now 4/26
-    /// objective: see if you can get rid of some od these methods by making better db calls --doing now 4/26
-    /// objective: If possible Simplify Queries
-    /// objective:
-
     public class AppUserService : IAppUserService
     {
         private readonly MaelstromContext _context;
@@ -23,7 +11,6 @@ namespace Maelstrom.Services
         {
             _context = context;
         }
-
         public async Task<ICollection<Site>> GetCurrentUserSites(IIdentity user)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers
@@ -33,16 +20,18 @@ namespace Maelstrom.Services
                                  where AppUser.Email == user.Name
                                  where Sites.Deleted == null
                                  select Sites;
-
             return await querySiteUsers.ToListAsync();
         }
-        public Site? GetSelectedSite(ICollection<Site> sites, Site currentSite)
+        public Site GetSelectedSite(ICollection<Site> sites, Site? currentSite)
         {
-            if (currentSite.Name != null)
+            if (currentSite.Name == null)
             {
-                return sites.First(x => x.SiteID == currentSite.SiteID);
+                return sites.First();
             }
-            else { return sites.FirstOrDefault(); }
+            else
+            {
+                return sites.First(x => x.Name == currentSite.Name);
+            }
         }
         public async Task<ICollection<TestResult>?> GetSelectedSiteTestResults(Site site)
         {
@@ -63,10 +52,8 @@ namespace Maelstrom.Services
                                  where AppUser.Email == user.Name
                                  where Sites.SiteID == id
                                  select Sites;
-
             return await querySiteUsers.FirstOrDefaultAsync();
         }
-
         public async Task<ICollection<TestResult>?> GetCurrentUserSiteTestResults(IIdentity user, int? id)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers
@@ -79,10 +66,8 @@ namespace Maelstrom.Services
                                  where TestResult.Deleted == null
                                  where Sites.Deleted == null
                                  select TestResult;
-
             return await querySiteUsers.OrderByDescending(x => x.CreationDate).ToListAsync();
         }
-
         public async Task<SiteUser?> GetSiteUser(IIdentity user, int? id)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers
@@ -92,7 +77,6 @@ namespace Maelstrom.Services
                                  where AppUser.Email == user.Name
                                  where Sites.SiteID == id
                                  select SiteUser;
-
             return await querySiteUsers.FirstOrDefaultAsync();
         }
         public async Task<SiteUser?> CheckAndReturnSiteUser(IIdentity user, TestResult testResult)
@@ -103,7 +87,6 @@ namespace Maelstrom.Services
                               where AppUser.Email == user.Name
                               where TestResult == testResult
                               select SiteUser;
-
             return await queryTrUser.FirstOrDefaultAsync();
         }
         public async Task<Dictionary<int, string>> CreateSiteTypeDictionary()

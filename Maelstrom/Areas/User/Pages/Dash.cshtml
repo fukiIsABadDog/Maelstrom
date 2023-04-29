@@ -19,7 +19,7 @@
                 @foreach (var site in @Model.CurrentUserSites)
                 {
                     <input type="submit" asp-for="CurrentSite.Name" value="@site.Name" class="btn btn-outline-success btn-lg" />
-                }
+                }   
             </form>
         }
         <a asp-page="./SiteManager/create" class="btn btn-outline-success btn-lg">Create New</a>
