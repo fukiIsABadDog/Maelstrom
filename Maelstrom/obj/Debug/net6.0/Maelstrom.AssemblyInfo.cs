@@ -11,6 +11,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-Maelstrom-544b22ef-322c-4196-b14f-f34b2cf355ec")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Maelstrom")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]

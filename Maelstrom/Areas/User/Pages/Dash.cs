@@ -30,15 +30,17 @@ namespace Maelstrom.Areas.User.Pages
         public async Task<IActionResult> OnGetAsync(Site currentSite)
         {
 
-            var currentAppUser = await _appUserService.FindAppUser(User.Identity);
+            //var currentAppUser = await _appUserService.FindAppUser(User.Identity);
 
-            if (currentAppUser.Email == "Default@Maelstrom.com")
-            {
-                return NotFound();
-            }
-            CurrentAppUser = currentAppUser;
+            //if (currentAppUser.Email == "Default@Maelstrom.com")
+            //{
+            //    return NotFound();
+            //}
 
-            var currentUserSites = await _appUserService.CurrentUserSites(CurrentAppUser);
+            //CurrentAppUser = currentAppUser;
+
+            var user = User.Identity;
+            var currentUserSites = await _appUserService.CurrentUserSites(user);
 
             if (currentUserSites.Any() == false)
             {

@@ -34,7 +34,7 @@ namespace Maelstrom.Services
             return currentAppuser;
 
         }
-        public async Task<ICollection<Site>> CurrentUserSites(AppUser user)
+        public async Task<ICollection<Site>> CurrentUserSites(IIdentity user)
         {
 
 
@@ -42,7 +42,7 @@ namespace Maelstrom.Services
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                                  join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
                                  join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
-                                 where AppUser == user
+                                 where AppUser.Email == user.Name
                                  where Sites.Deleted == null
                                  select new
                                  {
@@ -53,8 +53,17 @@ namespace Maelstrom.Services
 
                                  };
 
+            if (querySiteUsers.Any())
+            {
+                return await querySiteUsers.Select(x => x.sites).ToListAsync();
+            }
+            else
+            {
+                return new List<Site>();
+            }
 
-            return await querySiteUsers.Select(x => x.sites).ToListAsync();
+
+
 
 
 
