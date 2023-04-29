@@ -3,6 +3,7 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace Maelstrom.Areas.User.Pages
 {
@@ -10,9 +11,11 @@ namespace Maelstrom.Areas.User.Pages
     public class DashModel : PageModel
     {
         private readonly IAppUserService _appUserService;
-        public DashModel(IAppUserService appUserService)
+        private readonly MaelstromContext _context;
+        public DashModel(IAppUserService appUserService, MaelstromContext context)
         {
             _appUserService = appUserService;
+            _context = context;
         }
         public string CurrentSiteType { get; set; } = string.Empty;
         public AppUser CurrentAppUser { get; private set; }
@@ -30,26 +33,90 @@ namespace Maelstrom.Areas.User.Pages
         public async Task<IActionResult> OnGetAsync(Site currentSite)
         {
 
-            var currentAppUser = await _appUserService.FindAppUser(User.Identity);
+            //var currentAppUser = await _appUserService.FindAppUser(User.Identity);
 
-            if (currentAppUser.Email == "Default@Maelstrom.com")
-            {
-                return NotFound();
-            }
-            CurrentAppUser = currentAppUser;
+            //if (currentAppUser.Email == "Default@Maelstrom.com")
+            //{
+            //    return NotFound();
+            //}
+            //CurrentAppUser = currentAppUser;
 
-            var currentUserSites = await _appUserService.CurrentUserSites(CurrentAppUser);
+            //var currentUserSites = await _appUserService.CurrentUserSites(CurrentAppUser);
 
-            if (currentUserSites.Any() == false)
+            //if (currentUserSites.Any() == false)
+            //{
+            //    return RedirectToPage("/sitemanager/create");
+            //}
+            //else
+            //{
+            //    CurrentUserSites = currentUserSites;
+            //}
+
+            //var selectedSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
+            //if (selectedSite == null)
+            //{
+            //    return RedirectToPage("/sitemanager/create");
+            //}
+            //else
+            //{
+            //    CurrentSite = selectedSite;
+            //}
+
+            //var testResults = await _appUserService.SelectedSiteTestResults(CurrentSite);
+            //if (testResults == null)
+            //{
+            //    CurrentSiteTestResults = new List<TestResult>();
+            //}
+            //else
+            //{
+            //    CurrentSiteTestResults = testResults;
+            //}
+
+            //var currentSiteType = await _appUserService.GetSiteType(CurrentSite);
+
+            //if (currentSiteType == null)
+            //{
+            //    CurrentSiteType = "Unknown";
+            //}
+            //else
+            //{
+            //    CurrentSiteType = currentSiteType;
+            //}
+
+
+            //this grabs everything at once
+            var querySiteUsers = from SiteUser in _context.SiteUsers
+                                 join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
+                                 join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+                                 join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
+                                 join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
+                                 where AppUser.Email == User.Identity.Name
+                                 where TestResult.Deleted == null
+                                 where Sites.Deleted == null
+                                 select new
+                                 {
+
+                                     sites = Sites,
+                                     siteType = SiteType,
+                                     testResults = TestResult
+
+                                 };
+            var listOfObjects = await querySiteUsers.ToListAsync();
+
+
+            // this selects users sites
+            var userSites = new List<Site>();
+            foreach (var obj in listOfObjects)
             {
-                return RedirectToPage("/sitemanager/create");
+                if (!userSites.Contains(obj.sites))
+                {
+                    userSites.Add(obj.sites);
+                }
             }
-            else
-            {
-                CurrentUserSites = currentUserSites;
-            }
+            CurrentUserSites = userSites;
 
             var selectedSite = _appUserService.SelectedSite(CurrentUserSites, currentSite);
+
             if (selectedSite == null)
             {
                 return RedirectToPage("/sitemanager/create");
@@ -59,26 +126,30 @@ namespace Maelstrom.Areas.User.Pages
                 CurrentSite = selectedSite;
             }
 
-            var testResults = await _appUserService.SelectedSiteTestResults(CurrentSite);
-            if (testResults == null)
+
+
+            var type = string.Empty;
+            foreach (var obj in listOfObjects)
             {
-                CurrentSiteTestResults = new List<TestResult>();
-            }
-            else
-            {
-                CurrentSiteTestResults = testResults;
+                if (obj.sites == CurrentSite)
+                    type = obj.siteType.Name;
             }
 
-            var currentSiteType = await _appUserService.GetSiteType(CurrentSite);
+            CurrentSiteType = type;
 
-            if (currentSiteType == null)
+            var testResults = new List<TestResult>();
+            foreach (var obj in listOfObjects)
             {
-                CurrentSiteType = "Unknown";
+                if (obj.sites == CurrentSite)
+                    testResults.Add(obj.testResults);
             }
-            else
-            {
-                CurrentSiteType = currentSiteType;
-            }
+
+            CurrentSiteTestResults = testResults;
+
+
+
+
+
 
             if (CurrentSite.ImageData != null && CurrentSite.ImageData.Length > 1 == true)
             {
