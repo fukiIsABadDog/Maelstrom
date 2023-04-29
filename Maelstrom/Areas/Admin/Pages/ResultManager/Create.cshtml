@@ -1,0 +1,83 @@
+﻿@page
+@model Maelstrom.Areas.Admin.Pages.ResultManager.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TestResult</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TestResult.Temperature" class="control-label"></label>
+                <input asp-for="TestResult.Temperature" class="form-control" />
+                <span asp-validation-for="TestResult.Temperature" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.Ph" class="control-label"></label>
+                <input asp-for="TestResult.Ph" class="form-control" />
+                <span asp-validation-for="TestResult.Ph" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.Sality" class="control-label"></label>
+                <input asp-for="TestResult.Sality" class="form-control" />
+                <span asp-validation-for="TestResult.Sality" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.Alkalinty" class="control-label"></label>
+                <input asp-for="TestResult.Alkalinty" class="form-control" />
+                <span asp-validation-for="TestResult.Alkalinty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.Calcium" class="control-label"></label>
+                <input asp-for="TestResult.Calcium" class="form-control" />
+                <span asp-validation-for="TestResult.Calcium" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.Magnesium" class="control-label"></label>
+                <input asp-for="TestResult.Magnesium" class="form-control" />
+                <span asp-validation-for="TestResult.Magnesium" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.Phosphate" class="control-label"></label>
+                <input asp-for="TestResult.Phosphate" class="form-control" />
+                <span asp-validation-for="TestResult.Phosphate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.Nitrate" class="control-label"></label>
+                <input asp-for="TestResult.Nitrate" class="form-control" />
+                <span asp-validation-for="TestResult.Nitrate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.Nitrite" class="control-label"></label>
+                <input asp-for="TestResult.Nitrite" class="form-control" />
+                <span asp-validation-for="TestResult.Nitrite" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.Ammonia" class="control-label"></label>
+                <input asp-for="TestResult.Ammonia" class="form-control" />
+                <span asp-validation-for="TestResult.Ammonia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestResult.SiteUserID" class="control-label"></label>
+                <select asp-for="TestResult.SiteUserID" class ="form-control" asp-items="ViewBag.SiteUserID"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

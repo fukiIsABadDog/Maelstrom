@@ -1,20 +1,22 @@
 ﻿using EF_Models.Models;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Maelstrom.Services
 {
     public interface IAppUserService
-    {
-        AppUser FindAppUser(IIdentity user);
-        ICollection<Site> CurrentUserSites(AppUser user);
-        Site SelectedSite(ICollection<Site> sites, Site? currentSite);  
-        ICollection<TestResult>  SelectedSiteTestResults(Site site);
-        string GetSiteType(Site site);
+    {// rename methods for consistency and conciseness
+        Task<AppUser?> FindAppUser(IIdentity user);
+        Task<ICollection<Site>> CurrentUserSites(AppUser user);
+        Site? SelectedSite(ICollection<Site> sites, Site? currentSite);
+        Task<ICollection<TestResult>?> SelectedSiteTestResults(Site site);
+        Task<string?> GetSiteType(Site site);
+        Task<Dictionary<int, string>> GetAllSiteTypeValues();
+        Task<Site?> GetAppUserSite(AppUser user, int? id);
+        Task<ICollection<TestResult>?> GetUserSiteTestResults(AppUser user, int? id);
+        Task<SiteUser?> GetSiteUser(AppUser user, int? id);
+        Task<SiteUser?> CheckTestResultUser(AppUser user, TestResult testResult);
+        Task<TestResult?> FindTestResult(int? id);
+        Task DeleteTestResultAsync(int id);
+        Task DeleteSiteAsync(int id);
     }
 }

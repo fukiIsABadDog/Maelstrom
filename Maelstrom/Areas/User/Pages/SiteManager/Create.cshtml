@@ -1,0 +1,65 @@
+﻿@page
+@model Maelstrom.Areas.User.Pages.SiteManager.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+@{
+    Layout = "_Layout";
+}
+@* <div class="container-fluid mt-5" style=" background-color:floralwhite"> *@
+@* <h2>@Model.Message</h2> *@
+
+<div class="row"></div>
+<div class="row mt-5">
+    <div class="shadow-lg mt-2 mb-3 text-center fw-bolder">
+       <h1>Create</h1>
+       <hr>
+            <hr>
+            <div class="mt-4 mb-4">
+                <a asp-page="./Index" class=" btn btn-lg btn-primary w-50" style="height:3rem">Back to Site Manager</a>
+            </div>
+    </div>
+    <div class="col-12 shadow mt-3 text-center fw-bolder" >
+        <form enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Site.Name" class="control-label"></label>
+                <input asp-for="Site.Name" class="form-control" />
+                <span asp-validation-for="Site.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Site.Capacity" class="control-label"></label>
+                <input asp-for="Site.Capacity" class="form-control" />
+                <span asp-validation-for="Site.Capacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Site.Location" class="control-label"></label>
+                <input asp-for="Site.Location" class="form-control" />
+                <span asp-validation-for="Site.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Site.SiteTypeID" class="control-label"></label>
+                <select asp-for="Site.SiteTypeID" class="form-control" asp-items="ViewBag.SiteTypeID"></select>
+            </div>
+            <div class="form-group mt-4 shadow">
+                <label asp-for="Upload" class="control-label"></label><br />
+                <input asp-for="Upload" accept=".jpg" type="file" class="form-control form-control-lg"/>
+                <span asp-validation-for="Upload" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mt-5 mb-3 text-center">
+                <input type="submit" value="Submit" class="btn btn-lg btn-success w-25" style="height:3rem" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@* </div> *@
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

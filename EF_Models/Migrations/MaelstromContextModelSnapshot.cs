@@ -175,8 +175,11 @@ namespace EF_Models.Migrations
                     b.Property<int?>("Capacity")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("Deleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
@@ -251,6 +254,12 @@ namespace EF_Models.Migrations
 
                     b.Property<decimal?>("Calcium")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Deleted")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal?>("Magnesium")
                         .HasColumnType("decimal(18,2)");

@@ -3,8 +3,7 @@ using EF_Models.Models;
 using Maelstrom.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +20,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<MaelstromContext>();
+
+
+
+
 
 builder.Services.AddScoped<IAppUserService, AppUserService>();
 

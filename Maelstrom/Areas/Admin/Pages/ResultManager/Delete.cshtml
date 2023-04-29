@@ -1,0 +1,91 @@
+﻿@page
+@model Maelstrom.Areas.Admin.Pages.ResultManager.DeleteModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "_Layout";
+
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TestResult</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Temperature)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Temperature)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Ph)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Ph)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Sality)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Sality)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Alkalinty)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Alkalinty)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Calcium)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Calcium)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Magnesium)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Magnesium)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Phosphate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Phosphate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Nitrate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Nitrate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Nitrite)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Nitrite)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.Ammonia)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.Ammonia)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestResult.SiteUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestResult.SiteUser.SiteUserID)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="TestResult.TestResultID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

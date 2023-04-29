@@ -3,9 +3,9 @@ body {
 }
 
 #site-name {
-    font-size: 3rem;
+    font-size: 4rem;
     text-align: center;
-    padding-top: 30px;
+   
 }
 
 #img-aquarium-div {
@@ -69,4 +69,47 @@ body {
     max-height: auto;
     margin: auto;
     text-align: center;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 57px;
+    right: 0;
+    background-color: aliceblue;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    box-shadow: .05px .05px 1px 1px tan;
+}
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: black;
+        display: block;
+        transition: 0.3s;
+    }
+
+        .sidenav a:hover {
+            color: #818181;
+        }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        font-size: 36px;
+        margin-right: 50px;
+    }
+
+.thespan {
+    left: 10px;
+}
+
+.navbar-toggleable-sm{
+    color:aqua;
 }

@@ -1,0 +1,104 @@
+﻿@page
+@model Maelstrom.Areas.Admin.Pages.ResultManager.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Admin Test Results Manager";
+    Layout = "_Layout";
+}
+
+<h1> Administrator Test Result Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Temperature)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Ph)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Sality)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Alkalinty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Calcium)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Magnesium)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Phosphate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Nitrate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Nitrite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Ammonia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].SiteUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestResult[0].Deleted)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.TestResult) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Temperature)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ph)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sality)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alkalinty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Calcium)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Magnesium)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phosphate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nitrate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nitrite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ammonia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SiteUser.SiteUserID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deleted)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.TestResultID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.TestResultID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.TestResultID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
