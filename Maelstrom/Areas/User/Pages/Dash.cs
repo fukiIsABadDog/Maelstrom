@@ -53,7 +53,7 @@ namespace Maelstrom.Areas.User.Pages
                 var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                 SiteImage = imgSrc;
             }
-            else { }
+
             return Page();
         }
         public void OnPost()

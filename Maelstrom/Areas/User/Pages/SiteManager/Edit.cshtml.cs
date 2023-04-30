@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
@@ -24,7 +25,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
         [BindProperty]
         public Site Site { get; set; } = default!;
-
+        [DisplayName("Upload New Image")]
         [BindProperty]
         [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile? Upload { get; set; }
@@ -62,6 +63,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
         public async Task<IActionResult> OnPostAsync()
         {
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -73,12 +75,18 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 {
                     await Upload.CopyToAsync(memoryStream);
 
-                    // Upload the file if less than 2 MB
-                    if (memoryStream.Length < 2097152)
+
+                    if (memoryStream.Length < 4194304)
                     {
 
                         Site.ImageData = memoryStream.ToArray();
 
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
+                        ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
+                        return Page();
                     }
                 }
             }
@@ -99,10 +107,10 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                //else
+                //{
+                //    throw;
+                //}
             }
 
             return RedirectToPage("./Index");
