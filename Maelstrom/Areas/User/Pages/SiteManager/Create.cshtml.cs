@@ -31,6 +31,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public IActionResult OnGet()
         {
             ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
+
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
@@ -59,11 +60,13 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                     catch
                     {
                         Message = "There was an issue saving the data as entered.";
+                        return Page();
                     }
                 }
                 else
                 {
                     ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
+                    ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
                     return Page();
                 }
             }
