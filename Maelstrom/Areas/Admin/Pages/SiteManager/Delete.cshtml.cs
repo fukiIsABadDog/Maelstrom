@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EF_Models.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EF_Models;
-using EF_Models.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
 
 namespace Maelstrom.Admin.Pages.SiteManager
 {
@@ -23,8 +17,8 @@ namespace Maelstrom.Admin.Pages.SiteManager
         }
 
         [BindProperty]
-      public Site Site { get; set; } = default!;
-      public string? SiteImage { get; private set; }
+        public Site Site { get; set; } = default!;
+        public string? SiteImage { get; private set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -39,7 +33,7 @@ namespace Maelstrom.Admin.Pages.SiteManager
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Site = site;
                 if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
@@ -63,7 +57,7 @@ namespace Maelstrom.Admin.Pages.SiteManager
             if (site != null)
             {
                 Site = site;
-               
+
                 _context.Sites.Remove(Site);
                 await _context.SaveChangesAsync();
             }

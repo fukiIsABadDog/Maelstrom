@@ -1,0 +1,87 @@
+﻿@page
+@model Maelstrom.Areas.Admin.Pages.SiteUserManager.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<p> <p> @Model.Message </p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].IsAdmin)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].Site)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].AppUser.FirstName)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].AppUser.LastName)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].AppUser.Email)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model.SiteUsers)
+            {
+            <tr>
+
+                <td>
+
+
+                    <form method="post">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" name="@Model.SiteUserId" value="@item.SiteUserID" />
+                        <input type="hidden" name="@Model.SiteId" value="@item.SiteID" />
+
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input  class="form-check-input" asp-for="@item.IsAdmin" name="@Model.IsAdmin" />
+                            </label>
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </form>
+                   
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Site.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUser.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUser.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUser.Email)
+                </td>
+
+                <td>
+
+                    <a asp-page="./Details" asp-route-id="@item.SiteUserID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.SiteUserID">Delete</a>
+                </td>
+
+            </tr>
+
+            }
+
+    </tbody>
+</table>
