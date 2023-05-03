@@ -3,7 +3,8 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Microsoft.Build.Framework;
+using System.ComponentModel.DataAnnotations;
 
 namespace Maelstrom.Areas.User.Pages.SiteUserManager
 {
@@ -19,10 +20,20 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             _appUserService = appUserService;
         }
         [BindProperty]
+        public string Message { get; set; }
+
+        [BindProperty]
         public int SiteId { get; set; }
         public SiteUser Admin { get; set; } = null!;
         [BindProperty]
         public SiteUser NewSiteUser { get; set; } = null!;
+        
+        [BindProperty]
+       public bool IsAdmin { get; set; }
+
+        [EmailAddress]
+        [BindProperty]
+        public string Email { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
 
@@ -53,15 +64,23 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         /// <returns></returns>
         public async Task<IActionResult> OnPostAsync()
         {
-            var email = NewSiteUser.AppUser.Email;
-            var appUser =  _context.AppUsers.Where( x => x.Email == email).FirstOrDefault(); // only on not working
+
+
+            var appUser =  _context.AppUsers.Where( x => x.Email == Email).FirstOrDefault(); 
             if (appUser == null)
-            { 
-                return NotFound();
+            {
+                Message = "That Email is not valid.";
+                return Page();
             }
-            var isAdmin = NewSiteUser.IsAdmin;
-            var siteID = SiteId;
-            var siteUser = new SiteUser { SiteID = siteID, AppUser = appUser, IsAdmin = isAdmin };
+
+            var existingUser = _context.SiteUsers.FirstOrDefault(x => x.AppUser == appUser);
+            if (existingUser != null) 
+            {
+                Message = "That User already has privileges assigned. Please visit Edit Page";
+                return Page();
+            }
+
+            var siteUser = new SiteUser { SiteID = SiteId, AppUser = appUser, IsAdmin = IsAdmin };
             NewSiteUser = siteUser;
             try
             {

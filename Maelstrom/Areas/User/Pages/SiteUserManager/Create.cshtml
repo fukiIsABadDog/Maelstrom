@@ -18,13 +18,13 @@
             <input type="hidden" asp-for="SiteId" />
 
             <div class="form-group">
-                <label asp-for="NewSiteUser.AppUser.Email" class="control-label"></label>
-                <input asp-for="NewSiteUser.AppUser.Email" class="form-control" />
-                <span asp-validation-for="NewSiteUser.AppUser.Email" class="text-danger"></span>
-
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+                <p class="text-danger">@Model.Message</p>
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="NewSiteUser.IsAdmin" /> @Html.DisplayNameFor(model => model.NewSiteUser.IsAdmin)
+                        <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
                     </label>
                 </div>
            </div>
@@ -36,7 +36,7 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+   @* <a asp-page="Index">Back to List</a>*@
 </div>
 
 @section Scripts {
