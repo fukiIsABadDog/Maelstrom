@@ -10,12 +10,12 @@
 
 <h4>Site User</h4>
 <hr />
-<div class="row">
+<div class="row">                     
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input type="hidden" asp-for="SiteId" />
+            <input type="hidden" asp-for="Site" />
 
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
@@ -29,14 +29,14 @@
                 </div>
            </div>
             <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
+                <input type="submit" value="Add" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-   @* <a asp-page="Index">Back to List</a>*@
+    <a asp-page="./Index" asp-route-id="@Model.Site.SiteID.ToString()" class=" btn btn-primary mt-1">Back to All Users</a>
 </div>
 
 @section Scripts {

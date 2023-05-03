@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace EF_Models.Models
 {
     public class SiteUser
@@ -8,6 +10,9 @@ namespace EF_Models.Models
 
         public AppUser? AppUser { get; set; }
         public Site? Site { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? Deleted { get; set; }
 
     }
 }

@@ -1,4 +1,71 @@
 ﻿@page
 @model Maelstrom.Areas.User.Pages.SiteUserManager.IndexModel
 @{
+    ViewData["Title"] = "All Users";
+    Layout = "_Layout";
 }
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="./Create"  asp-route-id="@Model.SiteID.ToString()" class="btn  btn-success mt-4">Add New User</a>
+</p>
+<p> <p> @Model.Message </p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].IsAdmin)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].Site)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].AppUser.FirstName)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].AppUser.LastName)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.SiteUsers[0].AppUser.Email)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model.SiteUsers)
+            {
+            <tr>
+
+                <td>
+                        @Html.DisplayFor(modelItem => item.IsAdmin)
+
+                </td>
+
+                <td>
+                        @Html.DisplayFor(modelItem => item.Site.Name)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.AppUser.FirstName)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.AppUser.LastName)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.AppUser.Email)
+                </td>
+
+                <td>
+                    @*<a asp-page="./Edit" asp-route-id="@item.SiteUserID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.SiteUserID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.SiteUserID">Delete</a>*@
+                </td>
+
+            </tr>
+
+            }
+
+    </tbody>
+</table>

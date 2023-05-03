@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Build.Framework;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace Maelstrom.Areas.User.Pages.SiteUserManager
@@ -23,7 +24,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         public string Message { get; set; }
 
         [BindProperty]
-        public int SiteId { get; set; }
+        public Site Site { get; set; } = new Site();
         public SiteUser Admin { get; set; } = null!;
         [BindProperty]
         public SiteUser NewSiteUser { get; set; } = null!;
@@ -50,7 +51,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 return Forbid();          
             }
 
-            SiteId = id.Value;
+            Site = await _context.Sites.FirstAsync(x => x.SiteID == id)!;
             Admin = currentSiteUser;
             return Page();
         }
@@ -62,7 +63,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         public async Task<IActionResult> OnPostAsync()
         {
 
-
+            //BUG HERE!! Needs to check app user at THAT SITE! Not all sites in DB!
             var appUser =  _context.AppUsers.Where( x => x.Email == Email).FirstOrDefault(); 
             if (appUser == null)
             {
@@ -77,7 +78,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 return Page();
             }
 
-            var siteUser = new SiteUser { SiteID = SiteId, AppUser = appUser, IsAdmin = IsAdmin };
+            var siteUser = new SiteUser { Site = Site, AppUser = appUser, IsAdmin = IsAdmin };
             NewSiteUser = siteUser;
             try
             {
