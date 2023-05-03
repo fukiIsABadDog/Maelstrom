@@ -40,24 +40,8 @@
             <tr>
 
                 <td>
+                        @Html.DisplayFor(modelItem => item.IsAdmin)
 
-
-                    <form method="post">
-
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" name="@Model.SiteUserId" value="@item.SiteUserID" />
-                        <input type="hidden" name="@Model.SiteId" value="@item.SiteID" />
-
-                        <div class="form-group form-check">
-                            <label class="form-check-label">
-                                <input  class="form-check-input" asp-for="@item.IsAdmin" name="@Model.IsAdmin" />
-                            </label>
-                            <div class="form-group">
-                                <input type="submit" value="Save" class="btn btn-primary" />
-                            </div>
-                        </div>
-                    </form>
-                   
                 </td>
 
                 <td>
@@ -74,7 +58,7 @@
                 </td>
 
                 <td>
-
+                    <a asp-page="./Edit" asp-route-id="@item.SiteUserID">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.SiteUserID">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.SiteUserID">Delete</a>
                 </td>

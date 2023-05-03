@@ -34,37 +34,6 @@ namespace Maelstrom.Areas.Admin.Pages.SiteUserManager
             }
 
         }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            var siteuser = new SiteUser { IsAdmin = IsAdmin, SiteID = SiteId, SiteUserID = SiteUserId };
-            SiteUser = await _context.SiteUsers.FindAsync(siteuser.SiteUserID);
-            if (SiteUser == null)
-            {
-                Message = "There was an error finding that Site User";
-
-                return Page();
-            }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-
-            }
-            Message = "Change Successful";
-            return Page();
-        }
-        private bool SiteUserExists(int id)
-        {
-            return (_context.SiteUsers?.Any(e => e.SiteUserID == id)).GetValueOrDefault();
-        }
+    
     }
 }
