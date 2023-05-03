@@ -1,4 +1,46 @@
-﻿@page
+﻿@page 
 @model Maelstrom.Areas.User.Pages.SiteUserManager.CreateModel
 @{
+    ViewData["Title"] = "Add New Site User";
+    Layout = "_Layout";
+}
+
+
+<h1>Add New</h1>
+
+<h4>Site User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="SiteId" />
+
+            <div class="form-group">
+                <label asp-for="NewSiteUser.AppUser.Email" class="control-label"></label>
+                <input asp-for="NewSiteUser.AppUser.Email" class="form-control" />
+                <span asp-validation-for="NewSiteUser.AppUser.Email" class="text-danger"></span>
+
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="NewSiteUser.IsAdmin" /> @Html.DisplayNameFor(model => model.NewSiteUser.IsAdmin)
+                    </label>
+                </div>
+           </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

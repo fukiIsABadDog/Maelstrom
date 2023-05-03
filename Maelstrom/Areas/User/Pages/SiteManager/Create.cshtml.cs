@@ -13,8 +13,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
     [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly EF_Models.MaelstromContext _context;
-        public CreateModel(EF_Models.MaelstromContext context)
+        private readonly MaelstromContext _context;
+        public CreateModel(MaelstromContext context)
         {
             _context = context;
         }
