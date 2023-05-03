@@ -15,7 +15,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input type="hidden" asp-for="Site" />
+            <input type="hidden" asp-for="SiteId" />
 
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
@@ -36,7 +36,7 @@
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-id="@Model.Site.SiteID.ToString()" class=" btn btn-primary mt-1">Back to All Users</a>
+    <a asp-page="./Index" asp-route-id="@Model.SiteId.ToString()" class=" btn btn-primary mt-1">Back to All Users</a>
 </div>
 
 @section Scripts {

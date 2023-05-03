@@ -20,7 +20,7 @@ namespace Maelstrom.Services
                                  where AppUser.Email == user.Name
                                  where Sites.Deleted == null
                                  select Sites;
-            return await querySiteUsers.ToListAsync();
+            return await querySiteUsers.Distinct().ToListAsync();
         }
         public Site GetSelectedSite(ICollection<Site> sites, Site? currentSite)
         {

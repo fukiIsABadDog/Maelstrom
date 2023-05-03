@@ -24,7 +24,10 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         public string Message { get; set; }
 
         [BindProperty]
-        public Site Site { get; set; } = new Site();
+        public Site Site { get; set; }
+
+        [BindProperty]
+        public int SiteId { get; set; }
         public SiteUser Admin { get; set; } = null!;
         [BindProperty]
         public SiteUser NewSiteUser { get; set; } = null!;
@@ -35,14 +38,18 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         [EmailAddress]
         [BindProperty]
         public string Email { get; set; }
-        public async Task<IActionResult> OnGetAsync(int? id)
+
+        public async Task<IActionResult> OnGetAsync(int? id, string? message)
         {
 
             if (id == null)
             {
                 return NotFound();
             }
-
+            if (message != null) 
+            {
+                Message = message;
+            }
             var currentUser = User.Identity!;
             var currentSiteUser = await _appUserService.GetSiteUser(currentUser, id);
             
@@ -50,35 +57,38 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             {
                 return Forbid();          
             }
-
-            Site = await _context.Sites.FirstAsync(x => x.SiteID == id)!;
+            SiteId = id.Value;
+            var site = await _context.Sites.FirstAsync(x => x.SiteID == id)!;
+            Site = Site;
             Admin = currentSiteUser;
             return Page();
         }
 
         /// <summary>
-        /// Fully Functional
+        /// Issues found
         /// </summary>
         /// <returns></returns>
         public async Task<IActionResult> OnPostAsync()
         {
-
-            //BUG HERE!! Needs to check app user at THAT SITE! Not all sites in DB!
-            var appUser =  _context.AppUsers.Where( x => x.Email == Email).FirstOrDefault(); 
+            SiteId = SiteId;
+            
+            var appUser = await _context.AppUsers.Where( x => x.Email == Email).FirstOrDefaultAsync();
             if (appUser == null)
             {
                 Message = "That Email is not valid.";
-                return Page();
+                return await OnGetAsync(SiteId, Message); 
             }
 
-            var existingUser = _context.SiteUsers.FirstOrDefault(x => x.AppUser == appUser);
+            var existingUser = await _context.SiteUsers.Where(x => x.Site.SiteID == SiteId).Where( x=> x.AppUser == appUser).FirstOrDefaultAsync();
             if (existingUser != null) 
             {
+                
                 Message = "That User already has privileges assigned. Please visit Edit Page";
-                return Page();
-            }
+                return await OnGetAsync(SiteId, Message);
 
-            var siteUser = new SiteUser { Site = Site, AppUser = appUser, IsAdmin = IsAdmin };
+            }
+            var site = _context.Sites.Find(SiteId);
+            var siteUser = new SiteUser { Site = site, AppUser = appUser, IsAdmin = IsAdmin };
             NewSiteUser = siteUser;
             try
             {
@@ -90,7 +100,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 return BadRequest(ex.Message);
             }
 
-            return RedirectToPage("/SiteManager/Index");
+            return RedirectToPage("./Index", new {id = SiteId});
         }
     }
 }
