@@ -56,10 +56,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         }
 
         /// <summary>
-        /// In testing - 5/3
-        /// 
-        /// issue: 404 is blank
-        /// issue: client side validation needs to be reconfigured
+        /// Fully Functional
         /// </summary>
         /// <returns></returns>
         public async Task<IActionResult> OnPostAsync()
