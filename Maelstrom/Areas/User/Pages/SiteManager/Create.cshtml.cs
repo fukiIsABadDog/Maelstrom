@@ -67,7 +67,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             {
                 if (ModelState.IsValid && appUser != null)
                 {
-                    this.SiteUser = new SiteUser { AppUser = appUser, Site = this.Site };
+                    this.SiteUser = new SiteUser { AppUser = appUser, Site = this.Site, IsAdmin = true };
                     _context.Sites.Add(Site);
                     _context.SiteUsers.Add(SiteUser);
                     await _context.SaveChangesAsync();
