@@ -104,8 +104,24 @@ namespace Maelstrom.Services
             var queryTrUser = from SiteUser in _context.SiteUsers
                               join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                               join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
+                              where AppUser.Email == user.Name 
+                              where TestResult == testResult                  
+                              select SiteUser;
+            return await queryTrUser.FirstOrDefaultAsync();
+        }
+        public async Task<SiteUser?> CheckAndReturnAdminSiteUser(IIdentity user, TestResult testResult)
+        {
+            var siteQuery = from TestResult in _context.TestResults
+                            join Site in _context.Sites on TestResult.SiteUser.SiteID equals Site.SiteID
+                            select Site;
+            var site = await siteQuery.FirstOrDefaultAsync();
+
+            var queryTrUser = from SiteUser in _context.SiteUsers
+                              join Site in _context.Sites on SiteUser.SiteID equals Site.SiteID
+                              join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser                
                               where AppUser.Email == user.Name
-                              where TestResult == testResult
+                              where SiteUser.IsAdmin == true
+                              where Site == site
                               select SiteUser;
             return await queryTrUser.FirstOrDefaultAsync();
         }

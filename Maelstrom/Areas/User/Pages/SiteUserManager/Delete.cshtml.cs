@@ -40,12 +40,12 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             var currentSiteUser = await _context.SiteUsers.Where(x => x.AppUser.Email == CurrentUser.Name).FirstOrDefaultAsync();
             if (currentSiteUser == null || currentSiteUser.IsAdmin != true)
             {
-                return BadRequest("You need to be a site administrator to remove user. Use Browser Back button to return to previous page.");
+                return Forbid();
             }
             var siteUserToBeDeleted = await _context.SiteUsers.Where(x => x.SiteUserID == SiteUserToBeDeletedId).FirstOrDefaultAsync();
             if (siteUserToBeDeleted == null || siteUserToBeDeleted.IsAdmin == true)
             {              
-                return BadRequest("Sorry, you can not remove a user if they are an administrator. Use Browser Back button to return to previous page.");        
+                return Forbid();        
             }
             SiteId = siteUserToBeDeleted.SiteID;
             return Page();

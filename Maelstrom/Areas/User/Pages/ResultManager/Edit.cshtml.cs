@@ -30,33 +30,38 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
         {
             if (id == null)
             {
-                return (NotFound());
+                return NotFound();
             }
             CurrentUser = User.Identity!;
             var testResult = await _context.TestResults.Select(x => x).Where(x => x.TestResultID == id).FirstOrDefaultAsync();
             if (testResult == null)
             {
-                return (NotFound("That is not a valid input."));
+                return Forbid();
             }
             var siteUser = await _appUserService.CheckAndReturnSiteUser(CurrentUser, testResult);
 
             if (siteUser == null || testResult == null)
             {
-                // this needs to be refactored in service
-                var testResultQuery = _context.TestResults.Select(x => x).Where(x => x.TestResultID == id);
-                var siteQuery =  testResultQuery.Include( x=> x.SiteUser.Site).Select( x=> x.SiteUser.Site);
-                var su = await siteQuery.Select(x => x.SiteUsers.Where( x => x.AppUser.Email == CurrentUser.Name)).SingleOrDefaultAsync();
+                //// this needs to be refactored in service
+                //var testResultQuery = _context.TestResults.Select(x => x).Where(x => x.TestResultID == id);
+                //var siteQuery =  testResultQuery.Include( x=> x.SiteUser.Site).Select( x=> x.SiteUser.Site);
+                //var su = await siteQuery.Select(x => x.SiteUsers.Where( x => x.AppUser.Email == CurrentUser.Name)).SingleOrDefaultAsync();
 
-                if (su.First().IsAdmin != true)
+                //if (su.First().IsAdmin != true)
+                //{
+                //    return (NotFound("You are not allowed to access this resource."));
+                //}
+                //SiteUser = su.First();
+
+                var adminSiteUser = await _appUserService.CheckAndReturnAdminSiteUser(CurrentUser, testResult);
+                if(adminSiteUser == null)
                 {
-                    return (NotFound("You are not allowed to access this resource."));
+                    return Forbid();
                 }
-
-
-                SiteUser = su.First();
+                SiteUser = adminSiteUser;
                 TestResult = testResult;
 
-                return (Page());
+                return Page();
 
 
 
@@ -65,7 +70,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             SiteUser = siteUser;
             TestResult = testResult;
 
-            return (Page());
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()

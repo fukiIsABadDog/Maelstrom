@@ -41,14 +41,22 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 
             if (siteUser == null || testResult == null)
             {
-                return (NotFound());
+
+                var adminSiteUser = await _appUserService.CheckAndReturnAdminSiteUser(CurrentUser, testResult);
+                if (adminSiteUser == null)
+                {
+                    return Forbid();
+                }
+                SiteUser = adminSiteUser;
+                TestResult = testResult;
+
+                return Page();
             }
-            else
-            {
-                SiteUser = siteUser!;
-                TestResult = testResult!;
-            }
-            return (Page());
+            
+            SiteUser = siteUser!;
+            TestResult = testResult!;
+            
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
