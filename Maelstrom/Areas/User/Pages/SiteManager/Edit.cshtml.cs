@@ -37,15 +37,15 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         {
             if (id == null)
             {
-                return NotFound();
+                return NotFound("That Resource could not be located.");
             }
             CurrentUser = User.Identity!;
-            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id);
+            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id, true);
             ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
             // maybe think  access denied logic and also think about custom 404 page
             if (site == null)
             {
-                return NotFound();
+                return Forbid();
             }
             else
             {

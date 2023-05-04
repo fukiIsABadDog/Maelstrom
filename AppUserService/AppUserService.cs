@@ -44,18 +44,36 @@ namespace Maelstrom.Services
             var siteTypeQuery = _context.SiteTypes.Where(x => x.SiteTypeID == site.SiteTypeID).Select(x => x.Name);
             return await siteTypeQuery.FirstOrDefaultAsync();
         }
-        public async Task<Site?> GetCurrentUserSite(IIdentity user, int? id)
+        public async Task<Site?> GetCurrentUserSite(IIdentity user, int? id, bool onlyAdmin)
         {
-            var querySiteUsers = from SiteUser in _context.SiteUsers
-                                 join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
-                                 join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
-                                 join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
-                                 where AppUser.Email == user.Name
-                                 where Sites.SiteID == id
-                                 where SiteUser.Deleted == null
-                                 select Sites;
-            return await querySiteUsers.FirstOrDefaultAsync();
+            if(onlyAdmin == true)
+            {
+                var querySiteUsers = from SiteUser in _context.SiteUsers
+                                     join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
+                                     join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+                                     join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
+                                     where AppUser.Email == user.Name
+                                     where Sites.SiteID == id
+                                     where SiteUser.Deleted == null
+                                     where SiteUser.IsAdmin == true
+                                     select Sites;
+                return await querySiteUsers.FirstOrDefaultAsync();
+            }
+            else
+            {
+                var querySiteUsers = from SiteUser in _context.SiteUsers
+                                     join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
+                                     join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
+                                     join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
+                                     where AppUser.Email == user.Name
+                                     where Sites.SiteID == id
+                                     where SiteUser.Deleted == null
+                                     select Sites;
+                return await querySiteUsers.FirstOrDefaultAsync();
+            }
+           
         }
+
         public async Task<ICollection<TestResult>?> GetCurrentUserSiteTestResults(IIdentity user, int? id)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers

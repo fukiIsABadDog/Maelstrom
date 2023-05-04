@@ -33,7 +33,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             }
 
             CurrentUser = User.Identity!;
-            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id);
+            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id, true);
 
             if (site == null)
             {
