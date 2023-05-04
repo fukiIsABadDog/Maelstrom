@@ -1,4 +1,45 @@
 ﻿@page
 @model Maelstrom.Areas.User.Pages.SiteUserManager.EditModel
 @{
+    ViewData["Title"] = "Add As Administrator";
+    Layout = "_Layout";
+}
+
+
+<h1>Add New</h1>
+
+<h4>Site User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="SiteId"/>
+            <input type="hidden" asp-for="SiteUserToBeEditedId"/>
+
+            <div class="form-group">
+                <p class="text-danger">This action is not reversible, are you sure you want to continue?</p>
+                <p class="text-danger">@Model.Message</p>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index" asp-route-id="@Model.SiteId.ToString()" class=" btn btn-primary mt-1">Back to All Users</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

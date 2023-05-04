@@ -5,42 +5,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace Maelstrom.Areas.User.Pages.SiteUserManager
 {
     [Authorize]
+    [BindProperties]
     public class EditModel : PageModel
     {
         private readonly MaelstromContext _context;
         private readonly IAppUserService _appUserService;
-
         public EditModel(MaelstromContext context, IAppUserService appUserService)
         {
             _context = context;
             _appUserService = appUserService;
-        }
-
-        // pasted alot from Create Page.. so some it it may go.
-        [BindProperty]
+        }    
         public string Message { get; set; }
-
-        [BindProperty]
-        public Site Site { get; set; }
-
-        [BindProperty]
-        public int SiteId { get; set; }
-        [BindProperty]
-        public int SiteUserId { get; set; }
-        public SiteUser Admin { get; set; } = null!;
-        [BindProperty]
-        public SiteUser NewSiteUser { get; set; } = null!;
-
-        [BindProperty]
+        public int SiteId { get; set; }    
+        public int SiteUserToBeEditedId { get; set; } 
         public bool IsAdmin { get; set; }
-
-        [EmailAddress]
-        [BindProperty]
-        public string Email { get; set; }
+        public  SiteUser SiteUerToBeEdited { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id, string? message) //takes SiteUserID
         {
@@ -49,18 +33,30 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             {
                 return BadRequest("That ID is not valid");
             }
+
             if (message != null)
             {
                 Message = message;
             }
+         
             var currentUser = User.Identity!;
-            var currentSiteUser = await _appUserService.GetSiteUser(currentUser, id);
+            var siteOfSiteUser = _context.SiteUsers.Where(x => x.SiteUserID == id).Include(x => x.Site);
+            var site = await siteOfSiteUser.Select(x => x.Site).FirstOrDefaultAsync();           
+            if (site == null)
+            {
+                return NotFound("We could not find anything matching that information.");
+            }
+            SiteId = site.SiteID;
+            var currentSiteUser = await _appUserService.GetSiteUser(currentUser, SiteId);
 
             if (currentSiteUser == null || currentSiteUser.IsAdmin == false)
             {
                 return Forbid();// revisit          
             }
-            // add logic here
+          
+            
+            SiteUserToBeEditedId = id.Value;
+
 
             return Page();
         }
@@ -68,8 +64,33 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         public async Task<IActionResult> OnPostAsync()
         {
             SiteId = SiteId;
+            SiteUserToBeEditedId = SiteUserToBeEditedId;
+            IsAdmin = IsAdmin;
 
-            //add logic here
+            var siteUser = await _context.SiteUsers.FirstOrDefaultAsync(x => x.SiteUserID == SiteUserToBeEditedId);
+
+            if (siteUser == null)
+            {
+                Message = "That User does not exist for this Site.";
+                return await OnGetAsync(SiteId, Message);
+            }
+            if (siteUser.IsAdmin == true)
+            {
+                Message = "That User can not be modified, their privileges are set to Administrator.";
+                return await OnGetAsync(SiteId, Message);
+            }
+            SiteUerToBeEdited = siteUser;
+            SiteUerToBeEdited.IsAdmin = IsAdmin;
+          
+            _context.Attach(SiteUerToBeEdited).Property(p => p.Deleted).IsModified = true;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new Exception("There was an error saving this to the database");
+            }
 
             return RedirectToPage("./Index", new { id = SiteId });
         }

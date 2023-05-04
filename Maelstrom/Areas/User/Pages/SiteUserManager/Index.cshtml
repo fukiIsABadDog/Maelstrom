@@ -62,6 +62,8 @@
                     <a asp-page="./Details" asp-route-id="@item.SiteUserID">Details</a> |*@
                         @if(item.IsAdmin != true)
                         {
+                        <a class="btn btn-danger" asp-page="./Edit" asp-route-id="@item.SiteUserID">Add As Admin</a>
+
                         <a class="btn btn-danger"  asp-page="./Delete" asp-route-id="@item.SiteUserID">Remove User From Site</a>
                         }
                         

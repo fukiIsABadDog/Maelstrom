@@ -79,7 +79,8 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 return await OnGetAsync(SiteId, Message); 
             }
 
-            var existingUser = await _context.SiteUsers.Where(x => x.Site.SiteID == SiteId).Where( x=> x.AppUser == appUser).FirstOrDefaultAsync();
+            var existingUser = await _context.SiteUsers.Where(x => x.Site.SiteID == SiteId)
+                .Where( x=> x.AppUser == appUser).FirstOrDefaultAsync();
             if (existingUser != null) 
             {
 
