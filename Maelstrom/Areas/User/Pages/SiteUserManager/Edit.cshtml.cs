@@ -24,7 +24,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         public int SiteId { get; set; }    
         public int SiteUserToBeEditedId { get; set; } 
         public bool IsAdmin { get; set; }
-        public  SiteUser SiteUerToBeEdited { get; set; }
+        public  SiteUser SiteUserToBeEdited { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id, string? message) //takes SiteUserID
         {
@@ -79,10 +79,10 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 Message = "That User can not be modified, their privileges are set to Administrator.";
                 return await OnGetAsync(SiteId, Message);
             }
-            SiteUerToBeEdited = siteUser;
-            SiteUerToBeEdited.IsAdmin = IsAdmin;
+            SiteUserToBeEdited = siteUser;
+            SiteUserToBeEdited.IsAdmin = IsAdmin;
           
-            _context.Attach(SiteUerToBeEdited).Property(p => p.Deleted).IsModified = true;
+            _context.Attach(SiteUserToBeEdited).Property(p => p.IsAdmin).IsModified = true;
             try
             {
                 await _context.SaveChangesAsync();

@@ -1,6 +1,7 @@
 using EF_Models.Models;
 using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Build.Framework;
@@ -38,8 +39,11 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         [EmailAddress]
         [BindProperty]
         public string Email { get; set; }
+        [BindProperty]
+        public bool Restore { get; set; } = false;
+        public SiteUser SiteUserToBeRestored { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id, string? message)
+        public async Task<IActionResult> OnGetAsync(int? id, string? message, bool? restore)
         {
 
             if (id == null)
@@ -50,6 +54,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             {
                 Message = message;
             }
+         
             var currentUser = User.Identity!;
             var currentSiteUser = await _appUserService.GetSiteUser(currentUser, id);
             
@@ -57,10 +62,12 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             {
                 return Forbid();// revisit          
             }
+            
             SiteId = id.Value;
             var site = await _context.Sites.FirstAsync(x => x.SiteID == id)!;
             Site = Site;
             Admin = currentSiteUser;
+           
             return Page();
         }
 
@@ -71,21 +78,57 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         public async Task<IActionResult> OnPostAsync()
         {
             SiteId = SiteId;
+
             
             var appUser = await _context.AppUsers.Where( x => x.Email == Email).FirstOrDefaultAsync();
+
             if (appUser == null)
             {
                 Message = "That Email is not valid.";
-                return await OnGetAsync(SiteId, Message); 
+                return await OnGetAsync(SiteId, Message, null); 
+            }
+
+            if (Restore == true) // this edits the SiteUser instead of creating new one
+            {
+                var siteUserToBeRestored = await _context.SiteUsers.Where( x=> x.SiteID == SiteId)
+                    .Where(x => x.AppUser ==appUser)
+                    .FirstOrDefaultAsync();
+
+                SiteUserToBeRestored = siteUserToBeRestored!; // already checked first go around
+
+                SiteUserToBeRestored.Deleted = null;
+                _context.Attach(SiteUserToBeRestored).Property(p => p.Deleted).IsModified = true;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw new Exception("There was an error saving this to the database");
+                }
+
+                return RedirectToPage("./Index", new { id = SiteId });
+
             }
 
             var existingUser = await _context.SiteUsers.Where(x => x.Site.SiteID == SiteId)
                 .Where( x=> x.AppUser == appUser).FirstOrDefaultAsync();
             if (existingUser != null) 
             {
+                
+                if (existingUser.Deleted.HasValue)
+                {
+                    Message = "Would you like to restore that user?";
+                    Restore = true;
+                    return await OnGetAsync(SiteId, Message, Restore); ;
 
-                Message = "That User already has privileges assigned. Please visit Edit Page";
-                return await OnGetAsync(SiteId, Message);
+                }
+                else
+                {
+                    Message = "That User already has privileges assigned.";
+                    return await OnGetAsync(SiteId, Message, null);
+                }
+               
 
             }
             var site = _context.Sites.Find(SiteId);
@@ -103,5 +146,6 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
 
             return RedirectToPage("./Index", new {id = SiteId});
         }
+
     }
 }
