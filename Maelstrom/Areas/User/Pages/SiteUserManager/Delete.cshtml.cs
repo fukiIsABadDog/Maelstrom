@@ -33,25 +33,19 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         {
             if (id == null)
             {
-                return BadRequest();
+                return BadRequest("That Id was not valid. Use Browser Back button to return to previous page.");
             }
             SiteUserToBeDeletedId = id.Value;
             CurrentUser = User.Identity!;
             var currentSiteUser = await _context.SiteUsers.Where(x => x.AppUser.Email == CurrentUser.Name).FirstOrDefaultAsync();
             if (currentSiteUser == null || currentSiteUser.IsAdmin != true)
             {
-                return NotFound();
+                return BadRequest("You need to be a site administrator to remove user. Use Browser Back button to return to previous page.");
             }
             var siteUserToBeDeleted = await _context.SiteUsers.Where(x => x.SiteUserID == SiteUserToBeDeletedId).FirstOrDefaultAsync();
             if (siteUserToBeDeleted == null || siteUserToBeDeleted.IsAdmin == true)
-            {
-
-                return NotFound();// this might need more work... but lets see if we can get away with it for now.
-
-                // i am really leaning towards creating a custom 404 page with a string message url parameter
-                //var site = await _context.Sites.FirstOrDefaultAsync(x => x.SiteID == SiteId);
-                //Message = $"That User either does not exist or is currently a administrator of {site.Name}";
-
+            {              
+                return BadRequest("Sorry, you can not remove a user if they are an administrator. Use Browser Back button to return to previous page.");        
             }
             SiteId = siteUserToBeDeleted.SiteID;
             return Page();

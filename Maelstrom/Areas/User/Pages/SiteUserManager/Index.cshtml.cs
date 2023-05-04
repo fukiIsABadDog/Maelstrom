@@ -26,11 +26,11 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         {
             if (id == null)
             {
-                return BadRequest(); //test this
+                return BadRequest("That ID was not valid"); //test this
             }
 
             SiteID = id.Value;
-            var siteUsers = await _context.SiteUsers.Where(x =>  x.SiteID == SiteID).Include(x => x.AppUser).Include( x => x.Site).ToListAsync();
+            var siteUsers = await _context.SiteUsers.Where(x =>  x.SiteID == SiteID).Where(x => x.Deleted.HasValue != true).Include(x => x.AppUser).Include( x => x.Site).ToListAsync();
             SiteUsers = siteUsers;
 
             return Page();
