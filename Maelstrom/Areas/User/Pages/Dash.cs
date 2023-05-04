@@ -36,7 +36,8 @@ namespace Maelstrom.Areas.User.Pages
                 CurrentUserSites = currentUserSites;
             }
             CurrentSite = _appUserService.GetSelectedSite(CurrentUserSites, currentSite)!;
-            var testResults = await _appUserService.GetSelectedSiteTestResults(CurrentSite);
+            var currentSiteID = CurrentSite.SiteID;
+            var testResults = await _appUserService.GetSelectedSiteTestResults(currentSiteID);
             CurrentSiteTestResults = testResults;
             var currentSiteType = await _appUserService.GetSiteType(CurrentSite);
             if (currentSiteType == null)

@@ -3,6 +3,7 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
@@ -22,26 +23,32 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public string? SiteImage { get; private set; }
         public ICollection<TestResult>? TestResults { get; set; }
         public string SiteTypeName { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Sites == null)
             {
-                return NotFound();
+                return NotFound("That resource does not exist.");
             }
 
             CurrentUser = User.Identity!;
 
-            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id);
+            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id); // this checks if user is deleted too
             if (site == null)
             {
-                return NotFound();
+                return Forbid();
             }
             else
             {
                 Site = site;
                 var siteTypeName = await _appUserService.GetSiteType(Site);
                 SiteTypeName = siteTypeName ?? " ";
-                TestResults = await _appUserService.GetCurrentUserSiteTestResults(CurrentUser, id);
+                //TestResults = await _appUserService.GetCurrentUserSiteTestResults(CurrentUser, id); --- old code
+                var siteId = Site.SiteID;
+
+                TestResults = await _appUserService.GetSelectedSiteTestResults(siteId);
+
+
                 //this 100% needs a service method
                 if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
                 {

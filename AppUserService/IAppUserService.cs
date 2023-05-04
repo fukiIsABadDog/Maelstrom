@@ -8,7 +8,7 @@ namespace Maelstrom.Services
 
         Task<ICollection<Site>> GetCurrentUserSites(IIdentity user);
         Site GetSelectedSite(ICollection<Site> sites, Site? currentSite);
-        Task<ICollection<TestResult>?> GetSelectedSiteTestResults(Site site);
+        Task<ICollection<TestResult>?> GetSelectedSiteTestResults(int id);
         Task<string?> GetSiteType(Site site);
         Task<Dictionary<int, string>> CreateSiteTypeDictionary();
         Task<Site?> GetCurrentUserSite(IIdentity user, int? id);
@@ -18,5 +18,6 @@ namespace Maelstrom.Services
         Task<TestResult?> FindTestResult(int? id);
         Task DeleteTestResult(int id);
         Task DeleteSite(int id);
+        Task<SiteUser?> ValidateAndReturnSiteUser(Site site, IIdentity user);
     }
 }

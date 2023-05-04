@@ -11,6 +11,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
     [Authorize]
     public class EditModel : PageModel
     {
+
         private readonly EF_Models.MaelstromContext _context;
         private readonly IAppUserService _appUserService;
 
@@ -35,19 +36,35 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             var testResult = await _context.TestResults.Select(x => x).Where(x => x.TestResultID == id).FirstOrDefaultAsync();
             if (testResult == null)
             {
-                return (NotFound());
+                return (NotFound("That is not a valid input."));
             }
             var siteUser = await _appUserService.CheckAndReturnSiteUser(CurrentUser, testResult);
-            // need to impliment custom 404 page
+
             if (siteUser == null || testResult == null)
             {
-                return (NotFound());
-            }
-            else
-            {
-                SiteUser = siteUser;
+                // this needs to be refactored in service
+                var testResultQuery = _context.TestResults.Select(x => x).Where(x => x.TestResultID == id);
+                var siteQuery =  testResultQuery.Include( x=> x.SiteUser.Site).Select( x=> x.SiteUser.Site);
+                var su = await siteQuery.Select(x => x.SiteUsers.Where( x => x.AppUser.Email == CurrentUser.Name)).SingleOrDefaultAsync();
+
+                if (su.First().IsAdmin != true)
+                {
+                    return (NotFound("You are not allowed to access this resource."));
+                }
+
+
+                SiteUser = su.First();
                 TestResult = testResult;
+
+                return (Page());
+
+
+
             }
+           
+            SiteUser = siteUser;
+            TestResult = testResult;
+
             return (Page());
         }
 

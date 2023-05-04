@@ -19,6 +19,7 @@ namespace Maelstrom.Services
                                  join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
                                  where AppUser.Email == user.Name
                                  where Sites.Deleted == null
+                                 where SiteUser.Deleted == null
                                  select Sites;
             return await querySiteUsers.Distinct().ToListAsync();
         }
@@ -33,9 +34,9 @@ namespace Maelstrom.Services
                 return sites.First(x => x.Name == currentSite.Name);
             }
         }
-        public async Task<ICollection<TestResult>?> GetSelectedSiteTestResults(Site site)
+        public async Task<ICollection<TestResult>?> GetSelectedSiteTestResults(int Id)
         {
-            var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == site.SiteID).OrderByDescending(x => x.CreationDate);
+            var currentSiteTestResultsQuery = _context.TestResults.Select(x => x).Where(x => x.SiteUser.SiteID == Id).OrderByDescending(x => x.CreationDate);
             return await currentSiteTestResultsQuery.Where(t => t.Deleted == null).ToListAsync();
         }
         public async Task<string?> GetSiteType(Site site)
@@ -51,6 +52,7 @@ namespace Maelstrom.Services
                                  join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
                                  where AppUser.Email == user.Name
                                  where Sites.SiteID == id
+                                 where SiteUser.Deleted == null
                                  select Sites;
             return await querySiteUsers.FirstOrDefaultAsync();
         }
@@ -115,6 +117,29 @@ namespace Maelstrom.Services
             var testResult = new TestResult() { TestResultID = id, Deleted = DateTime.Now };
             _context.Attach(testResult).Property(p => p.Deleted).IsModified = true;
             await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// returns siteuser that matches AppUser and Site if that SiteUser has not been soft Deleted
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        /// 
+        // This has not been implimented yet... the whole SiteUserManager area needs to be rafactored into services
+        public async Task<SiteUser?> ValidateAndReturnSiteUser(Site site, IIdentity user)
+        {
+            var query = from SiteUser in _context.SiteUsers
+                        join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
+                        join Site in _context.Sites on SiteUser.Site equals Site
+                        where AppUser.Email == user.Name
+                        where Site == site
+                        where !SiteUser.Deleted.HasValue
+                        select SiteUser;
+
+            var siteUser = await query.FirstOrDefaultAsync();
+
+            return siteUser;
         }
     }
 }

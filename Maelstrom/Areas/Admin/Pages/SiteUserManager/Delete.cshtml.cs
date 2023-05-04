@@ -28,7 +28,7 @@ namespace Maelstrom.Areas.Admin.Pages.SiteUserManager
 
             if (siteuser == null)
             {
-                return NotFound();
+                return Forbid();
             }
             else
             {

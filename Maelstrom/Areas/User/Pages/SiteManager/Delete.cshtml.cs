@@ -7,7 +7,7 @@ using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
-    [Authorize]
+    [Authorize] // still needs SiteUser-admin logic
     public class DeleteModel : PageModel
     {
 
@@ -26,7 +26,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public IIdentity CurrentUser { get; set; } = null!;
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-
+            
             if (id == null)
             {
                 return NotFound();
@@ -37,7 +37,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
             if (site == null)
             {
-                return NotFound();
+                return Forbid();
             }
             else
             {
