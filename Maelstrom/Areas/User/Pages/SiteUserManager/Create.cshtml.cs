@@ -33,7 +33,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         public SiteUser NewSiteUser { get; set; } = null!;
         
         [BindProperty]
-       public bool IsAdmin { get; set; }
+        public bool IsAdmin { get; set; }
 
         [EmailAddress]
         [BindProperty]
@@ -44,7 +44,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
 
             if (id == null)
             {
-                return NotFound();
+                return BadRequest("That ID is not valid");
             }
             if (message != null) 
             {
@@ -55,7 +55,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             
             if (currentSiteUser == null || currentSiteUser.IsAdmin == false) 
             {
-                return Forbid();          
+                return Forbid();// revisit          
             }
             SiteId = id.Value;
             var site = await _context.Sites.FirstAsync(x => x.SiteID == id)!;
@@ -82,7 +82,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             var existingUser = await _context.SiteUsers.Where(x => x.Site.SiteID == SiteId).Where( x=> x.AppUser == appUser).FirstOrDefaultAsync();
             if (existingUser != null) 
             {
-                
+
                 Message = "That User already has privileges assigned. Please visit Edit Page";
                 return await OnGetAsync(SiteId, Message);
 

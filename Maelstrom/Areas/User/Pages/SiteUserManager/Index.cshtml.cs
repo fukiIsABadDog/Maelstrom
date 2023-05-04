@@ -26,7 +26,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         {
             if (id == null)
             {
-                return BadRequest("That ID was not valid"); //test this
+                return BadRequest("That ID was not valid"); 
             }
 
             SiteID = id.Value;
