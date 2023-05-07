@@ -18,7 +18,6 @@
                             if (Model.SiteImage != null)
                             {
                                 <img src=@Model.SiteImage class="w-100" />
-
                             }
                             else
                             {
@@ -27,10 +26,8 @@
                         }
                     </div>
                 </div>
-
                 <div class="col-md-6">
                     <div class=" row ms-5">
-
                         <div class="col-9 shadow mt-3  ">
                             <dt class="col-3">Capacity</dt>
                             <dd class="col-3">@Model.Site.Capacity</dd>
@@ -41,13 +38,12 @@
                         </div>
                         <div class="col-3">
                         </div>
-
                         <div class="row">
                             <div class="col-12">
                                 <a asp-page="./Index" class="btn btn-primary w-75 mt-4"> Back to Site Manager</a>
                                 <a asp-page="/Dash" class="btn btn-success w-75 mt-4"> Back to Dashboard</a>
                                 <a asp-page="/ResultManager/Create" asp-route-id="@Model.Site.SiteID.ToString()" class="btn  btn-warning w-75 mt-4">Add Result</a>
-                                <a asp-page="/SiteUserManager/Index" asp-route-id="@Model.Site.SiteID.ToString()" class="btn  btn-warning w-75 mt-4">Users</a>
+                                <a asp-page="/SiteUserManager/Index" asp-route-id="@Model.Site.SiteID.ToString()" class="btn  btn-dark w-75 mt-4">Manage Users </a>
                             </div>
                         </div>
                     </div>
@@ -55,22 +51,16 @@
             </div>
         </div>
     </div>
-
     <div class="row shadow" style=" background-color:floralwhite">
         <div class="container shadow mt-4 mb-4">
-
             <div class="text-center">
                 <h3>Test Results</h3>
             </div>
             <div class="table-responsive">
-
-
                 <table class="table table-hover table-primary">
                     <thead>
                         <tr class="table-dark">
-
                             @*date time needs to be entered into database*@
-
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Ammonia)</th>
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Calcium)</th>
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Sality)</th>
@@ -82,7 +72,6 @@
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Temperature)</th>
                             <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().CreationDate)</th>
                             <th scope="col">Options</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -90,7 +79,6 @@
                         {
                             @foreach (var tr in Model.TestResults)
                             {
-
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(td => tr.Ammonia)
@@ -123,7 +111,6 @@
                                         @Html.DisplayFor(td => tr.CreationDate)
                                     </td>
                                     <td>
-
                                         <a asp-page="/ResultManager/Edit" asp-route-id="@tr.TestResultID" class="btn  btn-warning">Edit</a>
                                         <a asp-page="/ResultManager/Delete" asp-route-id="@tr.TestResultID" class="btn  btn-danger">Delete</a>
                                     </td>
