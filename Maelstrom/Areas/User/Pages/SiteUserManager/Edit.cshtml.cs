@@ -19,12 +19,14 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         {
             _context = context;
             _appUserService = appUserService;
-        }    
+        }
         public string Message { get; set; }
-        public int SiteId { get; set; }    
-        public int SiteUserToBeEditedId { get; set; } 
+        public int SiteId { get; set; }
+        public int SiteUserToBeEditedId { get; set; }
+        [Display(Name = "Is Admin")]
         public bool IsAdmin { get; set; }
-        public  SiteUser SiteUserToBeEdited { get; set; }
+        public SiteUser SiteUserToBeEdited { get; set; }
+        public AppUser AssociatedAppUser {get; set;} = new AppUser {FirstName = "Not Found"};
 
         public async Task<IActionResult> OnGetAsync(int? id, string? message) //takes SiteUserID
         {
@@ -38,10 +40,10 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             {
                 Message = message;
             }
-         
+
             var currentUser = User.Identity!;
             var siteOfSiteUser = _context.SiteUsers.Where(x => x.SiteUserID == id).Include(x => x.Site);
-            var site = await siteOfSiteUser.Select(x => x.Site).FirstOrDefaultAsync();           
+            var site = await siteOfSiteUser.Select(x => x.Site).FirstOrDefaultAsync();
             if (site == null)
             {
                 return NotFound("We could not find anything matching that information.");
@@ -53,9 +55,15 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             {
                 return Forbid();// revisit          
             }
-          
-            
+
+
             SiteUserToBeEditedId = id.Value;
+            var associatedAppUser = await _context.SiteUsers.Where(x => x.SiteUserID == SiteUserToBeEditedId)
+                .Include(x => x.AppUser).FirstOrDefaultAsync();
+            if( associatedAppUser != null && associatedAppUser.AppUser != null){
+                 AssociatedAppUser = associatedAppUser.AppUser;
+            }
+           
 
 
             return Page();
@@ -81,7 +89,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             }
             SiteUserToBeEdited = siteUser;
             SiteUserToBeEdited.IsAdmin = IsAdmin;
-          
+
             _context.Attach(SiteUserToBeEdited).Property(p => p.IsAdmin).IsModified = true;
             try
             {

@@ -46,7 +46,7 @@ namespace Maelstrom.Services
         }
         public async Task<Site?> GetCurrentUserSite(IIdentity user, int? id, bool onlyAdmin)
         {
-            if(onlyAdmin == true)
+            if (onlyAdmin == true)
             {
                 var querySiteUsers = from SiteUser in _context.SiteUsers
                                      join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
@@ -71,7 +71,7 @@ namespace Maelstrom.Services
                                      select Sites;
                 return await querySiteUsers.FirstOrDefaultAsync();
             }
-           
+
         }
 
         public async Task<ICollection<TestResult>?> GetCurrentUserSiteTestResults(IIdentity user, int? id)
@@ -104,8 +104,8 @@ namespace Maelstrom.Services
             var queryTrUser = from SiteUser in _context.SiteUsers
                               join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                               join TestResult in _context.TestResults on SiteUser equals TestResult.SiteUser
-                              where AppUser.Email == user.Name 
-                              where TestResult == testResult                  
+                              where AppUser.Email == user.Name
+                              where TestResult == testResult
                               select SiteUser;
             return await queryTrUser.FirstOrDefaultAsync();
         }
@@ -118,7 +118,7 @@ namespace Maelstrom.Services
 
             var queryTrUser = from SiteUser in _context.SiteUsers
                               join Site in _context.Sites on SiteUser.SiteID equals Site.SiteID
-                              join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser                
+                              join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
                               where AppUser.Email == user.Name
                               where SiteUser.IsAdmin == true
                               where Site == site
