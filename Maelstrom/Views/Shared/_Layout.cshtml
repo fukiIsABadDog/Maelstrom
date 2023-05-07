@@ -3,7 +3,6 @@
 @inject UserManager<AppUser> UserManager
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,18 +12,24 @@
     <script src="https://kit.fontawesome.com/ddc50d03f9.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-
 <body>
     <div class="row g-0">
         <header
             class="navbar navbar-expand-lg position-fixed  navbar-toggleable-lg bg-Primary border-bottom box-shadow w-100 mb-3"
             style="background-color:white;z-index:3;">
             <div class="container-fluid">
-                @* <a class="navbar-brand" style="color:DodgerBlue;" asp-area="" asp-controller="Home"
-                asp-action="Index">Maelstrom</a>*@
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="max-width:125px">
-                    <img src="/media/MaelLogo.png" class="ms-3" style="max-width:125px" />
-                </a>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin") != true)
+                {
+                    <a class="navbar-brand" asp-page="/Dash" asp-area="User" style="max-width:125px">
+                        <img src="/media/MaelLogo.png" class="ms-3" style="max-width:125px" />
+                    </a>
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="max-width:125px">
+                        <img src="/media/MaelLogo.png" class="ms-3" style="max-width:125px" />
+                    </a>
+                }
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa-solid fa-bars fa-beat fa-lg" style="color: #8fd8ff;"></i>
@@ -48,12 +53,10 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-page="/SiteUserManager/Index" asp-area="Admin">
-                                    SiteUser 
+                                    SiteUser
                                     Manager
                                 </a>
                             </li>
-                         
-
                         }
                         @if (User.IsInRole("Admin") == false && User.Identity.IsAuthenticated)
                         {
@@ -97,15 +100,13 @@
             </div>
         </header>
     </div>
-
     <div class="row">
         <main role="main">
             <div class="container-fluid" style="margin-top: 75px;">
-            @RenderBody()
+                @RenderBody()
             </div>
         </main>
     </div>
-
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a asp-page="/Dash" asp-area="User">Dash</a>
@@ -119,7 +120,6 @@
             <button class=" btn btn-danger w-100 ms-1 me-1" type="submit">Logout</button>
         </form>
     </div>
-
     <!-- will put in folder in a bit -->
     <script>
         function openNav() {
@@ -134,5 +134,4 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>
