@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
-
 namespace Maelstrom.Areas.User.Pages.SiteUserManager
 {
     [Authorize]
@@ -13,7 +12,6 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
     {
         private readonly MaelstromContext _context;
         private readonly IAppUserService _appUserService;
-
         public DeleteModel(MaelstromContext context, IAppUserService appUserService)
         {
             _context = context;
@@ -22,13 +20,12 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         [BindProperty]
         public string Message { get; set; }
         public IIdentity CurrentUser { get; set; }
-
         [BindProperty]
         public int SiteUserToBeDeletedId { get; set; }
-        public SiteUser SiteUserToBeDeleted { get; set; }
+        [BindProperty]
+        public AppUser SiteUserToBeDeleted { get; set; }
         [BindProperty]
         public int SiteId { get; set; }
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -42,11 +39,12 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             {
                 return Forbid();
             }
-            var siteUserToBeDeleted = await _context.SiteUsers.Where(x => x.SiteUserID == SiteUserToBeDeletedId).FirstOrDefaultAsync();
+            var siteUserToBeDeleted = await _context.SiteUsers.Where(x => x.SiteUserID == SiteUserToBeDeletedId).Include(x => x.AppUser).FirstOrDefaultAsync();
             if (siteUserToBeDeleted == null || siteUserToBeDeleted.IsAdmin == true)
-            {              
-                return Forbid();        
+            {
+                return Forbid();
             }
+            SiteUserToBeDeleted = siteUserToBeDeleted.AppUser!;
             SiteId = siteUserToBeDeleted.SiteID;
             return Page();
         }
@@ -54,12 +52,10 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         {
             var siteId = SiteId;
             var siteUserToBeDeletedId = SiteUserToBeDeletedId;
-
             var siteUserSoftDelete = new SiteUser { SiteUserID = siteUserToBeDeletedId, Deleted = DateTime.Now };
             _context.Attach(siteUserSoftDelete).Property(p => p.Deleted).IsModified = true;
             await _context.SaveChangesAsync();
-
-            return RedirectToPage("./index", new {id = siteId});
+            return RedirectToPage("./index", new { id = siteId });
         }
     }
 }
