@@ -3,6 +3,7 @@
 @inject UserManager<AppUser> UserManager
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +12,9 @@
     <!-- <link href="~/lib/bootstrap/dist/css/bootstrap_sandstone.css" rel="stylesheet" /> -->
     <script src="https://kit.fontawesome.com/ddc50d03f9.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="/maelstrom.ico">
 </head>
+
 <body>
     <div class="row g-0">
         <header
@@ -134,4 +137,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
