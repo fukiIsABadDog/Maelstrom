@@ -5,121 +5,139 @@
     ViewData["Title"] = @Model.Site.Name;
     Layout = "_Layout";
 }
-<div class="container">
-    <div class="row" style=" background-color:floralwhite">
-        <div class="col shadow mb-3 mt-5">
-            <h1 class="mt-5" style="text-align:center">@Model.Site.Name</h1>
-        </div>
-        <div class="container shadow">
-            <div class="row mt-4 mb-4">
-                <div class=" image-fluid col-md-6">
-                    <div>
-                        @{
-                            if (Model.SiteImage != null)
-                            {
-                                <img src=@Model.SiteImage class="w-100" />
-                            }
-                            else
-                            {
-                                <img src="~/media/UserImages/default.jpg" class="w-100 shadow" />
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class=" row ms-5">
-                        <div class="col-9 shadow mt-3  ">
-                            <dt class="col-3">Capacity</dt>
-                            <dd class="col-3">@Model.Site.Capacity</dd>
-                            <dt class="col-3">Type</dt>
-                            <dd class="col-3"> @Model.SiteTypeName </dd>
-                            <dt class="col-3">Location</dt>
-                            <dd class="col-3"> @Model.Site.Location </dd>
-                        </div>
-                        <div class="col-3">
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <a asp-page="./Index" class="btn btn-primary w-75 mt-4"> Back to Site Manager</a>
-                                <a asp-page="/Dash" class="btn btn-success w-75 mt-4"> Back to Dashboard</a>
-                                <a asp-page="/ResultManager/Create" asp-route-id="@Model.Site.SiteID.ToString()" class="btn  btn-warning w-75 mt-4">Add Result</a>
-                                <a asp-page="/SiteUserManager/Index" asp-route-id="@Model.Site.SiteID.ToString()" class="btn  btn-dark w-75 mt-4">Manage Users </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="row">
+    <div class="col-xl-1 col-xxl-2"></div>
+    <div class="col-xl-10 col-xxl-8" style=" background-color:floralwhite">
+        <div class="row">
+            <div class="col shadow m-3">
+                <h1 class="mt-2" style="text-align:center">@Model.Site.Name</h1>
             </div>
         </div>
-    </div>
-    <div class="row shadow" style=" background-color:floralwhite">
-        <div class="container shadow mt-4 mb-4">
-            <div class="text-center">
-                <h3>Test Results</h3>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-hover table-primary">
-                    <thead>
-                        <tr class="table-dark">
-                            @*date time needs to be entered into database*@
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Ammonia)</th>
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Calcium)</th>
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Sality)</th>
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Magnesium)</th>
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Ph)</th>
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Alkalinty)</th>
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Nitrate)</th>
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Nitrite)</th>
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Temperature)</th>
-                            <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().CreationDate)</th>
-                            <th scope="col">Options</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.TestResults != null)
+        <div class="row">
+            <div class=" image-fluid col-md-6">
+                <div class="border p-2 shadow mt-1 ms-1 ">
+                    @{
+                        if (Model.SiteImage != null)
                         {
-                            @foreach (var tr in Model.TestResults)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.Ammonia)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.Calcium)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.Sality)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.Magnesium)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.Ph)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.Alkalinty)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.Nitrate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.Nitrite)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.Temperature)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(td => tr.CreationDate)
-                                    </td>
-                                    <td>
-                                        <a asp-page="/ResultManager/Edit" asp-route-id="@tr.TestResultID" class="btn  btn-warning">Edit</a>
-                                        <a asp-page="/ResultManager/Delete" asp-route-id="@tr.TestResultID" class="btn  btn-danger">Delete</a>
-                                    </td>
-                                </tr>
-                            }
+                            <img src=@Model.SiteImage class="w-100" />
                         }
-                    </tbody>
-                </table>
+                        else
+                        {
+                            <img src="~/media/UserImages/default.jpg" class="w-100 shadow" />
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class=" row ms-5 mt-1 me-5 border shadow pb-4">
+                    <div class="col-9 shadow mt-3 ms-3  ">
+                        <dt class="col-3">Capacity</dt>
+                        <dd class="col-3">@Model.Site.Capacity</dd>
+                        <dt class="col-3">Type</dt>
+                        <dd class="col-3"> @Model.SiteTypeName </dd>
+                        <dt class="col-3">Location</dt>
+                        <dd class="col-3"> @Model.Site.Location </dd>
+                    </div>
+                    <div class="col-3">
+                    </div>
+                    <div class="row ms-2">
+                        <div class="col-12">
+                            <a asp-page="./Index" class="btn btn-primary w-75 mt-4"> Back to Site Manager</a>
+                            <a asp-page="/Dash" class="btn btn-success w-75 mt-4"> Back to Dashboard</a>
+                            <a asp-page="/ResultManager/Create" asp-route-id="@Model.Site.SiteID.ToString()"
+                                class="btn  btn-warning w-75 mt-4">Add Result</a>
+                            <a asp-page="/SiteUserManager/Index" asp-route-id="@Model.Site.SiteID.ToString()"
+                                class="btn  btn-dark w-75 mt-4">Manage Users </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row shadow p-2 mt-3 border">
+            <div class="container shadow mt-4 mb-4">
+                <div class="text-center">
+                    <h3>Test Results</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-primary">
+                        <thead>
+                            <tr class="table-dark">
+                                @*date time needs to be entered into database*@
+                                <th scope="col">@Html.DisplayNameFor(Model =>
+                                    Model.TestResults.FirstOrDefault().Ammonia)</th>
+                                <th scope="col">@Html.DisplayNameFor(Model =>
+                                    Model.TestResults.FirstOrDefault().Calcium)</th>
+                                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Sality)
+                                </th>
+                                <th scope="col">@Html.DisplayNameFor(Model =>
+                                    Model.TestResults.FirstOrDefault().Magnesium)</th>
+                                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResults.FirstOrDefault().Ph)
+                                </th>
+                                <th scope="col">@Html.DisplayNameFor(Model =>
+                                    Model.TestResults.FirstOrDefault().Alkalinty)</th>
+                                <th scope="col">@Html.DisplayNameFor(Model =>
+                                    Model.TestResults.FirstOrDefault().Nitrate)</th>
+                                <th scope="col">@Html.DisplayNameFor(Model =>
+                                    Model.TestResults.FirstOrDefault().Nitrite)</th>
+                                <th scope="col">@Html.DisplayNameFor(Model =>
+                                    Model.TestResults.FirstOrDefault().Temperature)</th>
+                                <th scope="col">@Html.DisplayNameFor(Model =>
+                                    Model.TestResults.FirstOrDefault().CreationDate)</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.TestResults != null)
+                            {
+                                @foreach (var tr in Model.TestResults)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Ammonia)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Calcium)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Sality)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Magnesium)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Ph)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Alkalinty)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Nitrate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Nitrite)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.Temperature)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(td => tr.CreationDate)
+                                        </td>
+                                        <td>
+                                            <a asp-page="/ResultManager/Edit" asp-route-id="@tr.TestResultID"
+                                                class="btn  btn-warning">Edit</a>
+                                            <a asp-page="/ResultManager/Delete" asp-route-id="@tr.TestResultID"
+                                                class="btn  btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+</div>
+<div class="col-xl-1 col-xxl-2"></div>
 </div>
