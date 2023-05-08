@@ -9,7 +9,6 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 {
     //notes:
     //to be fixed: user can enter empty results 
-
     [Authorize]
     public class CreateModel : PageModel
     {
