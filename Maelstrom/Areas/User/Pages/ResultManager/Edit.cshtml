@@ -4,27 +4,35 @@
     ViewData["Title"] = $"Edit Test Result {@Model.TestResult.TestResultID}";
     Layout = "_Layout";
 }
-<div class="container" style=" background-color:floralwhite">
-    <div class="row">
-        <div class="col mt-5">
-            <div class="shadow-lg mt-5 mb-3 text-center fw-bolder">
-                <h1>Edit</h1>
-
-                <hr>
-                <hr>
-                <div class="mt-4 mb-4">
-                    <div class="mt-4 mb-4">
-                        <a asp-page="/SiteManager/TestResults" asp-route-id="@Model.SiteUser.SiteID" class=" btn btn-lg btn-primary w-50 mb-4" style="height:3rem">Back to all results</a>
-                    </div>
-                </div>
+<div class="row">
+    <div class=" col-xxl-3 col-xl-2 col-lg-1"></div>
+    <div class="col col-xxl-6 col-xl-8 col-lg-10" style=" background-color:floralwhite">
+        <div class="row mb-3 text-center fw-bolder">
+            <hr>
+            <h1>Edit</h1>
+            <hr>
+            <div class="col-md-3 col-lg-4"></div>
+            <div class="col-md-6 col-lg-4">
+                <a asp-page="/SiteManager/TestResults" asp-route-id="@Model.SiteUser.SiteID"
+                    class=" btn btn-lg btn-primary mb-4">Back To All Results</a>
             </div>
-
-            <div class="shadow mt-3 mb-5 text-center fw-bolder">
-                <row> <h2>Test Result</h2></row>
-                @*div class="col">*@
+            <div class="col-md-3 col-lg-4"></div>
+            <hr>
+            <hr>
+        </div>
+        <div class="row p-4">
+            <div class="col shadow text-center fw-bolder">
+                <hr />
+                <h2>Test Result</h2>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col">
+                <div class="shadow border p-2 mt-3 mb-5 text-center fw-bolder">
                     <form method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                         <input type="hidden" asp-for="SiteUser.SiteID" />
                         <input type="hidden" asp-for="TestResult.TestResultID" />
                         <input type="hidden" asp-for="TestResult.SiteUserID" />
@@ -83,19 +91,23 @@
                             <input asp-for="TestResult.CreationDate" class="form-control" />
                             <span asp-validation-for="TestResult.CreationDate" class="text-danger"></span>
                         </div>
-
                         <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-warning w-50 mt-5 mb-4" style="height:3rem" />
+                            <input type="submit" value="Save" class="btn btn-warning w-50 mt-5 mb-4"
+                                style="height:3rem" />
                         </div>
                     </form>
                 </div>
             </div>
+            <div class="col-md-1"></div>
         </div>
     </div>
-@*</div>*@
+    <div class="col-xxl-3 col-xl-2 col-lg-1"></div>
+</div>
+
+
 @section Scripts
     {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    }
+}

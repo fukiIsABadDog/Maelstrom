@@ -6,8 +6,8 @@
     Layout = "_Layout";
 }
 <div class="row">
-    <div class="col-xl-2 col-lg-1"></div>
-    <div class="col col-xl-8 col-lg-10" style=" background-color:floralwhite">
+    <div class=" col-xxl-3 col-lg-1"></div>
+    <div class="col col-xxl-6 col-lg-10" style=" background-color:floralwhite">
         <div class="row mb-3 text-center fw-bolder">
             <hr>
             <h1>Edit</h1>
@@ -29,6 +29,7 @@
                 <hr />
             </div>
         </div>
+
         <div class=" row ps-2 pe-2">
             <div class="col-md-6 ">
                 @{
@@ -46,7 +47,7 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col">
-                        <form class="border p-3 mb-4" enctype="multipart/form-data" method="post">
+                        <form class="border shadow p-3 mb-4" enctype="multipart/form-data" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Site.SiteID" />
                             <input type="hidden" asp-for="Site.ImageData" />
@@ -88,7 +89,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-2 col-lg-1"></div>
+    <div class=" col-xxl-3 col-lg-1"></div>
 </div>
 @section Scripts {
     @{

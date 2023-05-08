@@ -5,30 +5,39 @@
     Layout = "_Layout";
 }
 
-<div class="container" style=" background-color:floralwhite">
-    <div class="row">
-        <div class="col mt-5">
-            <div class="shadow-lg mt-5 mb-3 text-center fw-bolder">
-                <h1>Delete</h1>
-                <hr>
-                <hr>
-                <div class="mt-4 mb-4">
-                    <a asp-page="/SiteManager/TestResults" asp-route-id="@Model.SiteUser.SiteID" class=" btn btn-lg btn-primary w-50 mb-4"  style="height:3rem">Back to all results</a>
-                </div>
-            </div>
-        
-        <div class="shadow mt-2  fw-bolder">
 
-            <h3 class="mt-1  text-danger text-center">Are you sure you want to delete this Test Result?</h3>
-            <hr />
+<div class="row">
+    <div class=" col-xxl-3 col-xl-2 col-lg-1"></div>
+    <div class="col col-xxl-6 col-xl-8 col-lg-10" style=" background-color:floralwhite">
+        <div class=" row mb-3 text-center fw-bolder">
+            <hr>
+            <h1>Delete</h1>
+            <hr>
+
+            <div class="col-md-3 col-lg-4"></div>
+            <div class="col-md-6 col-lg-4">
+
+                <a asp-page="/SiteManager/TestResults" asp-route-id="@Model.SiteUser.SiteID"
+                    class=" btn btn-lg btn-primary mb-4">Back to all results</a>
+              
+            </div>
+            <div class="col-md-3 col-lg-4"></div>
+              <hr>
+                <hr>
         </div>
 
-        <div class="row shadow" style=" background-color:floralwhite">
-            <div class="col">
+        <div class="shadow ms-5 me-5 fw-bolder">
+
+            <h3 class="mt-1 pt-2 text-danger text-center">Are you sure you want to delete this Test Result?</h3>
+            <hr />
+
+        </div>
+        <div class="row" >
+        <div class="col">
             <div class="text-center mt-2">
-                <h3>Test Result</h3>
+                <h3 class="pt-3 mb-3">Test Result</h3>
             </div>
-            <div class="container shadow mb-4">
+            <div class="container shadow mb-4 pt-4">
                 <div class="table-responsive">
                     <table class="table table-hover table-primary">
                         <thead>
@@ -42,7 +51,8 @@
                                 <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Nitrate)</th>
                                 <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Nitrite)</th>
                                 <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.Temperature)</th>
-                                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.CreationDate)</th>
+                                <th scope="col">@Html.DisplayNameFor(Model => Model.TestResult.CreationDate)
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,15 +90,26 @@
                             </tr>
                         </tbody>
                     </table>
-                    <form method="post" class="text-center">
+                    <div class="row">
+                        <div class="col-xl-4"></div>
+                        <div class="col">
+                            <form method="post" class="text-center">
                         <input type="hidden" asp-for="SiteUser.SiteID" />
                         @*<input type="hidden" asp-for="TestResult.TestResultID" />*@
                         <input type="submit" value="Delete" class="btn btn-danger w-50 mt-5 mb-4" style="height:3rem" />
                     </form>
+                        </div>
+                        <div class="col-xl-4"></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
+
+    </div>
+
+    
     </div>
 </div>
-</div>
+<div class=" col-xxl-3 col-xl-2 col-lg-1"></div>
 </div>
