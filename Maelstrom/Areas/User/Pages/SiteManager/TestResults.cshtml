@@ -42,8 +42,8 @@
                     </div>
                     <div class="row ms-2">
                         <div class="col-12">
-                            <a asp-page="./Index" class="btn btn-primary w-75 mt-4"> Back to Site Manager</a>
-                            <a asp-page="/Dash" class="btn btn-success w-75 mt-4"> Back to Dashboard</a>
+                            @* <a asp-page="./Index" class="btn btn-primary w-75 mt-4"> Back to Site Manager</a>
+                            <a asp-page="/Dash" class="btn btn-success w-75 mt-4"> Back to Dashboard</a> *@
                             <a asp-page="/ResultManager/Create" asp-route-id="@Model.Site.SiteID.ToString()"
                                 class="btn  btn-warning w-75 mt-4">Add Result</a>
                             <a asp-page="/SiteUserManager/Index" asp-route-id="@Model.Site.SiteID.ToString()"
@@ -53,7 +53,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="row shadow p-2 mt-3 border">
             <div class="container shadow mt-4 mb-4">
                 <div class="text-center">

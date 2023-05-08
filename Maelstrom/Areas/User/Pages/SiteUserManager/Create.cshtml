@@ -1,69 +1,81 @@
-﻿@page 
+﻿@page
 @model Maelstrom.Areas.User.Pages.SiteUserManager.CreateModel
 @{
     ViewData["Title"] = "Add New Site User";
     Layout = "_Layout";
 }
-
-
-<h1>Add New</h1>
-
-<h4>Site User</h4>
-<hr />
-<div class="row">                     
-    <div class="col-md-4">
-        @if(Model.Restore != true)
-        {
-            <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <input type="hidden" asp-for="SiteId" />
-
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                    <p class="text-danger">@Model.Message</p>
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Add" class="btn btn-success" />
-                </div>
-            </form>
-        
-        }
-        @if(Model.Restore == true)
-        {
-            <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <input type="hidden" asp-for="SiteId" />
-                <input type="hidden" asp-for="Restore" />
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                    <p class="text-danger">@Model.Message</p>
-                    <p>Please verify email.</p>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Restore" class="btn btn-warning" />
-                </div>
-            </form>
-        }
-
-     
+<div class="row">
+    <div class=" col-xxl-4 col-xl-2 col-lg-1"></div>
+    <div class="col col-xxl-4 col-xl-8 col-lg-10" style=" background-color:floralwhite">
+        <div class="row mb-3 text-center fw-bolder">
+            <hr>
+            <h1>Add New</h1>
+            <hr>
+            <div class="col-md-3 col-lg-4"></div>
+            <div class="col-md-6 col-lg-4">
+                <a asp-page="./Index" asp-route-id="@Model.SiteId.ToString()" class=" btn btn-lg btn-primary mb-4">Back
+                    to All Users</a>
+            </div>
+            <div class="col-md-3 col-lg-4"></div>
+            <hr>
+            <hr>
+        </div>
+        <div class="row p-4">
+            <div class="col shadow text-center fw-bolder">
+                <hr />
+                <h2>User to Site</h2>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col shadow border p-5 mt-2 mb-5 text-center fw-bolder">
+                @if (Model.Restore != true)
+                {
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="SiteId" />
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label h5 fw-bold"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <p class="text-danger">@Model.Message</p>
+                            <div class="form-group form-check">
+                                <label class="form-check-label h5 fw-bold mt-2 mb-5">
+                                    <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model =>
+                                model.IsAdmin)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Add" class="btn btn-success btn-lg w-25" />
+                        </div>
+                    </form>
+                }
+                @if (Model.Restore == true)
+                {
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="SiteId" />
+                        <input type="hidden" asp-for="Restore" />
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <p class="text-danger">@Model.Message</p>
+                            <p>Please verify email.</p>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Restore" class="btn btn-warning btn-lg w-25" />
+                        </div>
+                    </form>
+                }
+            </div>
+            <div class="col-md-1"></div>
+        </div>
     </div>
+    <div class="col-xxl-4 col-xl-2 col-lg-1"></div>
 </div>
-
-<div>
-    <a asp-page="./Index" asp-route-id="@Model.SiteId.ToString()" class=" btn btn-primary mt-1">Back to All Users</a>
-</div>
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
