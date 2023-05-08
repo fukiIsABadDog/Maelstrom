@@ -12,11 +12,9 @@
         </div>
         <div class="col-3"></div>
     </div>
-
     <div class="col-1 col-xxl-2"></div>
     <div class="col">
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3  row-cols-xxl-4 g-4 mt-5">
-
             @foreach (var item in Model.CurrentUserSites)
             {
                 <div class="col">
@@ -53,13 +51,17 @@
                         </table>
                         <div class="card-body text-center" style="background-color:floralwhite">
                             <div class="row">
-                                <a asp-page="./TestResults" asp-route-id="@item.SiteID" class="btn  btn-primary">All Results
-                                    &
-                                    Details</a>
-                                <a asp-page="/ResultManager/Create" asp-route-id="@item.SiteID" class="btn  btn-success">Add
-                                    Result</a>
-                                <a asp-page="./Edit" asp-route-id="@item.SiteID" class="btn  btn-warning">Edit</a>
-                                <a asp-page="./Delete" asp-route-id="@item.SiteID" class="btn  btn-danger">Delete</a>
+                                <div class="col-6">
+                                    <a asp-page="./TestResults" asp-route-id="@item.SiteID" class="btn  btn-primary w-100">All Results</a>
+                                    <a asp-page="/ResultManager/Create" asp-route-id="@item.SiteID"
+                                        class="btn  btn-success w-100">Add Result</a>
+                                </div>
+                                <div class="col-6">
+                                      <a asp-page="/SiteUserManager/Index" asp-route-id="@item.SiteID"
+                                        class="btn btn-dark w-100">Manage Users </a>
+                                    <a asp-page="./Edit" asp-route-id="@item.SiteID" class="btn  btn-warning w-100">Edit</a>
+                                    <a asp-page="./Delete" asp-route-id="@item.SiteID" class="btn  btn-danger w-100">Delete</a>
+                                </div>
                             </div>
                         </div>
                     </div>
