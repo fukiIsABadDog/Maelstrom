@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Security.Principal;
-
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
     [Authorize]
@@ -18,9 +17,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         {
             _context = context;
         }
-
         public string Message { get; set; }
-
         [DisplayName("Upload Image")]
         [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile? Upload { get; set; }
@@ -32,14 +29,12 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public IActionResult OnGet()
         {
             ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
-
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
             CurrentUser = User.Identity!;
             var appUser = await _context.AppUsers.Where(x => x.Email == CurrentUser.Name).FirstAsync();
-
             if (Upload == null)
             {
                 Site.ImageData = null;
@@ -49,11 +44,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 using (var memoryStream = new MemoryStream())
                 {
                     await Upload.CopyToAsync(memoryStream);
-
                     if (memoryStream.Length < 4194304)
                     {
                         Site.ImageData = memoryStream.ToArray();
-
                     }
                     else
                     {
@@ -78,7 +71,6 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 Message = "There was an issue saving the data as entered.";
                 return Page();
             }
-
             return RedirectToPage("./Index");
         }
     }

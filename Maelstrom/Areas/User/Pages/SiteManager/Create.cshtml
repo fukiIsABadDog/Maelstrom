@@ -1,64 +1,111 @@
 ﻿@page
 @model Maelstrom.Areas.User.Pages.SiteManager.CreateModel
 @{
-    ViewData["Title"] = "Create";
-}
-@{
+    ViewData["Title"] = "Create New Site";
     Layout = "_Layout";
 }
-@* <div class="container-fluid mt-5" style=" background-color:floralwhite"> *@
-@* <h2>@Model.Message</h2> *@
-
+<div class="row">
+    <div class=" col-xxl-3 col-lg-1"></div>
+    <div class="col col-xxl-6 col-lg-10" style=" background-color:floralwhite">
+        <div class="row mb-3 text-center fw-bolder">
+            <hr>
+            <h1>Create New Site</h1>
+            <hr>
+            <div class="col-md-3 col-lg-4"></div>
+            <div class="col-md-6 col-lg-4">
+                <a asp-page="./Index" class=" btn btn-lg btn-primary mb-4 shadow">
+                    Site Manager
+                </a>
+            </div>
+            <div class="col-md-3 col-lg-4"></div>
+            <hr>
+            <hr>
+        </div>
+        <div class=" row ps-2 pe-2">
+            <div class="col-md-1"></div>
+            <div class="col">
+                <form enctype="multipart/form-data" method="post" class="border shadow p-3 mb-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Site.Name" class="control-label mt-4 h5"></label>
+                        <input asp-for="Site.Name" class="form-control mb-3" />
+                        <span asp-validation-for="Site.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Site.Capacity" class="control-label  mt-4 h5"></label>
+                        <input asp-for="Site.Capacity" class="form-control mb-3" />
+                        <span asp-validation-for="Site.Capacity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Site.Location" class="control-label  mt-4 h5"></label>
+                        <input asp-for="Site.Location" class="form-control mb-3" />
+                        <span asp-validation-for="Site.Location" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Site.SiteTypeID" class="control-label  mt-4 h5"></label>
+                        <select asp-for="Site.SiteTypeID" class="form-control mb-3"
+                            asp-items="ViewBag.SiteTypeID"></select>
+                    </div>
+                    <div class="form-group mt-4">
+                        <label asp-for="Upload" class="control-label  mt-4 h5"></label><br />
+                        <input asp-for="Upload" accept=".jpg" type="file" class="form-control form-control-lg shadow" />
+                        <span asp-validation-for="Upload" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-5 mb-3 text-center">
+                        <input type="submit" value="Submit" class="btn btn-lg btn-success w-25 shadow"
+                            style="height:3rem" />
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+    <div class=" col-xxl-3 col-lg-1"></div>
+</div>
+@*
 <div class="row"></div>
 <div class="row mt-5">
-    <div class="shadow-lg mt-2 mb-3 text-center fw-bolder">
-       <h1>Create</h1>
-       <hr>
-            <hr>
-            <div class="mt-4 mb-4">
-                <a asp-page="./Index" class=" btn btn-lg btn-primary w-50" style="height:3rem">Back to Site Manager</a>
-            </div>
-    </div>
-    <div class="col-12 shadow mt-3 text-center fw-bolder" >
-        <form enctype="multipart/form-data" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="Site.Name" class="control-label"></label>
-                <input asp-for="Site.Name" class="form-control" />
-                <span asp-validation-for="Site.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Site.Capacity" class="control-label"></label>
-                <input asp-for="Site.Capacity" class="form-control" />
-                <span asp-validation-for="Site.Capacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Site.Location" class="control-label"></label>
-                <input asp-for="Site.Location" class="form-control" />
-                <span asp-validation-for="Site.Location" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Site.SiteTypeID" class="control-label"></label>
-                <select asp-for="Site.SiteTypeID" class="form-control" asp-items="ViewBag.SiteTypeID"></select>
-            </div>
-            <div class="form-group mt-4 shadow">
-                <label asp-for="Upload" class="control-label"></label><br />
-                <input asp-for="Upload" accept=".jpg" type="file" class="form-control form-control-lg"/>
-                <span asp-validation-for="Upload" class="text-danger" ></span>
-                
-            </div>
-
-            <div class="form-group mt-5 mb-3 text-center">
-                <input type="submit" value="Submit" class="btn btn-lg btn-success w-25" style="height:3rem" />
-            </div>
-        </form>
-    </div>
+<div class="shadow-lg mt-2 mb-3 text-center fw-bolder">
+<h1>Create</h1>
+<hr>
+<hr>
+<div class="mt-4 mb-4">
+<a asp-page="./Index" class=" btn btn-lg btn-primary w-50" style="height:3rem">Back to Site Manager</a>
 </div>
-
-@* </div> *@
-
-
+</div>
+<div class="col-12 shadow mt-3 text-center fw-bolder" >
+<form enctype="multipart/form-data" method="post">
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-group">
+<label asp-for="Site.Name" class="control-label"></label>
+<input asp-for="Site.Name" class="form-control" />
+<span asp-validation-for="Site.Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="Site.Capacity" class="control-label"></label>
+<input asp-for="Site.Capacity" class="form-control" />
+<span asp-validation-for="Site.Capacity" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="Site.Location" class="control-label"></label>
+<input asp-for="Site.Location" class="form-control" />
+<span asp-validation-for="Site.Location" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="Site.SiteTypeID" class="control-label"></label>
+<select asp-for="Site.SiteTypeID" class="form-control" asp-items="ViewBag.SiteTypeID"></select>
+</div>
+<div class="form-group mt-4 shadow">
+<label asp-for="Upload" class="control-label"></label><br />
+<input asp-for="Upload" accept=".jpg" type="file" class="form-control form-control-lg"/>
+<span asp-validation-for="Upload" class="text-danger" ></span>
+</div>
+<div class="form-group mt-5 mb-3 text-center">
+<input type="submit" value="Submit" class="btn btn-lg btn-success w-25" style="height:3rem" />
+</div>
+</form>
+</div>
+</div> *@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

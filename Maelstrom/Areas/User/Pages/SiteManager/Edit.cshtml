@@ -2,7 +2,7 @@
 @model Maelstrom.Areas.User.Pages.SiteManager.EditModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = $"Edit {@Model.Site.Name}";
     Layout = "_Layout";
 }
 <div class="row">
@@ -15,7 +15,7 @@
             <div class="col-md-3 col-lg-4"></div>
             <div class="col-md-6 col-lg-4">
                 <a asp-page="./Index" class=" btn btn-lg btn-primary mb-4 shadow">
-                    Back to Sites
+                    Site Manager
                 </a>
             </div>
             <div class="col-md-3 col-lg-4"></div>
