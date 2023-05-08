@@ -6,7 +6,7 @@
     Layout = "_Layout";
     ViewData["Title"] = $"{Model.CurrentSite.Name} -Dash-";
 }
-<div class="row" >
+<div class="row">
     @*----Tank Toggler----*@
     <div class="col-lg-1">
         <div class="dropdown mt-3">
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="col-lg-10 border border-5 p-5" style=" background-color:floralwhite">
-        <div class="row shadow mb-5 mt-5 text-center">
+        <div class="row shadow mb-5 text-center">
             <h2 id="site-name">@Model.CurrentSite.Name</h2>
         </div>
         <div class="row">
@@ -47,129 +47,133 @@
                             }
                         }
                     </div>
-                    <div class="text-center">
-                        <h3> @Model.CurrentSiteType Information</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-primary table-sm">
-                            <thead>
-                                <tr class="table-dark">
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Capacity</th>
-                                    <th scope="col">Type</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        @Model.CurrentSite.Location
-                                    </td>
-                                    <td>
-                                        @Model.CurrentSite.Capacity Gallons
-                                    </td>
-                                    <td>
-                                        @Model.CurrentSiteType
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class=" text-center mb-3">
-                            <a asp-page="./SiteManager/Edit" asp-route-id="@Model.CurrentSite.SiteID"
-                                class="btn btn-outline-warning">Edit info
-                            </a>
+                    <div class="border pt-3">
+                        <div class="text-center">
+                            <h3> @Model.CurrentSiteType Information</h3>
+                        </div>                  
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-primary table-sm">
+                                    <thead>
+                                        <tr class="table-dark">
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Capacity</th>
+                                            <th scope="col">Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                @Model.CurrentSite.Location
+                                            </td>
+                                            <td>
+                                                @Model.CurrentSite.Capacity Gallons
+                                            </td>
+                                            <td>
+                                                @Model.CurrentSiteType
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class=" text-center mb-3">
+                                    <a asp-page="./SiteManager/Edit" asp-route-id="@Model.CurrentSite.SiteID"
+                                        class="btn btn-outline-warning">Edit info
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                     </div>
                 </div>
             </div>
             <div class="col col-xl-6">
                 <div class="row">
-                    <div class="text-center">
-                        <h3>Recent Test Results</h3>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover table-primary text-center">
-                            <thead>
-                                <tr class="table-dark">
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().Ammonia)</th>
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().Calcium)</th>
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().Sality)</th>
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().Magnesium)</th>
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().Ph)</th>
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().Alkalinty)</th>
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().Nitrate)</th>
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().Nitrite)</th>
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().Temperature)</th>
-                                    <th scope="col">@Html.DisplayNameFor(Model =>
-                                        Model.CurrentSiteTestResults.FirstOrDefault().CreationDate)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model.CurrentSiteTestResults.Any() == true)
-                                {
-                                    int count = 0;
-                                    @foreach (var tr in Model.CurrentSiteTestResults)
+                    <div class="border pt-3 mt-2">
+                        <div class="text-center">
+                            <h3>Recent Test Results</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-primary text-center">
+                                <thead>
+                                    <tr class="table-dark">
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().Ammonia)</th>
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().Calcium)</th>
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().Sality)</th>
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().Magnesium)</th>
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().Ph)</th>
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().Alkalinty)</th>
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().Nitrate)</th>
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().Nitrite)</th>
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().Temperature)</th>
+                                        <th scope="col">@Html.DisplayNameFor(Model =>
+                                            Model.CurrentSiteTestResults.FirstOrDefault().CreationDate)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.CurrentSiteTestResults.Any() == true)
                                     {
-                                        if (count < 5)
+                                        int count = 0;
+                                        @foreach (var tr in Model.CurrentSiteTestResults)
                                         {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.Ammonia)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.Calcium)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.Sality)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.Magnesium)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.Ph)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.Alkalinty)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.Nitrate)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.Nitrite)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.Temperature)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(td => tr.CreationDate)
-                                                </td>
-                                            </tr>
+                                            if (count < 5)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.Ammonia)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.Calcium)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.Sality)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.Magnesium)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.Ph)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.Alkalinty)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.Nitrate)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.Nitrite)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.Temperature)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(td => tr.CreationDate)
+                                                    </td>
+                                                </tr>
+                                            }
+                                            count += 1;
                                         }
-                                        count += 1;
                                     }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="text-center mb-3">
-                        <a asp-page="./SiteManager/TestResults" asp-route-id="@Model.CurrentSite.SiteID"
-                            class="btn btn-outline-primary mt-2">Show All Results</a>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mb-3">
+                            <a asp-page="./SiteManager/TestResults" asp-route-id="@Model.CurrentSite.SiteID"
+                                class="btn btn-outline-primary mt-2">Show All Results</a>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-2"></div>
                     <div class="col-8">
-                      <img src="~/media/ComingSoon.png" class="shadow border p-3 img-fluid w-100" />
+                        <img src="~/media/ComingSoon.png" class="shadow border p-3 img-fluid w-100 mt-5" />
                     </div>
                     <div class="col-2"></div>
                 </div>
