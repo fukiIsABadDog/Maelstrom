@@ -49,7 +49,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 return NotFound("We could not find anything matching that information.");
             }
             SiteId = site.SiteID;
-            var currentSiteUser = await _appUserService.GetSiteUser(currentUser, SiteId);
+            var currentSiteUser = await _appUserService.FindSiteUserFromUserIdentityAndSiteID(currentUser, SiteId);
 
             if (currentSiteUser == null || currentSiteUser.IsAdmin == false)
             {

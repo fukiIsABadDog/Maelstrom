@@ -7,67 +7,61 @@ using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.ResultManager
 {
-    //notes:
-    //to be fixed: user can enter empty results 
     [Authorize]
     public class CreateModel : PageModel
-    {
-        private readonly EF_Models.MaelstromContext _context;
+    {    
         private readonly IAppUserService _appUserService;
-        public CreateModel(EF_Models.MaelstromContext context, IAppUserService appUserService)
+        public CreateModel( IAppUserService appUserService)
         {
-            _context = context;
             _appUserService = appUserService;
         }
 
 
         [BindProperty]
         public TestResult TestResult { get; set; } = default!;
-
         [BindProperty]
         public int SiteUserID { get; set; }
-
         [BindProperty]
         public int SiteID { get; set; }
-        public IIdentity CurrentUser { get; set; } = null!;
+        public IIdentity LoggedInUser { get; set; } = null!;
 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            CurrentUser = User.Identity!;
-            var siteUser = await _appUserService.GetSiteUser(CurrentUser, id);
+            LoggedInUser = User.Identity!;
 
-            if (siteUser == null)
+            var LoggedInSiteUser = await _appUserService.FindSiteUserFromUserIdentityAndSiteID(LoggedInUser, id);
+
+            if (LoggedInSiteUser == null)
             {
                 return NotFound();
             }
             else
             {
-                var siteUserID = siteUser.SiteUserID;
-                var siteID = siteUser.SiteID;
-
-                SiteID = siteID;
-                SiteUserID = siteUserID;
+                SiteID = LoggedInSiteUser.SiteID;
+                SiteUserID = LoggedInSiteUser.SiteUserID;
             }
+
             return Page();
         }
+
         public async Task<IActionResult> OnPostAsync()
         {
             TestResult.CreationDate = DateTime.Now;
+            TestResult.SiteUserID = SiteUserID;
 
             if (ModelState.IsValid)
             {
-                TestResult.SiteUserID = SiteUserID;
-                _context.TestResults.Add(TestResult);
-                await _context.SaveChangesAsync();
+                await _appUserService.AddNewTestResult(TestResult);
+            
                 return RedirectToPage("/SiteManager/TestResults", new { id = SiteID.ToString() });
             }
+
             return Page();
         }
     }

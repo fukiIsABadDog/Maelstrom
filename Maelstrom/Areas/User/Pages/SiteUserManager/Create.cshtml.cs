@@ -56,7 +56,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             }
          
             var currentUser = User.Identity!;
-            var currentSiteUser = await _appUserService.GetSiteUser(currentUser, id);
+            var currentSiteUser = await _appUserService.FindSiteUserFromUserIdentityAndSiteID(currentUser, id);
             
             if (currentSiteUser == null || currentSiteUser.IsAdmin == false) 
             {

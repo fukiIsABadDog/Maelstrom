@@ -88,7 +88,7 @@ namespace Maelstrom.Services
                                  select TestResult;
             return await querySiteUsers.OrderByDescending(x => x.CreationDate).ToListAsync();
         }
-        public async Task<SiteUser?> GetSiteUser(IIdentity user, int? id)
+        public async Task<SiteUser?> FindSiteUserFromUserIdentityAndSiteID(IIdentity user, int? id)
         {
             var querySiteUsers = from SiteUser in _context.SiteUsers
                                  join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
@@ -174,6 +174,12 @@ namespace Maelstrom.Services
             var siteUser = await query.FirstOrDefaultAsync();
 
             return siteUser;
+        }
+
+       public async Task AddNewTestResult(TestResult testResult)
+        {
+            _context.TestResults.Add(testResult);
+            await _context.SaveChangesAsync();
         }
     }
 }
