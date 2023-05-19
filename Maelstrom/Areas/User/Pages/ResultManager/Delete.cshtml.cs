@@ -9,9 +9,9 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 {
     [Authorize]
     public class DeleteModel : PageModel
-    {  
+    {
         private readonly IAppUserService _appUserService;
-        public DeleteModel( IAppUserService appUserService)
+        public DeleteModel(IAppUserService appUserService)
         {
             _appUserService = appUserService;
         }
@@ -41,9 +41,16 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 
             var siteUser = await _appUserService.FindSiteUserForTestResultFromUserIdentity(LoggedInUser, testResult);
 
-            if (siteUser == null || testResult == null)
+            if (siteUser == null)
             {
-                var adminSiteUser = await _appUserService.CheckAndReturnAdminSiteUser(LoggedInUser, testResult);
+                var site = await _appUserService.FindSiteFromTestResult(testResult);
+
+                if (site == null)
+                {
+                    return (NotFound());
+                }
+
+                var adminSiteUser = await _appUserService.CheckAndReturnAdminSiteUser(LoggedInUser, site);
 
                 if (adminSiteUser == null)
                 {
@@ -55,12 +62,13 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 
                 return Page();
             }
-            
+
             SiteUser = siteUser!;
             TestResult = testResult!;
-            
+
             return Page();
         }
+
 
         public async Task<IActionResult> OnPostAsync(int id)
         {

@@ -114,21 +114,19 @@ namespace Maelstrom.Services
             return await siteUser.FirstOrDefaultAsync();
         }
 
-        public async Task<SiteUser?> CheckAndReturnAdminSiteUser(IIdentity user, TestResult testResult)
+        public async Task<Site?> FindSiteFromTestResult(TestResult testResult)
         {
-            // Issues:
-            // Does not follow SRP
-            //  Bug: selectedSite returns wrong site 
-                
-            var selectedSite =
-                from TestResult in _context.TestResults
-                join Site in _context.Sites on TestResult.SiteUser.SiteID equals Site.SiteID
-                select Site;
+            var site =
+               from TestResult in _context.TestResults
+               join SiteUser in _context.SiteUsers on testResult.SiteUserID equals SiteUser.SiteUserID
+               join Site in _context.Sites on SiteUser.SiteID equals Site.SiteID
+               select Site;
 
-            var site = await selectedSite.FirstOrDefaultAsync();
+            return await site.FirstOrDefaultAsync();
+        }
 
-            var test = 1 + 1; //testing here 5/19/23 1:00pm remove if still here 5/20
-
+        public async Task<SiteUser?> CheckAndReturnAdminSiteUser(IIdentity user, Site site)
+        {
             var siteUser =
                 from SiteUser in _context.SiteUsers
                 join Site in _context.Sites on SiteUser.SiteID equals Site.SiteID
@@ -140,6 +138,7 @@ namespace Maelstrom.Services
 
             return await siteUser.FirstOrDefaultAsync();
         }
+
         public async Task<Dictionary<int, string>> CreateSiteTypeDictionary()
         {
             var siteTypesDict = new Dictionary<int, String>();

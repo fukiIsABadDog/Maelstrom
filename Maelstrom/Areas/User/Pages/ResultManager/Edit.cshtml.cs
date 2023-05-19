@@ -42,24 +42,15 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 
             if (siteUser == null || testResult == null)
             {
-                //// this needs to be refactored in service
-                //var testResultQuery = _context.TestResults.Select(x => x).Where(x => x.TestResultID == id);
-                //var siteQuery =  testResultQuery.Include( x=> x.SiteUser.Site).Select( x=> x.SiteUser.Site);
-                //var su = await siteQuery.Select(x => x.SiteUsers.Where( x => x.AppUser.Email == CurrentUser.Name)).SingleOrDefaultAsync();
+                // Testing Delete Page 5/19/23 This code is still in use.
 
-                //if (su.First().IsAdmin != true)
+                //var adminSiteUser = await _appUserService.CheckAndReturnAdminSiteUser(); // refactoring 
+                //if(adminSiteUser == null)
                 //{
-                //    return (NotFound("You are not allowed to access this resource."));
+                //    return Forbid();
                 //}
-                //SiteUser = su.First();
-
-                var adminSiteUser = await _appUserService.CheckAndReturnAdminSiteUser(CurrentUser, testResult);
-                if(adminSiteUser == null)
-                {
-                    return Forbid();
-                }
-                SiteUser = adminSiteUser;
-                TestResult = testResult;
+                //SiteUser = adminSiteUser;
+                //TestResult = testResult;
 
                 return Page();
 
