@@ -100,7 +100,7 @@ namespace Maelstrom.Services
             return await querySiteUsers.FirstOrDefaultAsync();
         }
 
-        public async Task<SiteUser?> FindSiteUserForTestResultFromUserIdentity(IIdentity user, TestResult testResult)
+        public async Task<SiteUser?> FindSiteUserFromTestResult(IIdentity user, TestResult testResult)
         {
             var siteUser =
 
@@ -125,7 +125,7 @@ namespace Maelstrom.Services
             return await site.FirstOrDefaultAsync();
         }
 
-        public async Task<SiteUser?> CheckAndReturnAdminSiteUser(IIdentity user, Site site)
+        public async Task<SiteUser?> FindAdminSiteUser(IIdentity user, Site site)
         {
             var siteUser =
                 from SiteUser in _context.SiteUsers

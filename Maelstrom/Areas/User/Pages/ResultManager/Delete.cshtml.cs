@@ -34,14 +34,23 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             LoggedInUser = User.Identity!;
 
             var testResult = await _appUserService.FindTestResult(id);
+
             if (testResult == null)
             {
                 return (NotFound());
             }
 
-            var siteUser = await _appUserService.FindSiteUserForTestResultFromUserIdentity(LoggedInUser, testResult);
+            var siteUser = await _appUserService.FindSiteUserFromTestResult(LoggedInUser, testResult);
 
-            if (siteUser == null)
+            if (siteUser != null)
+            {
+                SiteUser = siteUser!;
+                TestResult = testResult!;
+
+                return Page();
+            }
+
+            else
             {
                 var site = await _appUserService.FindSiteFromTestResult(testResult);
 
@@ -50,7 +59,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
                     return (NotFound());
                 }
 
-                var adminSiteUser = await _appUserService.CheckAndReturnAdminSiteUser(LoggedInUser, site);
+                var adminSiteUser = await _appUserService.FindAdminSiteUser(LoggedInUser, site);
 
                 if (adminSiteUser == null)
                 {
@@ -61,12 +70,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
                 TestResult = testResult;
 
                 return Page();
-            }
-
-            SiteUser = siteUser!;
-            TestResult = testResult!;
-
-            return Page();
+            }   
         }
 
 
