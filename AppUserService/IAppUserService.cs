@@ -25,7 +25,9 @@ namespace Maelstrom.Services
         Task<TestResult?> FindTestResult(int? id);
         Task DeleteTestResult(int id);
         Task DeleteSite(int id);
-        Task<SiteUser?> ValidateAndReturnSiteUser(Site site, IIdentity user);
+
         Task AddNewTestResult(TestResult testResult);
+        Task<TestResult?> FindTestResult(int id);
+        Task EditTestResult(TestResult testResult);
     }
 }
