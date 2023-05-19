@@ -38,7 +38,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             {
                 return Forbid();
             }
-            var siteUser = await _appUserService.CheckAndReturnSiteUser(CurrentUser, testResult);
+            var siteUser = await _appUserService.FindSiteUserForTestResultFromUserIdentity(CurrentUser, testResult);
 
             if (siteUser == null || testResult == null)
             {

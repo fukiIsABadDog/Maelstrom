@@ -7,23 +7,22 @@ using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.ResultManager
 {
-
     [Authorize]
     public class DeleteModel : PageModel
-    {
-        private readonly EF_Models.MaelstromContext _context;
+    {  
         private readonly IAppUserService _appUserService;
-        public DeleteModel(EF_Models.MaelstromContext context, IAppUserService appUserService)
+        public DeleteModel( IAppUserService appUserService)
         {
-            _context = context;
             _appUserService = appUserService;
         }
+
 
         [BindProperty]
         public TestResult TestResult { get; set; } = null!;
         [BindProperty]
         public SiteUser SiteUser { get; set; } = null!;
-        public IIdentity CurrentUser { get; set; } = null!;
+        public IIdentity LoggedInUser { get; set; } = null!;
+
 
         public async Task<IActionResult> OnGet(int? id)
         {
@@ -31,22 +30,26 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             {
                 return (NotFound());
             }
-            CurrentUser = User.Identity!;
+
+            LoggedInUser = User.Identity!;
+
             var testResult = await _appUserService.FindTestResult(id);
             if (testResult == null)
             {
                 return (NotFound());
             }
-            var siteUser = await _appUserService.CheckAndReturnSiteUser(CurrentUser, testResult);
+
+            var siteUser = await _appUserService.FindSiteUserForTestResultFromUserIdentity(LoggedInUser, testResult);
 
             if (siteUser == null || testResult == null)
             {
+                var adminSiteUser = await _appUserService.CheckAndReturnAdminSiteUser(LoggedInUser, testResult);
 
-                var adminSiteUser = await _appUserService.CheckAndReturnAdminSiteUser(CurrentUser, testResult);
                 if (adminSiteUser == null)
                 {
                     return Forbid();
                 }
+
                 SiteUser = adminSiteUser;
                 TestResult = testResult;
 
@@ -64,16 +67,7 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
             await _appUserService.DeleteTestResult(id);
 
             return RedirectToPage("/SiteManager/TestResults", new { id = SiteUser.SiteID.ToString() });
-
         }
-        //public async Task<IActionResult> OnPostAsync()
-        //{
-        //    var tr = new TestResult() { TestResultID = TestResult.TestResultID };
-        //    _context.Remove(tr);
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToPage("/SiteManager/TestResults", new { id = SiteUser.SiteID.ToString() });
-        //}
     }
 }
 

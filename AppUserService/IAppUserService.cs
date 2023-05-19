@@ -14,7 +14,7 @@ namespace Maelstrom.Services
         Task<Site?> GetCurrentUserSite(IIdentity user, int? id, bool isAdmin);
         Task<ICollection<TestResult>?> GetCurrentUserSiteTestResults(IIdentity user, int? id);
         Task<SiteUser?> FindSiteUserFromUserIdentityAndSiteID(IIdentity user, int? id);
-        Task<SiteUser?> CheckAndReturnSiteUser(IIdentity user, TestResult testResult);
+        Task<SiteUser?> FindSiteUserForTestResultFromUserIdentity(IIdentity user, TestResult testResult);
         Task<SiteUser?> CheckAndReturnAdminSiteUser(IIdentity user, TestResult testResult);
         Task<TestResult?> FindTestResult(int? id);
         Task DeleteTestResult(int id);
