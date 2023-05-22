@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Security.Principal;
+
+
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
     [Authorize]
@@ -49,29 +51,26 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             }
             else
             {
-                using (var memoryStream = new MemoryStream()) // turn into service
+                var convertedImage = await _appUserService.ConvertImageForDb(Upload);
+                if (convertedImage == null)
                 {
-                    await Upload.CopyToAsync(memoryStream);
-                    if (memoryStream.Length < 4194304)
-                    {
-                        Site.ImageData = memoryStream.ToArray();
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
-                        ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
-                        return Page();
-                    }
+                    ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
+                    ViewData["SiteTypeID"] = _appUserService.GetAllSiteTypes();
+                    return Page();
                 }
+                else
+                {
+                    Site.ImageData = convertedImage;
+                }            
             }
             try
             {
-                if (ModelState.IsValid && appUser != null) // turn into service
-                {
-                    this.SiteUser = new SiteUser { AppUser = appUser, Site = this.Site, IsAdmin = true };
-                    _context.Sites.Add(Site);
-                    _context.SiteUsers.Add(SiteUser);
-                    await _context.SaveChangesAsync();
+                if (ModelState.IsValid && appUser != null) 
+                {      
+                    SiteUser = new SiteUser { AppUser = appUser, Site = this.Site, IsAdmin = true };
+
+                    await _appUserService.SaveSite(Site);
+                    await _appUserService.SaveSiteUser(SiteUser);
                 }
             }
             catch
@@ -79,6 +78,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 Message = "There was an issue saving the data as entered.";
                 return Page();
             }
+
             return RedirectToPage("./Index");
         }
     }

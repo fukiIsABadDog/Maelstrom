@@ -1,7 +1,9 @@
-﻿using System.Security.Principal;
+﻿using System.IO;
+using System.Security.Principal;
 using System.Web.Mvc;
 using EF_Models;
 using EF_Models.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 namespace Maelstrom.Services
 {
@@ -228,6 +230,36 @@ namespace Maelstrom.Services
             var siteTypes = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
 
             return siteTypes;
+        }
+
+        public async Task<byte[]?> ConvertImageForDb(IFormFile upload)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await upload.CopyToAsync(memoryStream);
+                if (memoryStream.Length < 4194304)
+                {
+                    return memoryStream.ToArray();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public async Task SaveSite(Site site)
+        {
+            _context.Sites.Add(site);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveSiteUser(SiteUser siteUser)
+        {
+            _context.SiteUsers.Add(siteUser);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

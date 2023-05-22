@@ -1,4 +1,5 @@
 ﻿using EF_Models.Models;
+using Microsoft.AspNetCore.Http;
 using System.Security.Principal;
 using System.Web.Mvc;
 
@@ -34,5 +35,8 @@ namespace Maelstrom.Services
 
         Task<AppUser> FindAppUser(IIdentity user);
         SelectList GetAllSiteTypes();
+        Task<byte[]?> ConvertImageForDb(IFormFile upload);
+        Task SaveSite(Site site);
+        Task SaveSiteUser(SiteUser siteUser);
     }
 }
