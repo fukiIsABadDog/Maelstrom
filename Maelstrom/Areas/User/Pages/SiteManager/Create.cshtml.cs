@@ -37,6 +37,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public IActionResult OnGet()
         {
             ViewData["SiteTypeID"] = _appUserService.GetAllSiteTypes(); 
+
             return Page();
         }
 
@@ -45,6 +46,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         {
             LoggedInUser = User.Identity!;
             var appUser = await _appUserService.FindAppUser(LoggedInUser);
+
             if (Upload == null)
             {
                 Site.ImageData = null;
@@ -55,7 +57,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 if (convertedImage == null)
                 {
                     ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
+
                     ViewData["SiteTypeID"] = _appUserService.GetAllSiteTypes();
+
                     return Page();
                 }
                 else
@@ -76,6 +80,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             catch
             {
                 Message = "There was an issue saving the data as entered.";
+
                 return Page();
             }
 
