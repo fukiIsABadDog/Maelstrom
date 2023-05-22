@@ -215,5 +215,11 @@ namespace Maelstrom.Services
                 throw;
             }
         }
+        public async Task<AppUser> FindAppUser(IIdentity user)
+        {
+            var appUser = await _context.AppUsers.Where(x => x.Email == user.Name).FirstAsync();
+
+            return appUser;
+        }
     }
 }

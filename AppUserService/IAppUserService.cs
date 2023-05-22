@@ -9,6 +9,7 @@ namespace Maelstrom.Services
          // 1) rename methods for consistency and conciseness
          // 2) organize methods according to primary callers
 
+
         Task<ICollection<Site>> GetCurrentUserSites(IIdentity user);
         Site GetSelectedSite(ICollection<Site> sites, Site? currentSite);
         Task<ICollection<TestResult>?> GetSelectedSiteTestResults(int id);
@@ -29,5 +30,7 @@ namespace Maelstrom.Services
         Task AddNewTestResult(TestResult testResult);
         Task<TestResult?> FindTestResult(int id);
         Task EditTestResult(TestResult testResult);
+
+        Task<AppUser> FindAppUser(IIdentity user);
     }
 }

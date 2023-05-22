@@ -17,24 +17,30 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         {
             _context = context;
         }
-        public string Message { get; set; }
+
+       
         [DisplayName("Upload Image")]
         [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile? Upload { get; set; }
         [BindProperty]
         public Site Site { get; set; } = default!;
         public SiteUser SiteUser { get; set; }
-        public IIdentity CurrentUser { get; set; }
+        public IIdentity LoggedInUser { get; set; }
         public AppUser AppUser { get; set; }
+        public string Message { get; set; }
+
+
         public IActionResult OnGet()
         {
             ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
             return Page();
         }
+
+
         public async Task<IActionResult> OnPostAsync()
         {
-            CurrentUser = User.Identity!;
-            var appUser = await _context.AppUsers.Where(x => x.Email == CurrentUser.Name).FirstAsync();
+            LoggedInUser = User.Identity!;
+            var appUser = await _context.AppUsers.Where(x => x.Email == LoggedInUser.Name).FirstAsync();
             if (Upload == null)
             {
                 Site.ImageData = null;
