@@ -35,16 +35,16 @@ namespace Maelstrom.Areas.User.Pages.ResultManager
 
             LoggedInUser = User.Identity!;
 
-            var LoggedInSiteUser = await _appUserService.FindSiteUserFromUserIdentityAndSiteID(LoggedInUser, id);
+            var loggedInSiteUser = await _appUserService.FindSiteUserFromUserIdentityAndSiteID(LoggedInUser, id);
 
-            if (LoggedInSiteUser == null)
+            if (loggedInSiteUser == null)
             {
                 return NotFound();
             }
             else
             {
-                SiteID = LoggedInSiteUser.SiteID;
-                SiteUserID = LoggedInSiteUser.SiteUserID;
+                SiteID = loggedInSiteUser.SiteID;
+                SiteUserID = loggedInSiteUser.SiteUserID;
             }
 
             return Page();
