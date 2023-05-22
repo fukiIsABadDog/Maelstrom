@@ -22,16 +22,16 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         }
 
 
-        public IIdentity LoggedInUser { get; set; }
+        public IIdentity LoggedInUser { get; set; } = null!;
         public Site Site { get; set; } = default!;
-        public SiteUser SiteUser { get; set; }
+        public SiteUser SiteUser { get; set; } = null!;
 
         [DisplayName("Upload Image")]
         [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile? Upload { get; set; }
         [BindProperty]
-        public AppUser AppUser { get; set; }
-        public string Message { get; set; }
+        public AppUser AppUser { get; set; } = null!;
+        public string? Message { get; set; }
 
 
         public IActionResult OnGet()
