@@ -1,6 +1,7 @@
 ﻿using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
 using System.Security.Principal;
-using Microsoft.AspNetCore.
 using EF_Models;
 using EF_Models.Models;
 using Microsoft.AspNetCore.Http;
@@ -196,12 +197,14 @@ namespace Maelstrom.Services
        public async Task AddNewTestResult(TestResult testResult)
         {
             _context.TestResults.Add(testResult);
+
             await _context.SaveChangesAsync();
         }
 
        public async Task<TestResult?> FindTestResult(int id)
         {
             var testResult = await _context.TestResults.Select(x => x).Where(x => x.TestResultID == id).FirstOrDefaultAsync();
+
             return testResult;
         }
 
@@ -209,14 +212,8 @@ namespace Maelstrom.Services
         {
             _context.Attach(testResult).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) 
-            {
-                throw;
-            }
+            await _context.SaveChangesAsync();
+
         }
         public async Task<AppUser> FindAppUser(IIdentity user)
         {
@@ -225,9 +222,9 @@ namespace Maelstrom.Services
             return appUser;
         }
 
-        public async Task<List<SiteType>> GetAllSiteTypes()
+        public async Task<Dictionary<int,string>> GetAllSiteTypes()
         {
-            var siteTypes = await _context.SiteTypes.Select(x => x).ToListAsync();
+            var siteTypes = await _context.SiteTypes.ToDictionaryAsync(k => k.SiteTypeID, v => v.Name);
 
             return siteTypes;
         }

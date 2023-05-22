@@ -22,7 +22,10 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         }
 
 
+        public SelectList? SiteTypes { get; set; }
         public IIdentity LoggedInUser { get; set; } = null!;
+
+        [BindProperty]
         public Site Site { get; set; } = default!;
         public SiteUser SiteUser { get; set; } = null!;
 
@@ -32,11 +35,14 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         [BindProperty]
         public AppUser AppUser { get; set; } = null!;
         public string? Message { get; set; }
+        public Byte[]? ConvertedImage { get; set; }
 
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            ViewData["SiteTypeID"] = _appUserService.GetAllSiteTypes();
+            
+            var siteTypes = await _appUserService.GetAllSiteTypes();
+            ViewData["SiteTypeID"] = new SelectList(siteTypes, "Key", "Value");
 
             return Page();
         }
@@ -47,44 +53,30 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             LoggedInUser = User.Identity!;
             var appUser = await _appUserService.FindAppUser(LoggedInUser);
 
-            if (Upload == null)
-            {
-                Site.ImageData = null;
-            }
-            else
+            if (Upload != null)
             {
                 var convertedImage = await _appUserService.ConvertImageForDb(Upload);
-                if (convertedImage == null)
+                ConvertedImage = convertedImage;
+                if (ConvertedImage != null)
                 {
-                    ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
-
-                    var selectList = await _appUserService.GetAllSiteTypes();
-
-                    ViewData["SiteTypeID"] = new SelectList(selectList,)
-                    return Page();
+                    this.Site.ImageData = ConvertedImage;      
                 }
                 else
                 {
-                    Site.ImageData = convertedImage;
-                }            
-            }
-            try
-            {
-                if (ModelState.IsValid && appUser != null) 
-                {      
-                    SiteUser = new SiteUser { AppUser = appUser, Site = this.Site, IsAdmin = true };
+                    ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
 
-                    await _appUserService.SaveSite(Site);
-                    await _appUserService.SaveSiteUser(SiteUser);
+                    var siteTypes = await _appUserService.GetAllSiteTypes();
+                    ViewData["SiteTypeID"] = new SelectList(siteTypes, "Key", "Value");
+
+                    return Page();
                 }
             }
-            catch
-            {
-                Message = "There was an issue saving the data as entered.";
+            else {} 
 
-                return Page();
-            }
-
+            SiteUser = new SiteUser { AppUser = appUser, Site = this.Site, IsAdmin = true };
+            await _appUserService.SaveSite(Site);
+            await _appUserService.SaveSiteUser(SiteUser);
+                
             return RedirectToPage("./Index");
         }
     }
