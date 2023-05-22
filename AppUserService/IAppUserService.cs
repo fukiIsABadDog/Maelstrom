@@ -1,5 +1,6 @@
 ﻿using EF_Models.Models;
 using System.Security.Principal;
+using System.Web.Mvc;
 
 namespace Maelstrom.Services
 {
@@ -32,5 +33,6 @@ namespace Maelstrom.Services
         Task EditTestResult(TestResult testResult);
 
         Task<AppUser> FindAppUser(IIdentity user);
+        SelectList GetAllSiteTypes();
     }
 }

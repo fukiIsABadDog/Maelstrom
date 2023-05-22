@@ -1,4 +1,5 @@
 ﻿using System.Security.Principal;
+using System.Web.Mvc;
 using EF_Models;
 using EF_Models.Models;
 using Microsoft.EntityFrameworkCore;
@@ -220,6 +221,13 @@ namespace Maelstrom.Services
             var appUser = await _context.AppUsers.Where(x => x.Email == user.Name).FirstAsync();
 
             return appUser;
+        }
+
+        public SelectList GetAllSiteTypes()
+        {
+            var siteTypes = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
+
+            return siteTypes;
         }
     }
 }

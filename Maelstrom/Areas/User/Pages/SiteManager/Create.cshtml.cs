@@ -1,4 +1,5 @@
 using EF_Models.Models;
+using Maelstrom.Services;
 using Maelstrom.ValidationAttributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,27 +13,28 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
     [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly MaelstromContext _context;
-        public CreateModel(MaelstromContext context)
+       private readonly AppUserService _appUserService;
+        public CreateModel(AppUserService appUserService)
         {
-            _context = context;
+            _appUserService = appUserService;
         }
 
-       
+
+        public IIdentity LoggedInUser { get; set; }
+        public Site Site { get; set; } = default!;
+        public SiteUser SiteUser { get; set; }
+
         [DisplayName("Upload Image")]
         [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile? Upload { get; set; }
         [BindProperty]
-        public Site Site { get; set; } = default!;
-        public SiteUser SiteUser { get; set; }
-        public IIdentity LoggedInUser { get; set; }
         public AppUser AppUser { get; set; }
         public string Message { get; set; }
 
 
         public IActionResult OnGet()
         {
-            ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
+            ViewData["SiteTypeID"] = _appUserService.GetAllSiteTypes(); 
             return Page();
         }
 
@@ -40,14 +42,14 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public async Task<IActionResult> OnPostAsync()
         {
             LoggedInUser = User.Identity!;
-            var appUser = await _context.AppUsers.Where(x => x.Email == LoggedInUser.Name).FirstAsync();
+            var appUser = await _appUserService.FindAppUser(LoggedInUser);
             if (Upload == null)
             {
                 Site.ImageData = null;
             }
             else
             {
-                using (var memoryStream = new MemoryStream())
+                using (var memoryStream = new MemoryStream()) // turn into service
                 {
                     await Upload.CopyToAsync(memoryStream);
                     if (memoryStream.Length < 4194304)
@@ -64,7 +66,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             }
             try
             {
-                if (ModelState.IsValid && appUser != null)
+                if (ModelState.IsValid && appUser != null) // turn into service
                 {
                     this.SiteUser = new SiteUser { AppUser = appUser, Site = this.Site, IsAdmin = true };
                     _context.Sites.Add(Site);
