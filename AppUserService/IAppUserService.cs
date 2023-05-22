@@ -34,7 +34,7 @@ namespace Maelstrom.Services
         Task EditTestResult(TestResult testResult);
 
         Task<AppUser> FindAppUser(IIdentity user);
-        SelectList GetAllSiteTypes();
+        Task<List<SiteType>> GetAllSiteTypes(); // broken 5/22/23 -- testing 11:26 am
         Task<byte[]?> ConvertImageForDb(IFormFile upload);
         Task SaveSite(Site site);
         Task SaveSiteUser(SiteUser siteUser);

@@ -15,8 +15,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
     [Authorize]
     public class CreateModel : PageModel
     {
-       private readonly AppUserService _appUserService;
-        public CreateModel(AppUserService appUserService)
+       private readonly IAppUserService _appUserService;
+        public CreateModel(IAppUserService appUserService)
         {
             _appUserService = appUserService;
         }
@@ -36,7 +36,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
         public IActionResult OnGet()
         {
-            ViewData["SiteTypeID"] = _appUserService.GetAllSiteTypes(); 
+            ViewData["SiteTypeID"] = _appUserService.GetAllSiteTypes();
 
             return Page();
         }
@@ -58,8 +58,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 {
                     ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
 
-                    ViewData["SiteTypeID"] = _appUserService.GetAllSiteTypes();
+                    var selectList = await _appUserService.GetAllSiteTypes();
 
+                    ViewData["SiteTypeID"] = new SelectList(selectList,)
                     return Page();
                 }
                 else

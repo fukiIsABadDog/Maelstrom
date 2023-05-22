@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Security.Principal;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.
 using EF_Models;
 using EF_Models.Models;
 using Microsoft.AspNetCore.Http;
@@ -225,9 +225,9 @@ namespace Maelstrom.Services
             return appUser;
         }
 
-        public SelectList GetAllSiteTypes()
+        public async Task<List<SiteType>> GetAllSiteTypes()
         {
-            var siteTypes = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
+            var siteTypes = await _context.SiteTypes.Select(x => x).ToListAsync();
 
             return siteTypes;
         }
