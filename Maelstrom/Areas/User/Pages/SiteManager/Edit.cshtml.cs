@@ -93,8 +93,6 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
           
             return RedirectToPage("./Index");
         }
-
-    
     }
 }
 
