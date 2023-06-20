@@ -26,7 +26,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         [BindProperty]
         [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile? Upload { get; set; }
-        public string? SiteImage { get; private set; }
+        public string? ExistingSiteImage { get; private set; }
+        public byte[]? NewSiteImage { get; set; }
         public IIdentity CurrentUser { get; set; } = null!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -51,7 +52,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             {
                 Site = site;
 
-                SiteImage = _appUserService.ConvertImageFromDb(Site.ImageData);
+                ExistingSiteImage = _appUserService.ConvertImageFromDb(Site.ImageData);
             }
             return Page();
         }
@@ -64,28 +65,23 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 return Page();
             }
 
-            if (Upload != null && Upload.Length > 1 == true)
+            if (Upload != null)
             {
-                using (var memoryStream = new MemoryStream())
+                var imageConvertedForDB = await _appUserService.ConvertImageForDb(Upload);
+                NewSiteImage = imageConvertedForDB;
+
+                if (NewSiteImage != null)
                 {
-                    await Upload.CopyToAsync(memoryStream);
+                    Site.ImageData = NewSiteImage;
+                }
+                else
+                {
+                    ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
 
+                    var siteTypes = await _appUserService.GetAllSiteTypes();
+                    ViewData["SiteTypeID"] = new SelectList(siteTypes, "Key", "Value");
 
-                    if (memoryStream.Length < 4194304)
-                    {
-
-                        Site.ImageData = memoryStream.ToArray();
-
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
-
-                        var siteTypes = await _appUserService.GetAllSiteTypes();
-                        ViewData["SiteTypeID"] = new SelectList(siteTypes, "Key", "Value");
-
-                        return Page();
-                    }
+                    return Page();
                 }
             }
             else
