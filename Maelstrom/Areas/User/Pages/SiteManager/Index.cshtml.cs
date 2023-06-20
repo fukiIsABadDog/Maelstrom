@@ -3,6 +3,7 @@ using Maelstrom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+//using System.Security.Policy;
 using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
@@ -15,41 +16,33 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         {
             _appUserService = appUserService;
         }
+
         public IIdentity CurrentUser { get; private set; } = null!;
-        public ICollection<SiteType>? MySiteTypes { get; set; }
         public IList<Site> CurrentUserSites { get; private set; } = null!;
         public Dictionary<int, string> SiteTypeDictionary { get; set; } = new Dictionary<int, string> { };
         public Dictionary<int, string?> ImageDictionary { get; set; } = new Dictionary<int, string?> { };
+       
+        
         public async Task<IActionResult> OnGetAsync()
         {
             CurrentUser = User.Identity!;
 
             var sites = (IList<Site>)await _appUserService.GetCurrentUserSites(CurrentUser);
             var siteTypes = await _appUserService.CreateSiteTypeDictionary();
+
             CurrentUserSites = sites;
+
             if (siteTypes.Any())
             {
                 SiteTypeDictionary = siteTypes;
             }
-            foreach (var site in CurrentUserSites)
-            {
-                ImageDictionary.Add(site.SiteID, ImageConverter(site.ImageData));
-            }
-            return Page();
-        }
 
-        public string ImageConverter(byte[]? dbImage)
-        {
-            if (dbImage != null && dbImage.Length > 1 == true)
+            foreach(var site in CurrentUserSites)
             {
-                var base64 = Convert.ToBase64String(dbImage);
-                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                return imgSrc;
+                ImageDictionary.Add(site.SiteID, _appUserService.ConvertImageFromDb(site.ImageData));
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return Page();
         }
     }
 }
