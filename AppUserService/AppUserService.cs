@@ -227,6 +227,20 @@ namespace Maelstrom.Services
             }
         }
 
+        public string? ConvertImageFromDb(byte[]? DbImageData)
+        {
+            if (DbImageData != null && DbImageData.Length > 1 == true)
+            {
+                var base64 = Convert.ToBase64String(DbImageData);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                return imgSrc;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task SaveSite(Site site)
         {
             _context.Sites.Add(site);

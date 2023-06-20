@@ -50,13 +50,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             else
             {
                 Site = site;
-                if (Site.ImageData != null && Site.ImageData.Length > 1 == true)
-                {
-                    var base64 = Convert.ToBase64String(Site.ImageData);
-                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                    SiteImage = imgSrc;
-                }
 
+                SiteImage = _appUserService.ConvertImageFromDb(Site.ImageData);
             }
             return Page();
         }

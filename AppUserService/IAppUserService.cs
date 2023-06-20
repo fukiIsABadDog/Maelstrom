@@ -36,10 +36,12 @@ namespace Maelstrom.Services
         Task<AppUser> FindAppUser(IIdentity user);
         Task<Dictionary<int, string>> GetAllSiteTypes();
         Task<byte[]?> ConvertImageForDb(IFormFile upload);
+        string? ConvertImageFromDb(byte[]? DbImageData);
         Task SaveSite(Site site);
         Task SaveSiteUser(SiteUser siteUser);
 
         Task EditSite(Site site);
         Boolean SiteExists(int id);
+
     }
 }
