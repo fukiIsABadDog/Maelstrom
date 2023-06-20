@@ -38,7 +38,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
             CurrentUser = User.Identity!;
 
-            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id);    
+            var site = await _appUserService.GetSiteForCurrentAdminSiteUser(CurrentUser, id);    
             
             var siteTypes = await _appUserService.GetAllSiteTypes();
             ViewData["SiteTypeID"] = new SelectList(siteTypes, "Key", "Value");

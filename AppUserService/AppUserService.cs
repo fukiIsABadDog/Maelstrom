@@ -56,9 +56,8 @@ namespace Maelstrom.Services
             return await siteTypeQuery.FirstOrDefaultAsync();
         }
 
-        public async Task<Site?> GetCurrentUserSite(IIdentity user, int? id)  //testing june20
+        public async Task<Site?> GetSiteForCurrentAdminSiteUser(IIdentity user, int? id)  //testing june20
         {
-      
                 var querySiteUsers =
                     from SiteUser in _context.SiteUsers
                     join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
@@ -71,9 +70,6 @@ namespace Maelstrom.Services
                     select Sites;
 
                 return await querySiteUsers.FirstOrDefaultAsync();
-            
-
-
         }
 
         public async Task<ICollection<TestResult>?> GetCurrentUserSiteTestResults(IIdentity user, int? id)
