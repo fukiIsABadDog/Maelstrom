@@ -17,7 +17,7 @@
             <div class=" image-fluid col-md-6">
                 <div class="border p-2 shadow mt-1 ms-1 ">
                     @{
-                        if (Model.SiteImage != null)
+                        if (Model.SiteImage != string.Empty)
                         {
                             <img src=@Model.SiteImage class="w-100" />
                         }

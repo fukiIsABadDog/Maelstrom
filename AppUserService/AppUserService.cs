@@ -237,7 +237,8 @@ namespace Maelstrom.Services
             }
             else
             {
-                return null;
+                /*return null*/
+                return string.Empty;
             }
         }
 

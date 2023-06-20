@@ -34,7 +34,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         {
             if (id == null)
             {
-                return NotFound("That Resource could not be located.");
+                return NotFound("That resource could not be located.");
             }
 
             CurrentUser = User.Identity!;
