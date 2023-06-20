@@ -7,7 +7,7 @@ using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteManager
 {
-    [Authorize] // still needs SiteUser-admin logic
+    [Authorize] 
     public class DeleteModel : PageModel
     {
 
@@ -22,8 +22,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public Site Site { get; set; } = default!;
         public SiteUser SiteUser { get; set; }
         public string? SiteImage { get; private set; }
-
         public IIdentity CurrentUser { get; set; } = null!;
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             
@@ -33,7 +33,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             }
 
             CurrentUser = User.Identity!;
-            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id, true);
+            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id);
 
             if (site == null)
             {
@@ -51,6 +51,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             }
             return Page();
         }
+
 
         public async Task<IActionResult> OnPostAsync(int id)
         {

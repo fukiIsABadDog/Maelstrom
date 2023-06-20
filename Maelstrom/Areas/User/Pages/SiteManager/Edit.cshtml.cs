@@ -14,12 +14,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
     [Authorize]
     public class EditModel : PageModel
     {
-
-        private readonly EF_Models.MaelstromContext _context;
         private readonly IAppUserService _appUserService;
-        public EditModel(EF_Models.MaelstromContext context, IAppUserService appUserService)
+        public EditModel(IAppUserService appUserService)
         {
-            _context = context;
             _appUserService = appUserService;
         }
 
@@ -30,7 +27,6 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile? Upload { get; set; }
         public string? SiteImage { get; private set; }
-
         public IIdentity CurrentUser { get; set; } = null!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -39,10 +35,14 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             {
                 return NotFound("That Resource could not be located.");
             }
+
             CurrentUser = User.Identity!;
-            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id, true);
-            ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
-            // maybe think  access denied logic and also think about custom 404 page
+
+            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id);    
+            
+            var siteTypes = await _appUserService.GetAllSiteTypes();
+            ViewData["SiteTypeID"] = new SelectList(siteTypes, "Key", "Value");
+
             if (site == null)
             {
                 return Forbid();
@@ -85,7 +85,10 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                     else
                     {
                         ModelState.AddModelError("Upload", "That file is too large. It should be under 4MB.");
-                        ViewData["SiteTypeID"] = new SelectList(_context.SiteTypes, "SiteTypeID", "Name");
+
+                        var siteTypes = await _appUserService.GetAllSiteTypes();
+                        ViewData["SiteTypeID"] = new SelectList(siteTypes, "Key", "Value");
+
                         return Page();
                     }
                 }
@@ -95,31 +98,12 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
                 Site.ImageData = Site.ImageData;
             }
 
-            _context.Attach(Site).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SiteExists(Site.SiteID))
-                {
-                    return NotFound();
-                }
-                //else
-                //{
-                //    throw;
-                //}
-            }
-
+            await _appUserService.EditSite(Site);
+          
             return RedirectToPage("./Index");
         }
 
-        private bool SiteExists(int id)
-        {
-            return (_context.Sites?.Any(e => e.SiteID == id)).GetValueOrDefault();
-        }
+    
     }
 }
 

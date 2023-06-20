@@ -33,7 +33,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
             CurrentUser = User.Identity!;
 
-            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id, false); // this checks if user is deleted too
+            var site = await _appUserService.GetCurrentUserSite(CurrentUser, id); 
             if (site == null)
             {
                 return Forbid();

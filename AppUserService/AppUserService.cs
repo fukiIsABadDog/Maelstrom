@@ -56,10 +56,9 @@ namespace Maelstrom.Services
             return await siteTypeQuery.FirstOrDefaultAsync();
         }
 
-        public async Task<Site?> GetCurrentUserSite(IIdentity user, int? id, bool onlyAdmin)
+        public async Task<Site?> GetCurrentUserSite(IIdentity user, int? id)  //testing june20
         {
-            if (onlyAdmin == true)
-            {
+      
                 var querySiteUsers =
                     from SiteUser in _context.SiteUsers
                     join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
@@ -72,21 +71,8 @@ namespace Maelstrom.Services
                     select Sites;
 
                 return await querySiteUsers.FirstOrDefaultAsync();
-            }
-            else
-            {
-                var querySiteUsers =
-                    from SiteUser in _context.SiteUsers
-                    join AppUser in _context.AppUsers on SiteUser.AppUser equals AppUser
-                    join Sites in _context.Sites on SiteUser.SiteID equals Sites.SiteID
-                    join SiteType in _context.SiteTypes on Sites.SiteType equals SiteType
-                    where AppUser.Email == user.Name
-                    where Sites.SiteID == id
-                    where SiteUser.Deleted == null
-                    select Sites;
+            
 
-                return await querySiteUsers.FirstOrDefaultAsync();
-            }
 
         }
 
@@ -257,6 +243,28 @@ namespace Maelstrom.Services
             _context.SiteUsers.Add(siteUser);
 
             await _context.SaveChangesAsync();
+        }
+
+        public bool SiteExists(int id)
+        {
+            return (_context.Sites?.Any(e => e.SiteID == id)).GetValueOrDefault();
+        }
+
+        public async Task EditSite(Site site)
+        {
+            _context.Attach(site).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SiteExists(site.SiteID))
+                {
+                    throw (new Exception("There was an issues saving the new data"));
+                }
+              
+            }
         }
     }
 }

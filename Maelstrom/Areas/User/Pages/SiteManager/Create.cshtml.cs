@@ -24,11 +24,9 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
         public SelectList? SiteTypes { get; set; }
         public IIdentity LoggedInUser { get; set; } = null!;
-
         [BindProperty]
         public Site Site { get; set; } = default!;
         public SiteUser SiteUser { get; set; } = null!;
-
         [DisplayName("Upload Image")]
         [UploadFileExtensions(Extensions = ".jpeg,.jpg")]
         public IFormFile? Upload { get; set; }
