@@ -18,6 +18,7 @@ namespace Maelstrom.Services
         Task<string?> GetSiteType(Site site);
         Task<Dictionary<int, string>> CreateSiteTypeDictionary();
         Task<Site?> GetSiteForCurrentAdminSiteUser(IIdentity user, int? id);
+        Task<Site?> GetSiteForCurrentSiteUser(IIdentity user, int? id);
         Task<ICollection<TestResult>?> GetCurrentUserSiteTestResults(IIdentity user, int? id);
         Task<SiteUser?> FindSiteUserFromUserIdentityAndSiteID(IIdentity user, int? id);
         Task<SiteUser?> FindSiteUserFromTestResult(IIdentity user, TestResult testResult);

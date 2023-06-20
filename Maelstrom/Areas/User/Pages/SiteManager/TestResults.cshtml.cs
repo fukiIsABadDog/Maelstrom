@@ -32,9 +32,8 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             }
 
             CurrentUser = User.Identity!;
-            //this might not be the right method below
-            var site = await _appUserService.GetSiteForCurrentAdminSiteUser(CurrentUser, id); 
-
+          
+            var site = await _appUserService.GetSiteForCurrentSiteUser(CurrentUser, id); 
             if (site == null)
             {
                 return Forbid();
