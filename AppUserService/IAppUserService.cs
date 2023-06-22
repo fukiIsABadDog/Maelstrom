@@ -46,5 +46,6 @@ namespace Maelstrom.Services
 
         Task<Site?> GetSite(int id);
         Task<AppUser?> GetAppUser(string email);
+        Task<SiteUser?> GetSiteUserToBeRestored(int siteId, AppUser appUser);
     }
 }

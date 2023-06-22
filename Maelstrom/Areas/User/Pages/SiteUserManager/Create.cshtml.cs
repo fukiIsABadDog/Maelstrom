@@ -71,7 +71,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         {
             SiteId = SiteId;
 
-            var newAppUserForSite = await _context.AppUsers.Where( x => x.Email == Email).FirstOrDefaultAsync();
+            var newAppUserForSite = await _appUserService.GetAppUser(Email);
             if (newAppUserForSite == null)
             {
                 Message = "That Email is not valid.";
@@ -80,9 +80,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
 
             if (Restore == true) 
             {
-                var siteUserToBeRestored = await _context.SiteUsers.Where( x=> x.SiteID == SiteId)
-                    .Where(x => x.AppUser ==newAppUserForSite)
-                    .FirstOrDefaultAsync();
+                var siteUserToBeRestored = await _appUserService.GetSiteUserToBeRestored(SiteId, newAppUserForSite);
 
                 SiteUserToBeRestored = siteUserToBeRestored!; 
 
