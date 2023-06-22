@@ -77,29 +77,18 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 Message = "That Email is not valid.";
                 return await OnGetAsync(SiteId, Message, null); 
             }
-
             if (Restore == true) 
             {
                 var siteUserToBeRestored = await _appUserService.GetSiteUserToBeRestored(SiteId, newAppUserForSite);
-
-                SiteUserToBeRestored = siteUserToBeRestored!; 
-
-                SiteUserToBeRestored.Deleted = null;
-                _context.Attach(SiteUserToBeRestored).Property(p => p.Deleted).IsModified = true;
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    throw new Exception("There was an error saving this to the database");
-                }
-
+                SiteUserToBeRestored = siteUserToBeRestored!;
+                await _appUserService.RestoreSiteUser(SiteUserToBeRestored);
+         
                 return RedirectToPage("./Index", new { id = SiteId });
             }
 
             var existingUser = await _context.SiteUsers.Where(x => x.Site.SiteID == SiteId)
                 .Where( x=> x.AppUser == newAppUserForSite).FirstOrDefaultAsync();
+
             if (existingUser != null) 
             {   
                 if (existingUser.Deleted.HasValue)

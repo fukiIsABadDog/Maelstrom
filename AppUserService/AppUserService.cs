@@ -318,5 +318,22 @@ namespace Maelstrom.Services
 
         }
 
+        public async Task RestoreSiteUser(SiteUser siteUser)
+
+        {
+            siteUser.Deleted = null;
+            _context.Attach(siteUser).Property(p => p.Deleted).IsModified = true;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new Exception("There was an error saving this to the database");
+            }
+        }
+
     }
 }
