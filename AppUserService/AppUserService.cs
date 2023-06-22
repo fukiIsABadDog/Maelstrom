@@ -292,5 +292,20 @@ namespace Maelstrom.Services
               
             }
         }
+
+        public async Task<Site?> GetSite(int id)
+        {
+            var site = await _context.Sites.FirstOrDefaultAsync(e => e.SiteID == id);
+            
+            return site;
+        }
+
+        public async Task<AppUser?> GetAppUser(string email)
+        {
+            var appUser = await _context.AppUsers.FirstOrDefaultAsync(x => x.Email == email);
+
+            return appUser;
+        }
+
     }
 }

@@ -44,5 +44,7 @@ namespace Maelstrom.Services
         Task EditSite(Site site);
         Boolean SiteExists(int id);
 
+        Task<Site?> GetSite(int id);
+        Task<AppUser?> GetAppUser(string email);
     }
 }
