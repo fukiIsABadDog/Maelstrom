@@ -289,7 +289,6 @@ namespace Maelstrom.Services
                 {
                     throw (new Exception("There was an issues saving the new data"));
                 }
-              
             }
         }
 
@@ -307,6 +306,8 @@ namespace Maelstrom.Services
             return appUser;
         }
 
+
+
         public async Task<SiteUser?> GetSiteUser(int siteId, AppUser appUser)
         {
 
@@ -315,7 +316,6 @@ namespace Maelstrom.Services
                     .FirstOrDefaultAsync();
 
             return siteUserToBeRestored;
-
         }
 
         public async Task RestoreSiteUser(SiteUser siteUser)
@@ -335,5 +335,37 @@ namespace Maelstrom.Services
             }
         }
 
+        public async Task<SiteUser?> GetSiteUserIncludeAppUser(int siteUserId)
+        {
+            var siteUserWithAppUser = await _context.SiteUsers.Where(
+                x => x.SiteUserID == siteUserId).Include(
+                x => x.AppUser).FirstOrDefaultAsync();
+
+            return siteUserWithAppUser;
+        }
+
+        public async Task<SiteUser?> GetSiteUser(int siteId, string appUserEmail)
+        {
+            var siteUser = await _context.SiteUsers.Where(
+                x => x.AppUser.Email == appUserEmail)
+                .Where(x => x.SiteID == siteId)
+                .FirstOrDefaultAsync();
+
+            return siteUser;
+        }
+
+        public async Task SoftDeleteSiteUser(int siteUserId)
+        {
+            var siteUserToBeSoftDeleted = 
+                new SiteUser {
+                    SiteUserID = siteUserId, 
+                    Deleted = DateTime.Now 
+            };
+
+            _context.Attach(siteUserToBeSoftDeleted)
+                .Property(p => p.Deleted).IsModified = true;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

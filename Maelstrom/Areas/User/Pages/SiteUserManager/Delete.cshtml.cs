@@ -10,51 +10,71 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
     [Authorize]
     public class DeleteModel : PageModel
     {
-        private readonly MaelstromContext _context;
         private readonly IAppUserService _appUserService;
-        public DeleteModel(MaelstromContext context, IAppUserService appUserService)
+        public DeleteModel(IAppUserService appUserService)
         {
-            _context = context;
             _appUserService = appUserService;
         }
+
+
         [BindProperty]
         public string Message { get; set; }
         public IIdentity CurrentUser { get; set; }
         [BindProperty]
         public int SiteUserToBeDeletedId { get; set; }
         [BindProperty]
-        public AppUser SiteUserToBeDeleted { get; set; }
+        public AppUser AppUserToBeRemoved { get; set; }
         [BindProperty]
         public int SiteId { get; set; }
+
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
-                return BadRequest("That Id was not valid. Use Browser Back button to return to previous page.");
+                return BadRequest(
+                    "That Id was not valid. " +
+                    "Use Browser Back button to return to previous page."
+                    );
             }
+
             SiteUserToBeDeletedId = id.Value;
-            CurrentUser = User.Identity!;
-            var currentSiteUser = await _context.SiteUsers.Where(x => x.AppUser.Email == CurrentUser.Name).FirstOrDefaultAsync();
-            if (currentSiteUser == null || currentSiteUser.IsAdmin != true)
-            {
-                return Forbid();
-            }
-            var siteUserToBeDeleted = await _context.SiteUsers.Where(x => x.SiteUserID == SiteUserToBeDeletedId).Include(x => x.AppUser).FirstOrDefaultAsync();
+            var siteUserToBeDeleted = await _appUserService
+                .GetSiteUserIncludeAppUser(SiteUserToBeDeletedId);
+
             if (siteUserToBeDeleted == null || siteUserToBeDeleted.IsAdmin == true)
             {
                 return Forbid();
             }
-            SiteUserToBeDeleted = siteUserToBeDeleted.AppUser!;
+
+            CurrentUser = User.Identity!;
             SiteId = siteUserToBeDeleted.SiteID;
+            AppUserToBeRemoved = siteUserToBeDeleted.AppUser!;
+
+            var currentSiteUser = await _appUserService
+                .GetSiteUser(SiteId, CurrentUser.Name!);
+    
+            if(currentSiteUser == siteUserToBeDeleted)
+            {
+                return Page();
+            }
+            if (currentSiteUser == null || currentSiteUser.IsAdmin != true )
+            {
+                return Forbid();
+            }
+
             return Page();
         }
+
+
         public async Task<IActionResult> OnPostAsync()
         {
             var siteId = SiteId;
             var siteUserToBeDeletedId = SiteUserToBeDeletedId;
-            var siteUserSoftDelete = new SiteUser { SiteUserID = siteUserToBeDeletedId, Deleted = DateTime.Now };
-            _context.Attach(siteUserSoftDelete).Property(p => p.Deleted).IsModified = true;
-            await _context.SaveChangesAsync();
+
+            await _appUserService
+                .SoftDeleteSiteUser(siteUserToBeDeletedId);
+         
             return RedirectToPage("./index", new { id = siteId });
         }
     }
