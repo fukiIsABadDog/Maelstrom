@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Security.Principal;
 
 namespace Maelstrom.Areas.User.Pages.SiteUserManager
 {
@@ -13,47 +14,44 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
     [BindProperties]
     public class EditModel : PageModel
     {
-        private readonly MaelstromContext _context;
         private readonly IAppUserService _appUserService;
-        public EditModel(MaelstromContext context, IAppUserService appUserService)
+        public EditModel(IAppUserService appUserService)
         {
-            _context = context;
             _appUserService = appUserService;
         }
+
+
         public string Message { get; set; }
         public int SiteId { get; set; }
         public int SiteUserToBeEditedId { get; set; }
         [Display(Name = "Is Admin")]
         public bool IsAdmin { get; set; }
+        public  IIdentity CurrentUser { get; set; }
         public SiteUser SiteUserToBeEdited { get; set; }
         public AppUser AssociatedAppUser {get; set;} = new AppUser {FirstName = "Not Found"};
 
-        public async Task<IActionResult> OnGetAsync(int? id, string? message) //takes SiteUserID
+
+        public async Task<IActionResult> OnGetAsync(int? id, string? message) 
         {
+            if (id == null) { return BadRequest("That ID is not valid"); }
+            if (message != null) { Message = message; }
 
-            if (id == null)
-            {
-                return BadRequest("That ID is not valid");
-            }
+            CurrentUser = User.Identity!;
 
-            if (message != null)
-            {
-                Message = message;
-            }
-
-            var currentUser = User.Identity!;
-            var siteOfSiteUser = _context.SiteUsers.Where(x => x.SiteUserID == id).Include(x => x.Site);
-            var site = await siteOfSiteUser.Select(x => x.Site).FirstOrDefaultAsync();
+            var site = await _appUserService.GetSiteFromSiteUser(id);
             if (site == null)
             {
-                return NotFound("We could not find anything matching that information.");
+                return NotFound
+                    ("We could not find anything matching that information.");
             }
+
             SiteId = site.SiteID;
-            var currentSiteUser = await _appUserService.FindSiteUserFromUserIdentityAndSiteID(currentUser, SiteId);
+
+            var currentSiteUser = await _appUserService.FindSiteUserFromUserIdentityAndSiteID(CurrentUser, SiteId);
 
             if (currentSiteUser == null || currentSiteUser.IsAdmin == false)
             {
-                return Forbid();// revisit          
+                return Forbid();        
             }
 
 
@@ -63,9 +61,6 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             if( associatedAppUser != null && associatedAppUser.AppUser != null){
                  AssociatedAppUser = associatedAppUser.AppUser;
             }
-           
-
-
             return Page();
         }
 

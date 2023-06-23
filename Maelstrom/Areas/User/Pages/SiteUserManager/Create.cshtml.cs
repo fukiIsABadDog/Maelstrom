@@ -55,7 +55,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             }
             
             SiteId = id.Value;
-            var site = await _appUserService.GetSite(SiteId);
+            var site = await _appUserService.GetSiteFromSiteUser(SiteId);
             if (site == null) { return NotFound("That resource could not be located."); }
 
             Site = site;
@@ -101,7 +101,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 }
             }
 
-            var site = await _appUserService.GetSite(SiteId);
+            var site = await _appUserService.GetSiteFromSiteUser(SiteId);
             var siteUser = new SiteUser { Site = site, AppUser = newAppUserForSite, IsAdmin = IsAdmin };
             NewSiteUser = siteUser;
 

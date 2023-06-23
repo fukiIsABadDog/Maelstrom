@@ -367,5 +367,16 @@ namespace Maelstrom.Services
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Site?> GetSiteFromSiteUser(int? siteUserId)
+        {
+            var site = await _context.SiteUsers
+                .Where(x => x.SiteUserID == siteUserId)
+                .Include(x => x.Site)
+                .Select(x => x.Site)
+                .FirstOrDefaultAsync();
+
+            return site;
+        }
     }
 }

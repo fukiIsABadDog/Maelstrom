@@ -52,5 +52,7 @@ namespace Maelstrom.Services
         Task RestoreSiteUser(SiteUser siteUser);
         Task<SiteUser?> GetSiteUserIncludeAppUser(int siteUserId);
         Task SoftDeleteSiteUser(int siteUserId);
+
+        Task<Site?> GetSiteFromSiteUser(int? siteUserId);
     }
 }
