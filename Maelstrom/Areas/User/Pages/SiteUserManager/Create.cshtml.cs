@@ -20,6 +20,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             _appUserService = appUserService;
         }
 
+
         [BindProperty]
         public string Message { get; set; }
         [BindProperty]
@@ -55,7 +56,7 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             }
             
             SiteId = id.Value;
-            var site = await _appUserService.GetSiteFromSiteUser(SiteId);
+            var site = await _appUserService.GetSite(SiteId);
             if (site == null) { return NotFound("That resource could not be located."); }
 
             Site = site;
@@ -101,9 +102,9 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 }
             }
 
-            var site = await _appUserService.GetSiteFromSiteUser(SiteId);
-            var siteUser = new SiteUser { Site = site, AppUser = newAppUserForSite, IsAdmin = IsAdmin };
-            NewSiteUser = siteUser;
+            var site = await _appUserService.GetSite(SiteId);
+            NewSiteUser = new SiteUser { Site = site, AppUser = newAppUserForSite, IsAdmin = IsAdmin};
+          
 
             await _appUserService.SaveSiteUser(NewSiteUser);
          

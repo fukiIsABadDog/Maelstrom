@@ -11,7 +11,6 @@ using System.Security.Principal;
 namespace Maelstrom.Areas.User.Pages.SiteUserManager
 {
     [Authorize]
-    [BindProperties]
     public class EditModel : PageModel
     {
         private readonly IAppUserService _appUserService;
@@ -21,13 +20,20 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         }
 
 
+        public IIdentity CurrentUser { get; set; }
+
+        [BindProperty]
         public string Message { get; set; }
+        [BindProperty]
         public int SiteId { get; set; }
+        [BindProperty]
         public int SiteUserToBeEditedId { get; set; }
         [Display(Name = "Is Admin")]
+        [BindProperty]
         public bool IsAdmin { get; set; }
-        public  IIdentity CurrentUser { get; set; }
+        [BindProperty]
         public SiteUser SiteUserToBeEdited { get; set; }
+        [BindProperty]
         public AppUser AssociatedAppUser {get; set;} = new AppUser {FirstName = "Not Found"};
 
 
@@ -56,7 +62,8 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             }
 
             SiteUserToBeEditedId = id.Value;
-            var associatedAppUser = await _appUserService.GetAppUser(SiteUserToBeEditedId);
+            var associatedAppUser = await _appUserService
+                .GetAppUser(SiteUserToBeEditedId);
 
             if( associatedAppUser != null)
             {
@@ -66,14 +73,14 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             return Page();
         }
 
+
         public async Task<IActionResult> OnPostAsync()
         {
             SiteId = SiteId;
             SiteUserToBeEditedId = SiteUserToBeEditedId;
             IsAdmin = IsAdmin;
 
-            var siteUser = await _context.SiteUsers.FirstOrDefaultAsync(x => x.SiteUserID == SiteUserToBeEditedId);
-
+            var siteUser = await _appUserService.GetSiteUser(SiteUserToBeEditedId);
             if (siteUser == null)
             {
                 Message = "That User does not exist for this Site.";
@@ -81,21 +88,14 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             }
             if (siteUser.IsAdmin == true)
             {
-                Message = "That User can not be modified, their privileges are set to Administrator.";
+                Message = "That User can not be modified, their privileges are set to (Administrator).";
                 return await OnGetAsync(SiteId, Message);
             }
+
             SiteUserToBeEdited = siteUser;
             SiteUserToBeEdited.IsAdmin = IsAdmin;
 
-            _context.Attach(SiteUserToBeEdited).Property(p => p.IsAdmin).IsModified = true;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw new Exception("There was an error saving this to the database");
-            }
+            await _appUserService.EditSiteUser(SiteUserToBeEdited);
 
             return RedirectToPage("./Index", new { id = SiteId });
         }

@@ -252,7 +252,6 @@ namespace Maelstrom.Services
             }
             else
             {
-                /*return null*/
                 return string.Empty;
             }
         }
@@ -266,9 +265,17 @@ namespace Maelstrom.Services
 
         public async Task SaveSiteUser(SiteUser siteUser)
         {
-            _context.SiteUsers.Add(siteUser);
+           
+            try
+            {
+                _context.SiteUsers.Add(siteUser);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw (new Exception(message:"There was an issue saving the data."));
+            }
 
-            await _context.SaveChangesAsync();
         }
 
         public bool SiteExists(int id)
@@ -322,7 +329,8 @@ namespace Maelstrom.Services
 
         {
             siteUser.Deleted = null;
-            _context.Attach(siteUser).Property(p => p.Deleted).IsModified = true;
+            _context.Attach(siteUser)
+                .Property(p => p.Deleted).IsModified = true;
 
             try
             {
@@ -388,6 +396,31 @@ namespace Maelstrom.Services
                .FirstOrDefaultAsync();
 
             return associatedAppUser;
+        }
+
+       public async Task<SiteUser?> GetSiteUser(int siteUserId)
+        {
+            var siteUser = await _context.SiteUsers
+                .FirstOrDefaultAsync(x => 
+                x.SiteUserID == siteUserId);
+
+            return siteUser;
+        }
+
+        public async Task EditSiteUser(SiteUser siteUser)
+        {
+            _context.Attach(siteUser)
+                .Property(p => p.IsAdmin).IsModified = true;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new Exception(
+                    "There was an error saving this to the database");
+            }
         }
     }
 }

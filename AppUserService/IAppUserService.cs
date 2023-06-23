@@ -55,5 +55,7 @@ namespace Maelstrom.Services
 
         Task<Site?> GetSiteFromSiteUser(int? siteUserId);
         Task<AppUser?> GetAppUser(int siteUserId);
+        Task<SiteUser?> GetSiteUser(int siteUserId);
+        Task EditSiteUser(SiteUser siteUser);
     }
 }
