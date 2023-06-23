@@ -14,7 +14,6 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
     [Authorize]
     public class CreateModel : PageModel
     {
-        
         private readonly IAppUserService _appUserService;
         public CreateModel(IAppUserService appUserService )
         {
@@ -45,7 +44,6 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
         public async Task<IActionResult> OnGetAsync(int? id, string? message, bool? restore)
         {
             if (id == null) { return BadRequest("That ID is not valid"); }
-
             if (message != null) { Message = message; }
          
             CurrentUser = User.Identity!;
@@ -79,16 +77,15 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             }
             if (Restore == true) 
             {
-                var siteUserToBeRestored = await _appUserService.GetSiteUserToBeRestored(SiteId, newAppUserForSite);
+                var siteUserToBeRestored = await _appUserService.GetSiteUser(SiteId, newAppUserForSite);
                 SiteUserToBeRestored = siteUserToBeRestored!;
                 await _appUserService.RestoreSiteUser(SiteUserToBeRestored);
          
                 return RedirectToPage("./Index", new { id = SiteId });
             }
 
-            var existingUser = await _context.SiteUsers.Where(x => x.Site.SiteID == SiteId)
-                .Where( x=> x.AppUser == newAppUserForSite).FirstOrDefaultAsync();
-
+            var existingUser = await _appUserService.GetSiteUser(SiteId, newAppUserForSite);
+                
             if (existingUser != null) 
             {   
                 if (existingUser.Deleted.HasValue)
@@ -104,19 +101,13 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
                 }
             }
 
-            var site = _context.Sites.Find(SiteId);
+            var site = await _appUserService.GetSite(SiteId);
             var siteUser = new SiteUser { Site = site, AppUser = newAppUserForSite, IsAdmin = IsAdmin };
             NewSiteUser = siteUser;
 
-            try
-            {
-                _context.SiteUsers.Add(NewSiteUser);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex) { return BadRequest(ex.Message); }
-        
+            await _appUserService.SaveSiteUser(NewSiteUser);
+         
             return RedirectToPage("./Index", new {id = SiteId});
         }
-
     }
 }

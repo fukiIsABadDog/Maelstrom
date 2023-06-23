@@ -41,12 +41,13 @@ namespace Maelstrom.Services
         Task SaveSite(Site site);
         Task SaveSiteUser(SiteUser siteUser);
 
+
         Task EditSite(Site site);
         Boolean SiteExists(int id);
 
         Task<Site?> GetSite(int id);
         Task<AppUser?> GetAppUser(string email);
-        Task<SiteUser?> GetSiteUserToBeRestored(int siteId, AppUser appUser);
+        Task<SiteUser?> GetSiteUser(int siteId, AppUser appUser);
         Task RestoreSiteUser(SiteUser siteUser);
     }
 }

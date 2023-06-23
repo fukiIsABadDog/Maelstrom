@@ -307,7 +307,7 @@ namespace Maelstrom.Services
             return appUser;
         }
 
-        public async Task<SiteUser?> GetSiteUserToBeRestored(int siteId, AppUser appUser)
+        public async Task<SiteUser?> GetSiteUser(int siteId, AppUser appUser)
         {
 
             var siteUserToBeRestored = await _context.SiteUsers.Where(x => x.SiteID == siteId)
