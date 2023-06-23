@@ -54,5 +54,6 @@ namespace Maelstrom.Services
         Task SoftDeleteSiteUser(int siteUserId);
 
         Task<Site?> GetSiteFromSiteUser(int? siteUserId);
+        Task<AppUser?> GetAppUser(int siteUserId);
     }
 }

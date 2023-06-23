@@ -47,20 +47,22 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
 
             SiteId = site.SiteID;
 
-            var currentSiteUser = await _appUserService.FindSiteUserFromUserIdentityAndSiteID(CurrentUser, SiteId);
+            var currentSiteUser = await _appUserService
+                .FindSiteUserFromUserIdentityAndSiteID(CurrentUser, SiteId);
 
             if (currentSiteUser == null || currentSiteUser.IsAdmin == false)
             {
                 return Forbid();        
             }
 
-
             SiteUserToBeEditedId = id.Value;
-            var associatedAppUser = await _context.SiteUsers.Where(x => x.SiteUserID == SiteUserToBeEditedId)
-                .Include(x => x.AppUser).FirstOrDefaultAsync();
-            if( associatedAppUser != null && associatedAppUser.AppUser != null){
-                 AssociatedAppUser = associatedAppUser.AppUser;
+            var associatedAppUser = await _appUserService.GetAppUser(SiteUserToBeEditedId);
+
+            if( associatedAppUser != null)
+            {
+                 AssociatedAppUser = associatedAppUser;
             }
+
             return Page();
         }
 

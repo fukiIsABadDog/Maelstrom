@@ -378,5 +378,16 @@ namespace Maelstrom.Services
 
             return site;
         }
+
+        public async Task<AppUser?>GetAppUser(int siteUserId)
+        {
+            var associatedAppUser = await _context.SiteUsers
+                .Where(x => x.SiteUserID == siteUserId)
+               .Include(x => x.AppUser)
+               .Select(x => x.AppUser)
+               .FirstOrDefaultAsync();
+
+            return associatedAppUser;
+        }
     }
 }
