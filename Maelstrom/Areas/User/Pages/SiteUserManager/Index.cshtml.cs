@@ -19,9 +19,8 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
 
 
         public int SiteID { get; set; }
-        public List<SiteUser> SiteUsers { get; set;}
-        [BindProperty]
-        public string Message { get; set; }
+        public List<SiteUser> SiteUsers { get; set;} = new List<SiteUser>();
+      
 
 
         public async Task<IActionResult> OnGetAsync(int? id)
