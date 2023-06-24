@@ -422,5 +422,17 @@ namespace Maelstrom.Services
                     "There was an error saving this to the database");
             }
         }
+
+        public async Task<ICollection<SiteUser>> GetSiteUsersIncludeAppUsers(int siteId)
+        {
+            var siteUsers = await _context.SiteUsers
+                .Where(x => x.SiteID == siteId)
+                .Where(x => x.Deleted.HasValue != true)
+                .Include(x => x.AppUser)
+                .ToListAsync();
+
+            return siteUsers;
+        }
+
     }
 }

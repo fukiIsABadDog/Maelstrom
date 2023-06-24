@@ -11,17 +11,19 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
 
     public class IndexModel : PageModel
     {
-        private readonly MaelstromContext _context;
         private readonly IAppUserService _appUserService;
-        public IndexModel(MaelstromContext context, IAppUserService appUserService)
+        public IndexModel(IAppUserService appUserService)
         {
-            _context = context;
             _appUserService = appUserService;
         }
+
+
         public int SiteID { get; set; }
         public List<SiteUser> SiteUsers { get; set;}
         [BindProperty]
         public string Message { get; set; }
+
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -30,8 +32,8 @@ namespace Maelstrom.Areas.User.Pages.SiteUserManager
             }
 
             SiteID = id.Value;
-            var siteUsers = await _context.SiteUsers.Where(x =>  x.SiteID == SiteID).Where(x => x.Deleted.HasValue != true).Include(x => x.AppUser).Include( x => x.Site).ToListAsync();
-            SiteUsers = siteUsers;
+            var siteUsers = await _appUserService.GetSiteUsersIncludeAppUsers(SiteID);
+            SiteUsers = siteUsers.ToList();
 
             return Page();
         }
