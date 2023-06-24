@@ -16,6 +16,7 @@ namespace Maelstrom.API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
+
         public AccountController(
             MaelstromContext context,
             UserManager<AppUser> userManager,
@@ -24,6 +25,19 @@ namespace Maelstrom.API.Controllers
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Register()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Login()
+        {
+            throw new NotImplementedException();
         }
     }
 }
