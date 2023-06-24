@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EF_Models", "EF_Models\EF_M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maelstrom.Services", "AppUserService\Maelstrom.Services.csproj", "{B5C943F9-4B7A-4399-AA94-C2B9B17CD3FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaelstromAPI", "MaelstromAPI\MaelstromAPI.csproj", "{551F904A-873D-4EB7-A2BA-BD777D4C7A06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B5C943F9-4B7A-4399-AA94-C2B9B17CD3FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5C943F9-4B7A-4399-AA94-C2B9B17CD3FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5C943F9-4B7A-4399-AA94-C2B9B17CD3FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{551F904A-873D-4EB7-A2BA-BD777D4C7A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{551F904A-873D-4EB7-A2BA-BD777D4C7A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{551F904A-873D-4EB7-A2BA-BD777D4C7A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{551F904A-873D-4EB7-A2BA-BD777D4C7A06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
