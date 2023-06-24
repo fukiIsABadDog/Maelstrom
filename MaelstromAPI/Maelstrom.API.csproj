@@ -18,4 +18,8 @@
     <ProjectReference Include="..\EF_Models\EF_Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\" />
+  </ItemGroup>
+
 </Project>
