@@ -14,8 +14,10 @@ namespace Maelstrom.Areas.User.Pages
         {
             _appUserService = appUserService;
         }
+
+
         public string CurrentSiteType { get; set; } = string.Empty;
-        public IIdentity CurrentUser { get; private set; }
+        public IIdentity CurrentUser { get; private set; } = null!;
         public ICollection<Site>? CurrentUserSites { get; private set; }
         [BindProperty(SupportsGet = true)]
         public Site CurrentSite { get; private set; } = null!;
@@ -23,6 +25,8 @@ namespace Maelstrom.Areas.User.Pages
         public ICollection<TestResult>? CurrentSiteTestResults { get; private set; }
         //This will need addititional logic for user to save fish to his personal fish collection. As opposed to just the Site "owning" it.
         //public ICollection<Fish>? ThisUsersFish { get; private set; }
+
+
         public async Task<IActionResult> OnGetAsync(Site currentSite)
         {
             CurrentUser = User.Identity!;
@@ -35,10 +39,12 @@ namespace Maelstrom.Areas.User.Pages
             {
                 CurrentUserSites = currentUserSites;
             }
+
             CurrentSite = _appUserService.GetSelectedSite(CurrentUserSites, currentSite)!;
             var currentSiteID = CurrentSite.SiteID;
             var testResults = await _appUserService.GetSelectedSiteTestResults(currentSiteID);
             CurrentSiteTestResults = testResults;
+
             var currentSiteType = await _appUserService.GetSiteType(CurrentSite);
             if (currentSiteType == null)
             {
@@ -48,17 +54,10 @@ namespace Maelstrom.Areas.User.Pages
             {
                 CurrentSiteType = currentSiteType;
             }
-            if (CurrentSite.ImageData != null && CurrentSite.ImageData.Length > 1 == true)
-            {
-                var base64 = Convert.ToBase64String(CurrentSite.ImageData);
-                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                SiteImage = imgSrc;
-            }
+
+            SiteImage = _appUserService.ConvertImageFromDb(CurrentSite.ImageData);
 
             return Page();
-        }
-        public void OnPost()
-        {
         }
     }
 }
