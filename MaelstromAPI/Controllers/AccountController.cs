@@ -42,6 +42,7 @@ namespace Maelstrom.API.Controllers
                     newUser.FirstName = input.FirstName;
                     newUser.LastName = input.LastName;
                     newUser.Email = input.EmailAddress;
+                    newUser.UserName = input.EmailAddress; // setting to email to fit in with existing data access
 
                     var result = await _userManager.CreateAsync(
                         newUser, input.Password);
