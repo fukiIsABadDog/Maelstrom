@@ -17,6 +17,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             _appUserService = appUserService;
         }
 
+
         public IIdentity CurrentUser { get; set; } = null!;
         public Site Site { get; set; } = default!;
         public string? SiteImage { get; private set; }

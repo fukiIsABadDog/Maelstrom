@@ -20,6 +20,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
             _appUserService = appUserService;
         }
 
+
         [BindProperty]
         public Site Site { get; set; } = default!;
         [DisplayName("Upload New Image")]
@@ -29,6 +30,7 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
         public string? ExistingSiteImage { get; private set; }
         public byte[]? NewSiteImage { get; set; }
         public IIdentity CurrentUser { get; set; } = null!;
+
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -54,8 +56,10 @@ namespace Maelstrom.Areas.User.Pages.SiteManager
 
                 ExistingSiteImage = _appUserService.ConvertImageFromDb(Site.ImageData);
             }
+
             return Page();
         }
+
 
         public async Task<IActionResult> OnPostAsync()
         {
