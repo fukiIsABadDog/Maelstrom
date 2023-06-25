@@ -104,7 +104,7 @@ namespace Maelstrom.API.Controllers
                             SecurityAlgorithms.HmacSha256);
 
                         var claims = new List<Claim>();
-                        claims.Add(
+                        claims.Add( 
                             new Claim(
                             ClaimTypes.Name,
                             user.UserName));
@@ -119,7 +119,8 @@ namespace Maelstrom.API.Controllers
                         var jwtString = new JwtSecurityTokenHandler() // code fails here
                             .WriteToken(jwtObject);
 
-                        var test = 1;
+
+
                         return StatusCode(
                             StatusCodes.Status200OK, jwtString);
                     }
