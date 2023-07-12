@@ -1,6 +1,7 @@
 # :ocean: What is it?
 
 ## It is a natural water way and aquarium management application.
+Currently hosted here: https://maelstrom-app.azurewebsites.net/
 
 ### But what if I am not into that kind of thing? Why is this relevant?
 Most importantly Maelstrom demonstrates an architecture that can be used in a broad base of user end point applications.
