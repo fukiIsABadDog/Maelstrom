@@ -81,7 +81,7 @@ Update-Database
 I highly recommend checking out the full EF Core PMC Docs, those guys made them very readable and concise!
 https://learn.microsoft.com/en-us/ef/core/cli/powershell
 
-## step five:
+## step six:
 Press F5 and run the app! It should be working if not there may be some naming issues that the debugger should be able to display to you. 
 
 This is the first draft of this set up guide so feel free to reach out if I missed something or you are having issues.
