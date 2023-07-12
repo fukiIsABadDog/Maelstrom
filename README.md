@@ -5,11 +5,11 @@
 ### but what if I don't care about fish and stuff?
 Most importantly Maelstrom demonstrates an architecture that can be used in a board base of user end point applications.
 
-🌀: Users can log in securely <br>
-🌀: Users can only see the data that relates to them <br>
-🌀: Users can upload media and data <br>
-🌀: Users can share resources between themselves <br>
-🌀: Users can assign different privilege levels to other users
+:cyclone: Users can log in securely <br>
+:cyclone: Users can only see the data that relates to them <br>
+:cyclone: Users can upload media and data <br>
+:cyclone: Users can share resources between themselves <br>
+:cyclone: Users can assign different privilege levels to other users
 
 # So many folders! What do?
 
