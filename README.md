@@ -45,7 +45,7 @@ Some of these as of July/12/2023 have not been implemented so do not worry about
 
      public class AppUser : IdentityUser
 
-That line right there is your gate way into Identity
+That line right there is your gateway into Identity
 
 Basically, what is happening is that the AppUser properties listed in the file get combined with the hidden properties generated in the scaffolded code when Identity first ran. The database only sees The IdentityUser Table but ASP.Net Core knows that they are extended and will handle the object relations behind the scenes.
 
