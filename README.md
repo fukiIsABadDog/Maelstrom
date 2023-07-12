@@ -18,7 +18,7 @@ You will find two files:
        This is made possible by configuring the middleware to look for it in the Maelstrom.csproj file.
 
 ## EF core Models and Microsoft Identity Stuff
-This one is a little more complicated and but I can show a real example of how this works in a full application.
+This one is a little more complicated but I can show a real example of how this works in a full application.
 There is not much on this topic ANYWHERE I do not know why because it is extremely powerful and one of the most useful things you can do in ASP.Net Core.
 
 If you look in the EF_Models folder you will see a bunch of models that we work with the database design.
