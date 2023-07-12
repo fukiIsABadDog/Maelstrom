@@ -1,12 +1,12 @@
 # So many folders! What do?
 
-## Main Razor pages.
+## Main Razor pages
 Navigate to Maelstrom => Areas => User/Pages 
 
 Everything there is directly related to displaying content to users:
 Routing, HTML generation, Working with the models. 
 
-## LINQ to EF core.
+## LINQ to EF Core
 This one is easy! Just look in the AppUserService folder.
 You will find two files:
 
