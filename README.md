@@ -3,7 +3,7 @@
 ## It is a natural water way and aquarium management application.
 
 ### But what if I am not into that kind of thing? Why is this relevant?
-Most importantly Maelstrom demonstrates an architecture that can be used in a board base of user end point applications.
+Most importantly Maelstrom demonstrates an architecture that can be used in a broad base of user end point applications.
 
 :cyclone: Users can log in securely <br>
 :cyclone: Users can only see the data that relates to them <br>
