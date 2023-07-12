@@ -45,7 +45,7 @@ This file is the Database Context file, it is a necessary requirement for using 
 
       public partial class MaelstromContext : IdentityDbContext<AppUser>
 
-Here we extend the our custom context into the default Identity Context that is created when you make a project in ASP.Net Core with default Identity settings.
+Here we extend our custom context into the default Identity Context that is created when you make a project in ASP.Net Core with default Identity settings.
 
 ###  Configure the middlewear in the Program.cs file
       builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
