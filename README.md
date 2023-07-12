@@ -87,8 +87,9 @@ Paste the connection string you just copied from the SqlServer Object Explorer p
 ## step five:
 Open up the Package Manager Console: run the Migration and then update the database. So this will be 2 separate commands:
 
-Add-Migration
-Update-Database
+      Add-Migration
+      
+      Update-Database
 
 I highly recommend checking out the full EF Core PMC Docs, those guys made them very readable and concise!
 https://learn.microsoft.com/en-us/ef/core/cli/powershell
