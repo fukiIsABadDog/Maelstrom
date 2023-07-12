@@ -90,14 +90,14 @@ There is plenty of documentation on how to set this up out on the web.
 ## Step two:
 Clone the repository! I recommend starting this project in VS and not VScode as it has more support for these kinds of projects out the box.
 
-## step three:
+## Step three:
 Use SQLServer Object explorer to find your Database, if it is not there you may have to create one. Look for the connection string in the properties tab and copy it for use later.
 
-## step four:
+## Step four:
 Create an appsettings.json file with the connection string. (Note: I will post more detailed images in a future version of this walk through).
 Paste the connection string you just copied from the SqlServer Object Explorer properties tab.
 
-## step five:
+## Step five:
 Open up the Package Manager Console: run the Migration and then update the database. So this will be 2 separate commands:
 
       Add-Migration
@@ -107,7 +107,7 @@ Open up the Package Manager Console: run the Migration and then update the datab
 I highly recommend checking out the full EF Core PMC Docs, they are very readable and concise!
 https://learn.microsoft.com/en-us/ef/core/cli/powershell
 
-## step six:
+## Step six:
 Press F5 and run the app! It should be working if not there may be some naming issues that the debugger should be able to display to you. 
 
 This is the first draft of this set up guide so feel free to reach out if I missed something or you are having issues.
