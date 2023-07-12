@@ -1,10 +1,11 @@
-# :cyclone: What is it?
-It is a natural water way and aquarium management application.
+# :ocean: What is it?
+
+## It is a natural water way and aquarium management application.
 
 ### but what if I don't care about fish and stuff?
 Most importantly Maelstrom demonstrates an architecture that can be used in a board base of user end point applications.
 
-:ocean: Users can log in securely
+:ocean: Users can log in securely <br>
 :ocean: Users can only see the data that relates to them
 :ocean: Users can upload media and data
 :ocean: Users can share resources between themselves
