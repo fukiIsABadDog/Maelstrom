@@ -81,7 +81,7 @@ Clone the repository! I recommend starting this project in VS and not VScode as 
 Use SQLServer Object explorer to find your Database, if it is not there you may have to create one. Look for the connection string in the properties tab and copy it for use later.
 
 ## step four:
-Create an appsettings.Json file with the connection string. (Note: I will post more detailed images in a future version of this walk through).
+Create an appsettings.json file with the connection string. (Note: I will post more detailed images in a future version of this walk through).
 Paste the connection string you just copied from the SqlServer Object Explorer properties tab.
 
 ## step five:
