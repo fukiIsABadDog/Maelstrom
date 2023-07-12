@@ -37,7 +37,7 @@ You will find two files:
 
 ## EF core Models and Microsoft Identity Stuff
 This one is a little more complicated but I can show a real example of how this works in a full application.
-There is not much on this topic ANYWHERE I do not know why because it is extremely powerful and one of the most useful things you can do in ASP.Net Core.
+There is not much on this topic ANYWHERE; I do not know why because it is extremely powerful and one of the most useful things you can do in ASP.Net Core.
 
 If you look in the EF_Models folder you will see a bunch of models that we use to work with the database design.
 Some of these as of July/12/2023 have not been implemented so do not worry about the whole structure right now.
