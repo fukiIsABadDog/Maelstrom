@@ -91,7 +91,7 @@ Open up the Package Manager Console: run the Migration and then update the datab
       
       Update-Database
 
-I highly recommend checking out the full EF Core PMC Docs, those guys made them very readable and concise!
+I highly recommend checking out the full EF Core PMC Docs, they are very readable and concise!
 https://learn.microsoft.com/en-us/ef/core/cli/powershell
 
 ## step six:
