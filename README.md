@@ -15,8 +15,9 @@ You will find two files:
    
      					- quick note-
        You can see this used (DI) in the razor pages constructors (at the top of the files) listed above.
-       This is made possible by configuring the middleware to look for it in the Program.cs file.
-       
+       This is made possible by configuring the middleware to look for it.
+       In the Program.cs file:
+   
        builder.Services.AddScoped<IAppUserService, AppUserService>();
 
    
