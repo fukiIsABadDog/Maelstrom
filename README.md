@@ -1,3 +1,24 @@
+# So many folders! What do?
+
+##To check out the main Razor pages.
+Navigate to Maelstrom => Areas => User/Pages 
+
+Everything there is directly related to displaying content to users:
+Routing, HTML generation, Working with the models. 
+
+## LINQ to EF core.
+This one is easy! Just look in the AppUserService folder.
+You will find two files:
+
+1) the actual queries
+2) the interface that is used to implement Dependency Inversion (DI)
+   
+     - quick note-
+       You can see this used (DI) in the razor pages constructors (at the top of the files) listed above.
+       This is made possible by configuring the middleware to look for it in the Maelstrom.csproj file.
+       
+       
+
 # Can I run this app?
 Yes you can! 
 
@@ -28,3 +49,4 @@ https://learn.microsoft.com/en-us/ef/core/cli/powershell
 Press F5 and run the app! It should be working if not there may be some naming issues that the debugger should be able to display to you. 
 
 This is the first draft of this set up guide so feel free to reach out if I missed something or you are having issues.
+
