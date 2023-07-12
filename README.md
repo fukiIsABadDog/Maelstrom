@@ -12,6 +12,7 @@ Most importantly Maelstrom demonstrates an architecture that can be used in a br
 :cyclone: Users can share resources between themselves <br>
 :cyclone: Users can assign different privilege levels to other users
 <br/>
+<br/>
 
 # So many folders! What do?
 
