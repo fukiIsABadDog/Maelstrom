@@ -1,6 +1,6 @@
 # So many folders! What do?
 
-##To check out the main Razor pages.
+## To check out the main Razor pages.
 Navigate to Maelstrom => Areas => User/Pages 
 
 Everything there is directly related to displaying content to users:
