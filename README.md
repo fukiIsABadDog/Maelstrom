@@ -2,7 +2,7 @@
 
 ## It is a natural water way and aquarium management application.
 
-### but what if I don't care about fish and stuff?
+### But what if I am not into that kind of thing? Why is this relevant?
 Most importantly Maelstrom demonstrates an architecture that can be used in a board base of user end point applications.
 
 :cyclone: Users can log in securely <br>
