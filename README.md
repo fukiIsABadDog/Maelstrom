@@ -1,3 +1,15 @@
+# :cyclone: What is it?
+It is a natural water way and aqurium management application.
+
+### but what if I don't care about fish and stuff?
+Most importantly Maelstrom demenstrates an architecture that can be use in a board base of user end point applications.
+
+:ocean: Users can log in securely
+:ocean: Users can only see the data that relates to them
+:ocean: Users can upload media and data
+:ocean: Users can share resources between themselves
+:ocean: Users can assign different privilege levels to other users
+
 # So many folders! What do?
 
 ## Main Razor pages
