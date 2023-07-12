@@ -13,12 +13,12 @@ You will find two files:
 1) the actual queries
 2) the interface that is used to implement Dependency Inversion (DI)
    
-     					- quick note-
-       You can see this used (DI) in the razor pages constructors (at the top of the files) listed above.
-       This is made possible by configuring the middleware to look for it.
-       In the Program.cs file:
+   - quick note-
+   You can see this used (DI) in the razor pages constructors (at the top of the files) listed above.
+   This is made possible by configuring the middleware to look for it.
+   In the Program.cs file:
    
-       builder.Services.AddScoped<IAppUserService, AppUserService>();
+          builder.Services.AddScoped<IAppUserService, AppUserService>();
 
    
 
@@ -28,9 +28,9 @@ There is not much on this topic ANYWHERE I do not know why because it is extreme
 
 If you look in the EF_Models folder you will see a bunch of models that we use to work with the database design.
 Some of these as of July/12/2023 have not been implemented so do not worry about the whole structure right now.
-Lets just look at AppUser.cs:
+### Lets just look at AppUser.cs:
 
-  ### public class AppUser : IdentityUser
+     public class AppUser : IdentityUser
 
 That line right there is your gate way into Identity
 
@@ -39,19 +39,26 @@ Basically, what is happening is that the AppUser properties listed in the file g
 This black box stuff is what drives people crazy and they never get around to learning it but believe me it’s worth it.
 Once you know it, you can create secure user logins in minutes.
 
-Our next stop is the MaelstromContext:
+### Our next stop is the MaelstromContext:
 
 This file is the Database Context file, it is a necessary requirement for using EF Core as it helps EF Core Map to the database.
 
-###  public partial class MaelstromContext : IdentityDbContext<AppUser>
+      public partial class MaelstromContext : IdentityDbContext<AppUser>
 
 Here we extend the context to the default Identity Context that is created when you make a project in ASP.Net Core with default Identity settings.
 
-Now it gets weird:
+###  Configure the middlewear in the Program.cs file
+      builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+          .AddRoles<IdentityRole>()
+          .AddEntityFrameworkStores<MaelstromContext>();
+
+   
+
+### Now it gets weird:
 
 It may stem from my own misunderstanding of how EF Core works but sometimes when you have more complex Object Relational Maps conflicts can occur when using certain tools. To use the PMC and run new migrations you have to comment out:
 
-###  public MaelstromContext(DbContextOptions<MaelstromContext> options) : base(options) { }
+    public MaelstromContext(DbContextOptions<MaelstromContext> options) : base(options) { }
 
 
 1) In PMC run: Add-Migration
