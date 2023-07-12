@@ -49,8 +49,8 @@ That line right there is your <i>gate-way into Identity </i>
 
 Basically, what is happening is that the AppUser properties listed in the file get combined with the hidden properties generated in the scaffolded code when Identity first ran. The database only sees The IdentityUser Table but ASP.Net Core knows that they are extended and will handle the object relations behind the scenes.
 
-This black box stuff is what drives people crazy and they never get around to learning it but believe me it’s worth it.
-Once you know it, you can create secure user logins in minutes.
+This black box stuff is what drives people crazy and they never get around to learning it, but believe me it’s worth it.
+Once you know it, you can create secure user-specific logins in minutes.
 
 ### Our next stop is the MaelstromContext:
 
