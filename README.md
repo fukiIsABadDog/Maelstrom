@@ -44,7 +44,7 @@ Here we extend the context to the default Identity Context that is created when 
 
 Now it gets weird:
 
-It may stem from my own misunderstanding of how EF Core works but sometimes when you have more complex Object Relational Maps conflicts can occur when using certain tools. To use the PMC and run new migrations you have co comment out:
+It may stem from my own misunderstanding of how EF Core works but sometimes when you have more complex Object Relational Maps conflicts can occur when using certain tools. To use the PMC and run new migrations you have to comment out:
 
 ###  public MaelstromContext(DbContextOptions<MaelstromContext> options) : base(options) { }
 
