@@ -80,7 +80,7 @@ It may stem from my own misunderstanding of how EF Core works but sometimes when
 
 
 
-# Can I run this app?
+# # :ocean: Can I run this app?
 ### Yes you can! 
 
 ## Step one: 
