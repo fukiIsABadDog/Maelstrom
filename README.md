@@ -1,8 +1,8 @@
 # :cyclone: What is it?
-It is a natural water way and aqurium management application.
+It is a natural water way and aquarium management application.
 
 ### but what if I don't care about fish and stuff?
-Most importantly Maelstrom demenstrates an architecture that can be use in a board base of user end point applications.
+Most importantly Maelstrom demonstrates an architecture that can be used in a board base of user end point applications.
 
 :ocean: Users can log in securely
 :ocean: Users can only see the data that relates to them
@@ -15,8 +15,8 @@ Most importantly Maelstrom demenstrates an architecture that can be use in a boa
 ## Main Razor pages
 Navigate to Maelstrom => Areas => User/Pages 
 
-Everything there is directly related to displaying content to users:
-Routing, HTML generation, Working with the models. 
+Everything there is related to displaying content to users:
+Routing, HTML generation, Working with models. 
 
 ## LINQ to EF Core
 This one is easy! Just look in the AppUserService folder.
@@ -110,3 +110,4 @@ https://learn.microsoft.com/en-us/ef/core/cli/powershell
 Press F5 and run the app! It should be working if not there may be some naming issues that the debugger should be able to display to you. 
 
 This is the first draft of this set up guide so feel free to reach out if I missed something or you are having issues.
+
