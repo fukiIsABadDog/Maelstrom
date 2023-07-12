@@ -79,7 +79,8 @@ It may stem from my own misunderstanding of how EF Core works but sometimes when
 2) Double check the migration code that was generated in the Migrations folder because sometimes the scaffolder wants to create duplicate code
 3) In PMC run: Update-Database
 
-
+<br/>
+<br/>
 
 # :ocean: Can I run this app?
 ### Yes you can! 
