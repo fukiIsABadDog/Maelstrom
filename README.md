@@ -36,7 +36,7 @@ You will find two files:
 
    
 
-## EF core Models and Microsoft Identity Stuff
+## EF Core Models and Microsoft Identity Stuff
 This one is a little more complicated but I can show a real example of how this works in a full application.
 There is not much on this topic ANYWHERE; I do not know why because it is extremely powerful and one of the most useful things you can do in ASP.Net Core.
 
@@ -76,7 +76,7 @@ It may stem from my own misunderstanding of how EF Core works but sometimes when
 
 
 1) In PMC run: Add-Migration
-2) double check the migration code that was generated in the Migrations folder because sometimes the scaffolder wants to create duplicate code
+2) Double check the migration code that was generated in the Migrations folder because sometimes the scaffolder wants to create duplicate code
 3) In PMC run: Update-Database
 
 
