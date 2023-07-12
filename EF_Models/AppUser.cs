@@ -19,18 +19,5 @@ namespace EF_Models.Models
 
 
 
-
-
-
-
-       //public virtual ICollection<IdentityUserClaim<string>>? Claims { get; set; }
-
-        //public ICollection<TestResult>? TestResults { get; set; } 
-
-        //public int AccountID { get;set;}
-        //public Account? Account { get; set; }
-
-
-
     }
 }
