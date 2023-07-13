@@ -38,7 +38,7 @@ You will find two files:
 
    
 
-## EF Core Models and Microsoft Identity Stuff
+## EF Core Models and Microsoft Identity
 This one is a little more complicated but I can show a real example of how this works in a full application.
 There is not much on this topic ANYWHERE; I do not know why because it is extremely powerful and one of the most useful things you can do in ASP.Net Core.
 
